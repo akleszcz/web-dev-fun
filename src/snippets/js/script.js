@@ -70,7 +70,7 @@ console.log((true || false) && false);
   // define functions
   function executeSnippet() {
     var command = snippetPre.textContent;
-    eval(command); // it is disadvised to use eval for real life applications
+    window.eval(command); // it is disadvised to use eval for real life applications
   }
 
   function populateSnippetsSelect() {

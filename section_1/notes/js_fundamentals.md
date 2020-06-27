@@ -85,3 +85,29 @@ x
 y
 ```
 is parsed as `x; ++y;`, not as `x++; y`.
+
+---
+### Side note: prefix and postfix increments and decrements
+Increment (`++`) and decrement (`--`) operators:
+- Increase/decrease variable's value by 1.
+- Can only be applied to variables, not numbers:
+```
+let a = 5;
+a++;
+console.log(a); // 6
+5++; // Uncaught SyntaxError: Invalid left-hand side expression in postfix operation
+```
+- Can be applied in both prefix and postfix form:
+   - Prefix: returns the value after the increment/decrement.
+   - Postfix: returns the value before the increment/decrement.
+```javascript
+let a = 2;
+let b = 2;
+console.log(a++); // 2
+console.log(a); // 3
+console.log(++b); // 3
+console.log(a); // 3
+```
+[Source](https://hackernoon.com/javascript-back-to-basics-prefix-vs-postfix-8da5256223d2)
+
+---

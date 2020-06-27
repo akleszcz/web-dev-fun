@@ -92,6 +92,9 @@ let x = 03; // Uncaught SyntaxError: Octal literals are not allowed in strict mo
 ```javascript
 number.toString(radix)
 ```
+where `radix` - an integer between 2 and 36.
+
+Example:
 ```javascript
 let a = 180;
 a.toString(); // "180"

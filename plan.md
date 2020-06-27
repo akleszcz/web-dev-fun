@@ -2,7 +2,9 @@
 - types, operators
 - variable scope, hoisting
 - prototypal inheritance
+- private fields
 - event loop
+- the global object
 - JSON
 - AJAX - XMLHttpRequest vs the Fetch API
 - websockets
@@ -21,7 +23,7 @@
 - ways of adding styles
 
 # CSS
-- responsive design: mdia queries
+- responsive design: media queries
 - rules specificity, combinators
 - properties:
   - float
@@ -40,6 +42,7 @@
 - HTTP verbs, REST APIs
 - dev tools
 - PWA - Progressive Web Apps
+- Same Origin Policy, CORS
 
 # Webpack
 
@@ -59,3 +62,13 @@
  - Redux/Vuex
 
 ## Node JS
+
+Project - *Snippets* (working name):
+- web app that executes JS code snippets
+
+Tools and technologies to use:
+- **webpack**, **npm** - to install and bundle external packages (e.g. [code-prettify](https://www.npmjs.com/package/code-prettify))
+- **iframes**, **Web Workers** - to execute code without using `eval`
+- **Vue.js**, **Vuex** - for components creation and state management on front-end
+- **Express.js**, **MongoDB** - to create an API for getting, creating, updating and removing snippets
+- **Auth0**, **Terraform** - for user authentication
