@@ -11,7 +11,7 @@
 - regex
 - design patterns
 - unit testing (jest?)
-- working with DOM elements
+- DOM manipulation
 - handling events: bubbling and capturing, event delegation
 - client-side storage: cookies, local storage, session storage
 - polyfills vs transpilation
@@ -21,6 +21,8 @@
 - accessibility: ARIA, semantic and non-semantic tags, img alt
 - ways of adding scripts, async and defer
 - ways of adding styles
+- forms
+- shadow DOM
 
 # CSS
 - responsive design: media queries
@@ -70,5 +72,5 @@ Tools and technologies to use:
 - **webpack**, **npm** - to install and bundle external packages (e.g. [code-prettify](https://www.npmjs.com/package/code-prettify))
 - **iframes**, **Web Workers** - to execute code without using `eval`
 - **Vue.js**, **Vuex** - for components creation and state management on front-end
-- **Express.js**, **MongoDB** - to create an API for getting, creating, updating and removing snippets
+- **Express.js**, **MongoDB** (mongodb-memory-server?) - to create an API for getting, creating, updating and removing snippets
 - **Auth0**, **Terraform** - for user authentication

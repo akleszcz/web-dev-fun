@@ -125,11 +125,12 @@ works like false and a truthy value works like true.
 - falsy values:
    - `0`
    - `-0`
+   - `0n`
    - `null`
    - `false`
    - `NaN`
    - `undefined`
-   - `""` (empty string)
+   - `""`, `''`, ` `` ` (empty string)
 - All other values, including `{}`, `[]` or the string "false", are truthy.
 - Example:
 ```javascript
@@ -158,8 +159,8 @@ value. Otherwise, it evaluates its second operand and returns its value.
 
 Example:
 ```javascript
-let x = 5 || ''; // 5
-let y = 0 || ''; // ''
+console.log('5 || "":', 5 || ""); // 5 || "": 5
+console.log('0 || NaN:', 0 || NaN); // 0 || NaN: NaN
 ```
 `||` operator is often used to supply default values for variables:
 ```javascript
@@ -168,7 +169,7 @@ googletag.cmd = googletag.cmd || [];
 ```
 #### NOT: `!`
 if `x` is truthy, `!x` evaluates to
-false. If `x` is falsy, then `!x` is true.
+`false`. If `x` is falsy, then `!x` is `true`.
 
 You can convert any value `x` to its
 equivalent boolean value by applying this operator twice: 
@@ -193,6 +194,8 @@ is the same as
 ```javascript
 (x === 0) && (y === 0)
 ```
+@TODO
+Bitwise operators
 
 ## Type conversions
 @TODO

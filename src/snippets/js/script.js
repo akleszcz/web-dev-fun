@@ -27,6 +27,13 @@ function g() {
 console.log('f():', f());
 console.log('g():', g());`,
 
+'Prefix and postfix increment': `let a = 2;
+let b = 2;
+console.log(a++);
+console.log(a);
+console.log(++b);
+console.log(b);`,
+
     'Object example': `let cat = {
   name: 'Fluffy',
   age: 2,
@@ -56,12 +63,15 @@ if (x) {
     console.log('x is falsy!');
 }`,
 
-'&& operator': `let o = { x : 1 };
+    '&& operator': `let o = { x : 1 };
 let p = null;
 console.log('o && o.x:', o && o.x);
 console.log('p && p.x:', p && p.x);`,
 
-'Logical operators precedence': `console.log(true || false && false);
+'|| operator': `console.log('5 || "":', 5 || "");
+console.log('0 || NaN:', 0 || NaN);`,
+
+    'Logical operators precedence': `console.log(true || false && false);
 console.log(true || (false && false));
 console.log((true || false) && false);
 `
@@ -70,15 +80,16 @@ console.log((true || false) && false);
   // define functions
   function executeSnippet() {
     var command = snippetPre.textContent;
-    window.eval(command); // it is disadvised to use eval for real life applications
+    // it is disadvised to use eval for real life applications
+    window.eval(command); // indirect eval call to execute code globally
   }
 
   function populateSnippetsSelect() {
-    Object.keys(snippets).forEach(function(key, index) {
+    Object.keys(snippets).forEach(function (title, index) {  // The Object.keys() method returns an array of a given object's own enumerable property names
       var snippetOption = document.createElement('option');
-      snippetOption.value = `snippet-${index}`;
-      snippetOption.textContent = key;
-      snippetsSelect.appendChild(snippetOption);
+      snippetOption.value = 'snippet-' + index;
+      snippetOption.textContent = title;
+      snippetsSelect.appendChild(snippetOption); // @TODO: consider using DocumentFragment instead
     })
   };
 
@@ -97,4 +108,4 @@ console.log((true || false) && false);
   populateSnippetsSelect();
   fillSnippetPre();
   snippetsSelect.addEventListener('change', fillSnippetPre);
-}());
+})();

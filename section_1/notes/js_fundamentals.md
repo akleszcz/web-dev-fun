@@ -106,7 +106,7 @@ let b = 2;
 console.log(a++); // 2
 console.log(a); // 3
 console.log(++b); // 3
-console.log(a); // 3
+console.log(b); // 3
 ```
 [Source](https://hackernoon.com/javascript-back-to-basics-prefix-vs-postfix-8da5256223d2)
 

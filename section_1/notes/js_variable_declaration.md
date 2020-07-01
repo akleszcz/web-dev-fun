@@ -131,8 +131,48 @@ function f(o) {
 }
 f({}); // reminder: {} is truthy
 ```
-   - nested function definitions - each function has its own local scope
+   - Nested function definitions - each function has its own local scope.
 
+Example:
+```javascript
+var scope = "global scope";
+function f() {
+  var scope = "local scope";
+  function g() {
+    var scope = "nested scope";
+    console.log('scope from g:', scope); // scope from g: nested scope
+  }
+  g();
+  console.log('scope from f:', scope); // scope from f: local scope
+}
+f();
+console.log('scope outside of f: ', scope); // scope outside of f:  global scope
+```
+### Hoisting
+- JavaScript code behaves as if all variable declarations in a function are "hoisted" to the top of the function.
+
+Example:
+```javascript
+var scope = "global";
+function f() {
+  console.log(scope); // undefined
+  var scope = "local";
+  console.log(scope);// local
+}
+f();
+```
+is functionally equivalent to:
+```javascript
+var scope = "global";
+function f() {
+  var scope;
+  console.log(scope); // undefined
+  scope = "local";
+  console.log(scope); // local
+}
+f();
+```
 @TODO
 
 To read: https://exploringjs.com/deep-js/ch_global-scope.html#creating-variables-declarative-record-vs.-object-record
+https://www.freecodecamp.org/news/an-introduction-to-scope-in-javascript-cbd957022652/
