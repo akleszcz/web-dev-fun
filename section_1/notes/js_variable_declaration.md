@@ -62,7 +62,7 @@ console.log(x); // 5
 console.log(window.x); // 5
 ```
 ### Variable scope
-- *Function scope* instead of *block scope* for variables declared with `var`.
+- *Function scope* instead of *block scope* for variables declared with `var`. See also [Function vs block scope & hoisting](#function-vs-block-scope-&-hoisting) for a more detailed example.
 
 Example 1:
 ```javascript
@@ -110,27 +110,6 @@ console.log('x outside of f:', x); // x outside of f: inner
 ESLint `no-shadow` rule can be used to prevent variable shadowing.
 
 ---
-Example 4:
-```javascript
-try {
-  console.log('k before the function:', k);
-} catch (error) {
-  console.log('error: ', error); // error:  ReferenceError: k is not defined
-}
-function f(o) {
-  console.log('k before the if block:', k); // k before the if block: undefined
-  if (o) {
-    var j = 0;
-    console.log('k before the loop:', k); // k before the loop: undefined
-    for (var k = 0; k < 10; k++) {
-      console.log('k from the loop:', k); // k from the loop: 0, 1, ..., 9
-    }
-    console.log('k after the loop:', k); // k after the loop: 10
-  }
-  console.log('j after the if block:', j); // j after the if block: 0
-}
-f({}); // reminder: {} is truthy
-```
    - Nested function definitions - each function has its own local scope.
 
 Example:
@@ -171,6 +150,28 @@ function f() {
   console.log(scope); // local
 }
 f();
+```
+### Function vs block scope & hoisting
+Example:
+```javascript
+try {
+  console.log('k before the function:', k);
+} catch (error) {
+  console.log('error: ', error); // error:  ReferenceError: k is not defined
+}
+function f(o) {
+  console.log('k before the if block:', k); // k before the if block: undefined
+  if (o) {
+    var j = 0;
+    console.log('k before the loop:', k); // k before the loop: undefined
+    for (var k = 0; k < 10; k++) {
+      console.log('k from the loop:', k); // k from the loop: 0, 1, ..., 9
+    }
+    console.log('k after the loop:', k); // k after the loop: 10
+  }
+  console.log('j after the if block:', j); // j after the if block: 0
+}
+f({}); // reminder: {} is truthy
 ```
 @TODO
 
