@@ -30,6 +30,11 @@ for (var i = 0, j = 10; i < 10; i++, j--) {
   console.log(i * j);
 }
 
+var o = {
+  a: 1,
+  b: 2,
+  c: 3,
+};
 for (var p in o) {
   console.log(p);
 }
@@ -114,11 +119,11 @@ ESLint `no-shadow` rule can be used to prevent variable shadowing.
 
 Example:
 ```javascript
-var scope = "global scope";
+var scope = 'global scope';
 function f() {
-  var scope = "local scope";
+  var scope = 'local scope';
   function g() {
-    var scope = "nested scope";
+    var scope = 'nested scope';
     console.log('scope from g:', scope); // scope from g: nested scope
   }
   g();
@@ -132,21 +137,21 @@ console.log('scope outside of f: ', scope); // scope outside of f:  global scope
 
 Example:
 ```javascript
-var scope = "global";
+var scope = 'global';
 function f() {
   console.log(scope); // undefined
-  var scope = "local";
+  var scope = 'local';
   console.log(scope);// local
 }
 f();
 ```
 is functionally equivalent to:
 ```javascript
-var scope = "global";
+var scope = 'global';
 function f() {
   var scope;
   console.log(scope); // undefined
-  scope = "local";
+  scope = 'local';
   console.log(scope); // local
 }
 f();
@@ -173,6 +178,23 @@ function f(o) {
 }
 f({}); // reminder: {} is truthy
 ```
+
+### Global variables
+-  Declaring a global variable with `var` = defining
+a **nonconfigurable** property of the global object.
+- Assigning a value to an undeclared variable (in non-strict mode) = defining a **configurable** property of the global object.
+
+Example:
+```javascript
+var x = 5;
+y = 6;
+console.log(window.x); // 5
+console.log(window.y); // 6
+console.log(delete window.x); // false
+console.log(delete window.y); // true
+```
+
+## `let`
 @TODO
 
 To read: https://exploringjs.com/deep-js/ch_global-scope.html#creating-variables-declarative-record-vs.-object-record

@@ -74,7 +74,63 @@ console.log('0 || NaN:', 0 || NaN);`,
     'Logical operators precedence': `console.log(true || false && false);
 console.log(true || (false && false));
 console.log((true || false) && false);
-`
+`,
+'Variable declaration in a loop': `var o = {
+  a: 1,
+  b: 2,
+  c: 3,
+};
+for (var p in o) {
+  console.log(p);
+}`,
+'Repeated declaration': `'use strict';
+var x = 5;
+var x = 'Hello';
+console.log(x);`,
+'Undeclared variable error': `console.log(x);`,
+'Assignment to undeclated variable': `// 'use strict'
+x = 5;
+console.log(x);
+`,
+'Nested functions': `var scope = 'global scope';
+function f() {
+  var scope = 'local scope';
+  function g() {
+    var scope = 'nested scope';
+    console.log('scope from g:', scope);
+  }
+  g();
+  console.log('scope from f:', scope);
+}
+f();
+console.log('scope outside of f: ', scope);
+`,
+'Hoisting': `var scope = 'global';
+function f() {
+  console.log(scope);
+  var scope = 'local';
+  console.log(scope);
+}
+f();`,
+'Block vs function scope': `try {
+  console.log('k before the function:', k);
+} catch (error) {
+  console.log('error: ', error);
+}
+function f(o) {
+  console.log('k before the if block:', k);
+  if (o) {
+    var j = 0;
+    console.log('k before the loop:', k);
+    for (var k = 0; k < 10; k++) {
+      console.log('k from the loop:', k);
+    }
+    console.log('k after the loop:', k);
+  }
+  console.log('j after the if block:', j);
+}
+f({});
+`,
   };
 
   // define functions

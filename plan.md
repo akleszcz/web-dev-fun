@@ -65,8 +65,11 @@
 
 ## Node JS
 
-Project - *Snippets* (working name):
+## Project - *Snippets* (working name)
 - web app that executes JS code snippets
+
+TODO:
+- update query string parameters to reflect currently selected snippet
 
 Tools and technologies to use:
 - **webpack**, **npm** - to install and bundle external packages (e.g. [code-prettify](https://www.npmjs.com/package/code-prettify))
