@@ -11,7 +11,7 @@ Examples:
 var a; // a is undefined
 var b; // b is undefined
 ```
-- Variables declaratioin with the same `var` keyword:
+- Variables declaration with the same `var` keyword:
 ```javascript
 var a, b;
 ```
@@ -195,6 +195,77 @@ console.log(delete window.y); // true
 ```
 
 ## `let`
+
+Examples:
+- Variables declaration:
+```javascript
+let a; // a is undefined
+let b; // b is undefined
+```
+- Variables declaration with the same `let` keyword:
+```javascript
+let a, b;
+```
+- Variables declaration and initialization:
+```javascript
+let name = "John";
+let x = 0, y = 0, z = 0;
+```
+- Variable declaration and initialization in a loop:
+```javascript
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+
+for (let i = 0, j = 10; i < 10; i++, j--) {
+  console.log(i * j);
+}
+
+let o = {
+  a: 1,
+  b: 2,
+  c: 3,
+};
+for (let p in o) {
+  console.log(p);
+}
+```
+- Repeated declarations - illegal (even in non-strict mode):
+```javascript
+let x = 5;
+let x = 'Hello'; // Uncaught SyntaxError: Identifier 'x' has already been declared
+```
+### Variable scope
+- *Block scope* instead of *function scope* for variables declared with `var`.
+
+Examples:
+```javascript
+let x = 1;
+if (x === 1) {
+  let x = 2;
+  console.log(x); // 2
+}
+console.log(x); // 1
+```
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
+```javascript
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+console.log('i after loop:', i); // Uncaught ReferenceError: i is not defined
+```
+@TODO:
+- Temporal dead zone: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone
+- Hoisting - example:
+```javascript
+let foo = () => bar; let bar = 'bar'; foo();
+```
+Source:
+https://stackoverflow.com/questions/31219420/are-variables-declared-with-let-or-const-hoisted
+Reference:
+https://www.ecma-international.org/ecma-262/9.0/index.html#sec-let-and-const-declarations
+
+## `const`
 @TODO
 
 To read: https://exploringjs.com/deep-js/ch_global-scope.html#creating-variables-declarative-record-vs.-object-record

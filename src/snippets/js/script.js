@@ -70,7 +70,10 @@ console.log('p && p.x:', p && p.x);`,
 
 '|| operator': `console.log('5 || "":', 5 || "");
 console.log('0 || NaN:', 0 || NaN);`,
-
+'! operator': `let x =[0];
+console.log('!!x: ', !!x);
+let y = null;
+console.log('!!y: ', !!y);`,
     'Logical operators precedence': `console.log(true || false && false);
 console.log(true || (false && false));
 console.log((true || false) && false);
@@ -135,6 +138,7 @@ f({});
 
   // define functions
   function executeSnippet() {
+    console.clear();
     var command = snippetPre.textContent;
     // it is disadvised to use eval for real life applications
     window.eval(command); // indirect eval call to execute code globally

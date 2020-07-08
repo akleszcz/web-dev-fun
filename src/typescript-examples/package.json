@@ -1,0 +1,16 @@
+{
+  "name": "typescript-examples",
+  "version": "1.0.0",
+  "description": "In order to use `runtime-vs-compile-time-checking.ts`, you have to have TypeScript installed:\r ``` \r npm install -g typescript\r ```\r If you have an outdated version, you can update it with:\r ```\r npm install -g typescript@latest\r ```\r You can check what the latest version is with:\r ```\r npm info typescript version\r ```\r You can check your currently installed version with:\r ```\r tsc -v\r ```",
+  "main": "index.js",
+  "scripts": {
+    "compile:ts": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.0.19",
+    "typescript": "^3.9.6"
+  }
+}

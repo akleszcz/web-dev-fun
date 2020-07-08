@@ -1,8 +1,8 @@
 /* ========= Type checking in a for-each loop ========= */
 
 const arr: string[] = ['a', 'bb', 'ccc', 'dddd'];
-arr.forEach((item: string, index: number) => { //change 'string' to 'boolean' and you will get an error: "Type 'string' is not assignable to type 'boolean'""
-  console.log(`item: ${index}:`, item);
+arr.forEach((item: string, index: number) => { // change 'string' to 'boolean' and you will get an error: "Type 'string' is not assignable to type 'boolean'""
+  console.log(`item ${index}:`, item);
 });
 
 /* ========= Function parameters type checking ========= */
