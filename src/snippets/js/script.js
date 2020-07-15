@@ -4,6 +4,7 @@
   var executeBtn = document.getElementById('execute-btn');
   var snippetsSelect = document.getElementById('snippets-select');
   // define code snippets
+  // @TODO: group select options with optgroup
   var snippets = {
     'Optional semicolon 1': `let a
 a
@@ -95,6 +96,26 @@ console.log(x);`,
 x = 5;
 console.log(x);
 `,
+'Function scope example 1': `function f() {
+  var a = 'inner value';
+  console.log('a inside of f:', a);
+}
+f();
+console.log('a outside of f:', a);`,
+'Function scope example 2': `var x = 'outer';
+function f() {
+  var x = 'inner';
+  console.log('x inside of f:', x);
+}
+f();
+console.log('x outside of f:', x);`,
+'Function scope example 3': `var x = 'outer';
+function f() {
+  x = 'inner';
+  console.log('x inside of f:', x);
+}
+f();
+console.log('x outside of f:', x);`,
 'Nested functions': `var scope = 'global scope';
 function f() {
   var scope = 'local scope';
@@ -106,7 +127,7 @@ function f() {
   console.log('scope from f:', scope);
 }
 f();
-console.log('scope outside of f: ', scope);
+console.log('scope outside of f:', scope);
 `,
 'Hoisting': `var scope = 'global';
 function f() {
@@ -134,6 +155,39 @@ function f(o) {
 }
 f({});
 `,
+// 'Global variables': `var x = 5;
+// y = 6;
+// console.log(window.x);
+// console.log(window.y);
+// console.log(delete window.x);
+// console.log(delete window.y);`
+'Repeated declaration - let': `let x = 5;
+let x = 'Hello';`, 
+'Block scope - let - 1': `let x = 1;
+if (x === 1) {
+  let x = 2;
+  console.log(x);
+}
+console.log(x);`,
+'Block scope - let - 2': `for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+console.log('i after loop:', i);`,
+'Global variables - let': `var x = 'global';
+let y = 'global';
+console.log(window.x);
+console.log(window.y);`,
+'Hoisting - let': `let x = 'outer';
+{
+  console.log('x inside of f:', x); // Uncaught ReferenceError: Cannot access 'x' before initialization
+  let x = 'inner';
+}`,
+'Temporal dead zone - typeof operator': `'use strict';
+console.log(typeof undeclaredVariable);
+console.log(typeof varVariable);
+console.log(typeof letVariable);
+let letVariable = 1;
+var varVariable = 2;`
   };
 
   // define functions

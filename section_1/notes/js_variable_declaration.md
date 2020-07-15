@@ -39,6 +39,13 @@ for (var p in o) {
   console.log(p);
 }
 ```
+---
+### Note: `for...in` loop
+> The `for...in` statement iterates over all enumerable properties of an object that are keyed by strings (ignoring ones keyed by Symbols), including inherited enumerable properties.
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in)
+
+---
 - Repeated declarations - legal (even in strict mode):
 ```javascript
 'use strict';
@@ -54,18 +61,34 @@ console.log(x); // Uncaught ReferenceError: x is not defined
 ```
 - Assigning a value to an undeclared variable:
    - allowed in non-strict mode (variable is created as a property of the global object):
-```javascript
-x = 5;
-console.log(x); // 5
-console.log(window.x); // 5 (in browser's console)
-```
+  ```javascript
+  x = 5;
+  console.log(x); // 5
+  console.log(window.x); // 5
+  ```
    - disallowed in strict mode:
+  ```javascript
+  'use strict';
+  x = 5;
+  console.log(x); // Uncaught ReferenceError: x is not defined
+  ```
+---
+### Note: global variables
+-  Declaring a global variable with `var` = defining
+a **nonconfigurable** property of the global object.
+- Assigning a value to an undeclared variable (in non-strict mode) = defining a **configurable** property of the global object.
+
+Example:
 ```javascript
-'use strict';
-x = 5;
-console.log(x); // 5
+var x = 5;
+y = 6;
 console.log(window.x); // 5
+console.log(window.y); // 6
+console.log(delete window.x); // false
+console.log(delete window.y); // true
 ```
+
+---
 ### Variable scope
 - *Function scope* instead of *block scope*. See also [Function vs block scope & hoisting](#function-vs-block-scope-&-hoisting) for a more detailed example.
 
@@ -130,7 +153,7 @@ function f() {
   console.log('scope from f:', scope); // scope from f: local scope
 }
 f();
-console.log('scope outside of f: ', scope); // scope outside of f:  global scope
+console.log('scope outside of f:', scope); // scope outside of f: global scope
 ```
 ### Hoisting
 - JavaScript code behaves as if all variable declarations with `var` in a function are "hoisted" to the top of the function.
@@ -179,20 +202,6 @@ function f(o) {
 f({}); // reminder: {} is truthy
 ```
 
-### Global variables
--  Declaring a global variable with `var` = defining
-a **nonconfigurable** property of the global object.
-- Assigning a value to an undeclared variable (in non-strict mode) = defining a **configurable** property of the global object.
-
-Example:
-```javascript
-var x = 5;
-y = 6;
-console.log(window.x); // 5
-console.log(window.y); // 6
-console.log(delete window.x); // false
-console.log(delete window.y); // true
-```
 @TODO: read more at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var
 
 ## `let`
@@ -268,8 +277,8 @@ Example:
 ```javascript
 var x = 'global';
 let y = 'global';
-console.log(this.x); // global
-console.log(this.y); // undefined
+console.log(window.x); // global
+console.log(window.y); // undefined
 ```
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)
 
@@ -277,11 +286,10 @@ console.log(this.y); // undefined
 - `let` variables **are** hoisted, but trying to access them before their declaration will cause an error:
 ```javascript
 let x = 'outer';
-function f() {
-  console.log('x inside of f:', x);
+{
+  console.log('x inside of f:', x); // Uncaught ReferenceError: Cannot access 'x' before initialization
   let x = 'inner';
 }
-f(); // Uncaught ReferenceError: Cannot access 'x' before initialization
 ```
 From the start of the block until the initialization is processed the variable is in a...
 ### Temporal dead zone (TDZ)
@@ -299,9 +307,10 @@ f();
 ```
 - `typeof` operator throws error on variables in temporal dead zone:
 ```javascript
+'use strict';
 console.log(typeof undeclaredVariable); // undefined
 console.log(typeof varVariable); // undefined
-console.log(typeof letVariable); // Uncaught ReferenceError: letVariable is not defined
+console.log(typeof letVariable); // Uncaught ReferenceError: Cannot access 'letVariable' before initialization
 let letVariable = 1;
 var varVariable = 2;
 ```
@@ -309,7 +318,7 @@ This code, however, works because of `let` declaration being in a separate block
 ```javascript
 console.log(typeof letVariable); // undefined
 {
- let letVariable = "test";
+  let letVariable = "test";
 }
 ```
 ### More examples
@@ -317,12 +326,12 @@ console.log(typeof letVariable); // undefined
 ```javascript
 var funcs = [];
 for (var i = 0; i < 10; i++) {
- funcs.push(function() {
- console.log(i);
- });
+  funcs.push(function() {
+    console.log(i);
+  });
 }
 funcs.forEach(function(func) {
- func();
+  func();
 }); // 10, 10, ..., 10
 ```
 > The reason is that `i` is shared
@@ -332,28 +341,34 @@ of 10 when the loop completes, so when `console.log(i)` is called, that value
 prints each time.
 
 Solutions:
-- IIFE:
+- IIFE - the `i` variable is passed to
+the IIFE, which creates its own copy and stores it as value: 
 ```javascript
 var funcs = [];
-for (let i = 0; i < 10; i++) {
- funcs.push(function() {
- console.log(i);
- });
+for (var i = 0; i < 10; i++) {
+  funcs.push((function(value) {
+    return function() {
+      console.log(value);
+    }
+  }(i)));
 }
 funcs.forEach(function(func) {
- func(); // 0, 1, ..., 9
-})
+  func(); // 0, 1, ..., 9
+});
 ```
-- using `let` instead of `var`:
+- using `let` instead of `var` - the `let` declaration creates a new variable `i` each time
+through the loop, so each function created inside the loop gets its own
+copy of `i`. Each copy of `i` has the value it was assigned at the beginning of
+the loop iteration in which it was created:
 ```javascript
 var funcs = [];
 for (let i = 0; i < 10; i++) {
- funcs.push(function() {
- console.log(i);
- });
+  funcs.push(function() {
+    console.log(i);
+  });
 }
 funcs.forEach(function(func) {
- func();
+  func();
 }); // 0, 1, ..., 9
 ```
 Source: *Understanding ECMAScript 6: The Definitive Guide for JavaScript Developers*, Nicholas C. Zakas
