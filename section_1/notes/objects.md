@@ -120,7 +120,33 @@ Source: https://javascript.info/property-accessors
 - these attributes can be defined for new properties or modified for existing ones with the `Object.defineProperty` method
 - data properties attributes:
   - `value`
-  - `writable` - `true` if and only if the value associated with the property may be changed with an assignment operator (`=`).
+  - `writable`
+    - `true` if and only if the value associated with the property may be changed with an assignment operator (`=`).
+    - examples (notice the error in strict mode):
+```javascript
+// in non-strict mode
+var user = {};
+Object.defineProperty(user, 'surname', {
+  value: 'Jones',
+  writable: false
+});
+
+console.log('user.surname before change:', user.surname) // user.surname before change: Jones
+user.name = 'Smith'; 
+console.log('user.surname after change:',user.surname);  // user.surname after change: Jones
+```
+```javascript
+//  in strict mode
+'use strict';
+var user = {};
+Object.defineProperty(user, 'surname', {
+  value: 'Jones',
+  writable: false
+});
+
+user.surname = 'Smith'; // VM350:9 Uncaught TypeError: Cannot assign to read only property 'surname' of object '#<Object>'
+```
+Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty (slightly modified)
 - accessor properties attributes:
   - `get`
   - `set`
@@ -128,7 +154,7 @@ Source: https://javascript.info/property-accessors
   - `enumerable`
     - defines whether the property is picked by `Object.assign` or spread operator (`...`)
     - for non-Symbols properties it also defines whether it shows up in a `for...in` loop and `Object.keys` or not (Symbol properties are never enumerable in `for...in` iterations and `Object.keys` method)
-    - Example:
+    - example:
 ```javascript
 const user1 = {};
 Object.defineProperty(user1, 'name', {
@@ -161,9 +187,62 @@ const user3 = {
 const user4 = { ...user3, ...user1 };
 console.log('user4: ', user4); // user4:  {country: "NL", name: "John"}
 ```
-  - `configurable` - `true` if and only if:
-    - the type of this property descriptor may be changed and
-    - the property may be deleted from the corresponding object.
+  - `configurable` - controls:
+    - whether the property can be deleted from the object
+    - whether the property's attributes (other than `value` and `writable`) can be changed
+    - examples:
+```javascript
+const user = {};
+Object.defineProperty(user, 'age', {
+  get() { return 50; },
+  configurable: false
+});
+try {
+  Object.defineProperty(user, 'age', {
+    configurable: true
+  });
+} catch (error) {
+  console.error('error 1:', error); // error 1:  TypeError: Cannot redefine property: age  at Function.defineProperty
+}
+try {
+  Object.defineProperty(user, 'age', {
+    enumerable: true
+  });
+} catch (error) {
+  console.error('error 2:', error); // error 2:  TypeError: Cannot redefine property: age at Function.defineProperty 
+}
+try {
+  Object.defineProperty(user, 'age', {
+    set() { }
+  });
+} catch (error) {
+  console.error('error 3:', error); // error 3:  TypeError: Cannot redefine property: age at Function.defineProperty
+}
+try {
+  Object.defineProperty(user, 'age', {
+    get() { return 50; }
+  });
+} catch (error) {
+  console.error('error 4:', error); // error 4: TypeError: Cannot redefine property: age at Function.defineProperty
+}
+try {
+  Object.defineProperty(user, 'age', {
+    value: 12
+  });
+} catch (error) {
+  console.error('error 5:', error); // error 5: TypeError: Cannot redefine property: age at Function.defineProperty
+}
+
+console.log('user.age 1:', user.age);
+delete user.age;
+console.log('user.age 2:', user.age);
+```
+```javascript
+//@TODO data-property example
+```
+@TODO: default property attributes values (for properties defined with `defineProperty` and directly)
+
+Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty (slightly modified)
 
 Sources: 
 - https://medium.com/intrinsic/javascript-symbols-but-why-6b02768f4a5c

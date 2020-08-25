@@ -386,7 +386,68 @@ Reference:
 https://www.ecma-international.org/ecma-262/9.0/index.html#sec-let-and-const-declarations
 
 ## `const`
-@TODO
+- Variables declaration and initialization  - variable's value must be specified in the same statement in which it's declared:
+```javascript
+const name = "John";
+const x = 0, y = 0, z = 0;
+```
+```javascript
+const a; // Uncaught SyntaxError: Missing initializer in const declaration
+```
+- Variable declaration and initialization in a loop:
+```javascript
+const array = ['a', 'b', 'c'];
+
+// Produces:
+// first loop: a
+// first loop: b
+// first loop: c
+for (const element of array) {
+  console.log('first loop:', element);
+} 
+
+// Produces:
+// second loop: a
+// second loop: b
+// second loop: c
+const o = {
+  a: 1,
+  b: 2,
+  c: 3,
+};
+for (const p in o) {
+  console.log('second loop:', p);
+}
+
+// Produces:
+// third loop: a
+// Uncaught TypeError: Assignment to constant variable.
+for (const i = 0; i  < array.length; i++) {
+console.log('third loop:', array[i]);
+}
+```
+
+- Repeated declarations - illegal (even in non-strict mode).
+
+Examples:
+```javascript
+const x = 5;
+const x = 'Hello'; // Uncaught SyntaxError: Identifier 'x' has already been declared
+```
+```javascript
+const x = 5;
+var x = 'Hello'; // Uncaught SyntaxError: Identifier 'x' has already been declared
+```
+### Global variables
+-  Declaring a global variable with `const` does not create a property on the global object.
+
+Example:
+```javascript
+var x = 'global';
+const y = 'global';
+console.log(window.x); // global
+console.log(window.y); // undefined
+```
 
 To read: https://exploringjs.com/deep-js/ch_global-scope.html#creating-variables-declarative-record-vs.-object-record
 https://www.freecodecamp.org/news/an-introduction-to-scope-in-javascript-cbd957022652/
