@@ -1,26 +1,27 @@
 # Objects:
-- unordered collections of properties
-- there are two kinds of properties:
-  - [**data** properties](#data-properties)
-  - [**accessor** properties](#accessor-properties) 
+- unordered collections of properties 
 - each property has a name and a set of [attributes](#property-attributes)
 - a name can be of type:
   - String
   - Symbol
 - until symbols existed, object keys could only be strings (a non-string value used as a key for an object will be coerced to a string)
 ```javascript
-var o = {};
+const o = {};
 o.a = 1;
 o['b'] = 2;
 o[2] = 3;
 o[{}] = 4;
 console.log(JSON.stringify(o)); // {"2":3,"a":1,"b":2,"[object Object]":4} 
 ```
+- there are two kinds of properties:
+  - [**data** properties](#data-properties)
+  - [**accessor** properties](#accessor-properties)
+
 **Tricky job interview question**
 
 What is the output of the following code?
 ```javascript
-var dwayne = {}, daniel = { firstName: 'Daniel'}, jason = {key: 'jason'};
+const dwayne = {}, daniel = { firstName: 'Daniel'}, jason = {key: 'jason'};
 
 dwayne[daniel] = 123;
 dwayne[jason] = 456;
@@ -35,7 +36,7 @@ Source: https://codeburst.io/javascript-interview-questions-objects-171c1d86512d
   - an object
 - example:
 ```javascript
-let user = {
+const user = {
   name: 'John',
   surname: 'Smith',
 };
@@ -53,7 +54,7 @@ ECMAScript 5 property's value may be replaced by one or two methods, known as a 
 -  If a property
 has both a getter and a setter method, it is a read/write property. Example:
 ```javascript
-let user = {
+const user = {
   name: "John",
   surname: "Smith",
 
@@ -78,7 +79,7 @@ Source: https://javascript.info/property-accessors
 method, it is a read-only property. Example:
 ```javascript
 'use strict';
-let user = {
+const user = {
   name: "John",
   surname: "Smith",
 
@@ -98,7 +99,7 @@ console.log(user.fullName); // John Smith
 - If a property has only a setter method, it is a write-only property and attempts to read it always evaluate to `undefined`. Example:
 ```javascript
 'use strict';
-let user = {
+const user = {
   name: "John",
   surname: "Smith",
 
@@ -125,26 +126,26 @@ Source: https://javascript.info/property-accessors
     - examples (notice the error in strict mode):
 ```javascript
 // in non-strict mode
-var user = {};
+const user = {};
 Object.defineProperty(user, 'surname', {
   value: 'Jones',
   writable: false
 });
 
-console.log('user.surname before change:', user.surname) // user.surname before change: Jones
-user.name = 'Smith'; 
-console.log('user.surname after change:',user.surname);  // user.surname after change: Jones
+console.log('user.surname before change:', user.surname); // user.surname before change: Jones
+user.surname = 'Smith'; 
+console.log('user.surname after change:', user.surname);  // user.surname after change: Jones
 ```
 ```javascript
 //  in strict mode
 'use strict';
-var user = {};
+const user = {};
 Object.defineProperty(user, 'surname', {
   value: 'Jones',
   writable: false
 });
 
-user.surname = 'Smith'; // VM350:9 Uncaught TypeError: Cannot assign to read only property 'surname' of object '#<Object>'
+user.surname = 'Smith'; // Uncaught TypeError: Cannot assign to read only property 'surname' of object '#<Object>'
 ```
 Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty (slightly modified)
 - accessor properties attributes:
@@ -190,6 +191,12 @@ console.log('user4: ', user4); // user4:  {country: "NL", name: "John"}
   - `configurable` - controls:
     - whether the property can be deleted from the object
     - whether the property's attributes (other than `value` and `writable`) can be changed
+    - summary:
+    > - it is not possible to change any attribute of a non-configurable accessor property
+    > - for data properties, it is possible to modify the value if the property is writable, and it is possible to change writable attribute from `true` to `false`
+    > - it is not possible to switch between data and accessor property types when the property is non-configurable.
+
+    Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
     - examples:
 ```javascript
 const user = {};
@@ -202,7 +209,7 @@ try {
     configurable: true
   });
 } catch (error) {
-  console.error('error 1:', error); // error 1:  TypeError: Cannot redefine property: age  at Function.defineProperty
+  console.error('error 1:', error); // error 1:  TypeError: Cannot redefine property: age at Function.defineProperty
 }
 try {
   Object.defineProperty(user, 'age', {
@@ -238,7 +245,24 @@ delete user.age;
 console.log('user.age 2:', user.age);
 ```
 ```javascript
-//@TODO data-property example
+const user = {};
+Object.defineProperty(user, 'name', {
+  value: 'A',
+  writable: true,
+  configurable: false
+});
+user.name = 'B';
+console.log(user.name); // B
+Object.defineProperty(user, 'name', {
+  value: 'C',
+  writable: false,
+});
+user.name = 'D';
+console.log(user.name); // C
+
+Object.defineProperty(user, 'name', {
+  writable: true,
+}); // Uncaught TypeError: Cannot redefine property: name at Function.defineProperty
 ```
 @TODO: default property attributes values (for properties defined with `defineProperty` and directly)
 

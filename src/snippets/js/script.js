@@ -1,4 +1,5 @@
 (function () { // Use IIFE to avoid polluting the global scope.
+  var selectedIndexStorageKey = 'selected-snippet-index';
   // get DOM elements
   var snippetPre = document.getElementById('snippet');
   var executeBtn = document.getElementById('execute-btn');
@@ -187,7 +188,138 @@ console.log(typeof undeclaredVariable);
 console.log(typeof varVariable);
 console.log(typeof letVariable);
 let letVariable = 1;
-var varVariable = 2;`
+var varVariable = 2;`,
+'Object as a property name 1': `const o = {};
+o.a = 1;
+o['b'] = 2;
+o[2] = 3;
+o[{}] = 4;
+console.log(JSON.stringify(o));`,
+'Object as a property name 2': `const dwayne = {}, daniel = { firstName: 'Daniel'}, jason = {key: 'jason'};
+
+dwayne[daniel] = 123;
+dwayne[jason] = 456;
+
+console.log(dwayne[daniel]);`,
+'Accessor property': `const user = {
+  name: "John",
+  surname: "Smith",
+
+  get fullName() {
+    return \`\${this.name} \${this.surname}\`;
+  },
+
+  set fullName(value) {
+    [this.name, this.surname] = value.split(" ");
+  }
+};
+
+user.fullName = "Alice Cooper";
+
+console.log(user.name);
+console.log(user.surname);
+console.log(user.fullName);`,
+'Property attributes: writable': `const user = {};
+Object.defineProperty(user, 'surname', {
+  value: 'Jones',
+  writable: false
+});
+
+console.log('user.surname before change:', user.surname);
+user.surname = 'Smith'; 
+console.log('user.surname after change:', user.surname);`,
+'Property attributes: enumerable': `const user1 = {};
+Object.defineProperty(user1, 'name', {
+  value: 'John',
+  enumerable: true
+});
+Object.defineProperty(user1, 'surname', {
+  value: 'Smith',
+  enumerable: false
+  });
+
+for (const property in user1) {
+  console.log(\`\${property}: \${user1[property]}\`);
+} 
+
+console.log('Object.keys(user1): ', Object.keys(user1));
+
+const user2 = {
+  age: 12
+};
+
+Object.assign(user2, user1);
+console.log('user2: ', user2);
+
+const user3 = {
+  country: 'NL'
+};
+
+// spread operator
+const user4 = { ...user3, ...user1 };
+console.log('user4: ', user4);`,
+'Property attributes: configurable. 1': `const user = {};
+Object.defineProperty(user, 'age', {
+  get() { return 50; },
+  configurable: false
+});
+try {
+  Object.defineProperty(user, 'age', {
+    configurable: true
+  });
+} catch (error) {
+  console.error('error 1:', error);
+}
+try {
+  Object.defineProperty(user, 'age', {
+    enumerable: true
+  });
+} catch (error) {
+  console.error('error 2:', error);
+}
+try {
+  Object.defineProperty(user, 'age', {
+    set() { }
+  });
+} catch (error) {
+  console.error('error 3:', error);
+}
+try {
+  Object.defineProperty(user, 'age', {
+    get() { return 50; }
+  });
+} catch (error) {
+  console.error('error 4:', error);
+}
+try {
+  Object.defineProperty(user, 'age', {
+    value: 12
+  });
+} catch (error) {
+  console.error('error 5:', error);
+}
+
+console.log('user.age 1:', user.age);
+delete user.age;
+console.log('user.age 2:', user.age);`,
+'Property attributes: configurable. 2': `const user = {};
+Object.defineProperty(user, 'name', {
+  value: 'A',
+  writable: true,
+  configurable: false
+});
+user.name = 'B';
+console.log(user.name);
+Object.defineProperty(user, 'name', {
+  value: 'C',
+  writable: false,
+});
+user.name = 'D';
+console.log(user.name);
+
+Object.defineProperty(user, 'name', {
+  writable: true,
+});`,
   };
 
   // define functions
@@ -207,12 +339,18 @@ var varVariable = 2;`
     })
   };
 
-  function fillSnippetPre() {
-    var selectedSnippetTitle = snippetsSelect.options[snippetsSelect.selectedIndex].textContent;
+  function fillSnippetPre(selectedIndex) {
+    var selectedSnippetTitle = snippetsSelect.options[selectedIndex].textContent;
     var selectedSnippet = snippets[selectedSnippetTitle];
     snippetPre.textContent = selectedSnippet;
     snippetPre.classList.remove('prettyprinted');
     PR.prettyPrint();
+  }
+
+  function handleSnippetChange() {
+    var selectedIndex = snippetsSelect.selectedIndex;
+    localStorage.setItem(selectedIndexStorageKey, selectedIndex);
+    fillSnippetPre(selectedIndex);
   }
 
 
@@ -220,6 +358,8 @@ var varVariable = 2;`
   snippetPre.textContent = snippets['Optional semicolon'];
   executeBtn.addEventListener('click', executeSnippet);
   populateSnippetsSelect();
-  fillSnippetPre();
-  snippetsSelect.addEventListener('change', fillSnippetPre);
+  var selectedIndex = localStorage.getItem(selectedIndexStorageKey) || 0;
+  snippetsSelect.selectedIndex = selectedIndex;
+  fillSnippetPre(selectedIndex);
+  snippetsSelect.addEventListener('change', handleSnippetChange);
 })();
