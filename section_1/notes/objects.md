@@ -191,7 +191,7 @@ console.log('user4: ', user4); // user4:  {country: "NL", name: "John"}
   - `configurable` - controls:
     - whether the property can be deleted from the object
     - whether the property's attributes (other than `value` and `writable`) can be changed
-    - summary:
+    - summary of non-configurable properties:
     > - it is not possible to change any attribute of a non-configurable accessor property
     > - for data properties, it is possible to modify the value if the property is writable, and it is possible to change writable attribute from `true` to `false`
     > - it is not possible to switch between data and accessor property types when the property is non-configurable.
@@ -264,9 +264,23 @@ Object.defineProperty(user, 'name', {
   writable: true,
 }); // Uncaught TypeError: Cannot redefine property: name at Function.defineProperty
 ```
-@TODO: default property attributes values (for properties defined with `defineProperty` and directly)
-
 Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty (slightly modified)
+
+### Default property attributes values
+```javascript
+const o = {
+  a: 5
+};
+o.b = 7;
+Object.defineProperty(o, 'c', {
+  value: 12
+});
+console.log('o:', o); // o: {a: 5, b: 7, c: 12}
+console.log('o.a:', Object.getOwnPropertyDescriptor(o, 'a')); // {value: 5, writable: true, enumerable: true, configurable: true} 
+console.log('o.b:', Object.getOwnPropertyDescriptor(o, 'b')); // {value: 7, writable: true, enumerable: true, configurable: true}
+console.log('o.c:', Object.getOwnPropertyDescriptor(o, 'c')); // {value: 12, writable: false, enumerable: false, configurable: false}
+```
+
 
 Sources: 
 - https://medium.com/intrinsic/javascript-symbols-but-why-6b02768f4a5c
