@@ -46,6 +46,28 @@ select {
 }
 ```
 - attribute selector
+  - matches elements based on the presence or value of a given attribute ([source](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors))
+  - examples:
+```css
+pre[contenteditable] {
+  background-color: green;
+}
+```
+```css
+pre[contenteditable="true"] {
+  background-color: green;
+}
+```
+```css
+pre[contenteditable*="ru"] {
+  background-color: green;
+}
+```
+```cs
+pre[class~="prettyprint"] {
+  background-color: green;
+}
+```
 - id selector
 ## Additional keywords
 - Pseudo-classes

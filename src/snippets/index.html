@@ -6,19 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    #snippet {
+    #js-snippet-pre {
       height: 250px;
       overflow-y: scroll;
     }
   </style>
+  <style id="css-snippet-style"></style>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 </head>
 
 <body>
-  <pre id="snippet" class="prettyprint lang-js" contenteditable="true"></pre>
+  <pre id="js-snippet-pre" class="prettyprint lang-js" contenteditable="true"></pre>
   </pre>
-  <select name="" id="snippets-select"></select>
-  <button id="execute-btn">Execute</button>
+  <select name="" id="js-snippets-select"></select>
+  <button id="execute-js-btn">Execute</button>
+  <pre id="css-snippet-pre" class="prettyprint lang-js" contenteditable="true"></pre>
+  </pre>
+  <select name="" id="css-snippets-select"></select>
+  <button id="apply-css-btn">Apply</button>
   <script src="js/script.js">
   </script>
 </body>

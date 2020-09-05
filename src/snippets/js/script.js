@@ -1,12 +1,18 @@
 (function () { // Use IIFE to avoid polluting the global scope.
-  var selectedIndexStorageKey = 'selected-snippet-index';
+  var selectedIndexStorageKeyJs = 'selected-js-snippet-index';
   // get DOM elements
-  var snippetPre = document.getElementById('snippet');
-  var executeBtn = document.getElementById('execute-btn');
-  var snippetsSelect = document.getElementById('snippets-select');
+  var jsSnippetPre = document.getElementById('js-snippet-pre');
+  var executeJsBtn = document.getElementById('execute-js-btn');
+  var jsSnippetsSelect = document.getElementById('js-snippets-select');
+
+  var selectedIndexStorageKeyCss = 'selected-css-snippet-index';
+  var cssSnippetPre = document.getElementById('css-snippet-pre');
+  var applyCssBtn = document.getElementById('apply-css-btn');
+  var cssSnippetsSelect = document.getElementById('css-snippets-select');
+  var cssSnippetStyle = document.getElementById('css-snippet-style');
   // define code snippets
   // @TODO: group select options with optgroup
-  var snippets = {
+  var jsSnippets = {
     'Optional semicolon 1': `let a
 a
 =
@@ -14,7 +20,7 @@ a
 console.log(a)`,
 
     'Optional semicolon 2': `function f() {
-  return {
+  return {js
     a: 5
   };
 }
@@ -322,44 +328,110 @@ Object.defineProperty(user, 'name', {
 });`,
   };
 
+  var cssSnippets = {
+    'Element selector': `select {
+      color: green;
+    }`,
+    'Class selector': `.prettyprint {
+      background-color: green;
+    }`
+  };
+
   // define functions
-  function executeSnippet() {
+
+  // use configuration object pattern
+  function populateSnippetsSelect(params) {
+    Object.keys(params.snippets).forEach(function (title, index) {  // The Object.keys() method returns an array of a given object's own enumerable property names
+      var snippetOption = document.createElement('option');
+      snippetOption.value = 'snippet-' + index;
+      snippetOption.textContent = title;
+      params.snippetsSelect.appendChild(snippetOption); // @TODO: consider using DocumentFragment instead
+    })
+  };
+
+  function fillSnippetPre(params) {
+    var selectedSnippetTitle = params.snippetsSelect.options[params.selectedIndex].textContent;
+    var selectedSnippet = params.snippets[selectedSnippetTitle];
+    params.snippetPre.textContent = selectedSnippet;
+    params.snippetPre.classList.remove('prettyprinted');
+    PR.prettyPrint();
+  }
+
+  function handleSnippetChange(params) {
+    var selectedIndex = params.snippetsSelect.selectedIndex;
+    localStorage.setItem(params.selectedIndexStorageKey, selectedIndex);
+    fillSnippetPre({
+      snippetsSelect: params.snippetsSelect,
+      snippetPre: params.snippetPre,
+      snippets: params.snippets,
+      selectedIndex: selectedIndex
+    })
+  }
+
+  function executeJs() {
     console.clear();
-    var command = snippetPre.textContent;
+    var command = jsSnippetPre.textContent;
     // it is disadvised to use eval for real life applications
     window.eval(command); // indirect eval call to execute code globally
   }
 
-  function populateSnippetsSelect() {
-    Object.keys(snippets).forEach(function (title, index) {  // The Object.keys() method returns an array of a given object's own enumerable property names
-      var snippetOption = document.createElement('option');
-      snippetOption.value = 'snippet-' + index;
-      snippetOption.textContent = title;
-      snippetsSelect.appendChild(snippetOption); // @TODO: consider using DocumentFragment instead
-    })
-  };
-
-  function fillSnippetPre(selectedIndex) {
-    var selectedSnippetTitle = snippetsSelect.options[selectedIndex].textContent;
-    var selectedSnippet = snippets[selectedSnippetTitle];
-    snippetPre.textContent = selectedSnippet;
-    snippetPre.classList.remove('prettyprinted');
-    PR.prettyPrint();
+  function applyCss() {
+    var style = cssSnippetPre.textContent;
+    // @TODO: compare textContent and HTMLElement.innerText
+    cssSnippetStyle.textContent = style;
   }
 
-  function handleSnippetChange() {
-    var selectedIndex = snippetsSelect.selectedIndex;
-    localStorage.setItem(selectedIndexStorageKey, selectedIndex);
-    fillSnippetPre(selectedIndex);
+  function handleDomElements(type) {
+    var btn, btnClickHandler, snippetsSelect, snippetPre, snippets, selectedIndexStorageKey;
+
+    switch(type) {
+      case 'css':
+        btn = applyCssBtn;
+        snippetsSelect = cssSnippetsSelect;
+        snippetPre = cssSnippetPre;
+        snippets = cssSnippets;
+        selectedIndexStorageKey = selectedIndexStorageKeyCss;
+        btnClickHandler = applyCss;
+        break;
+      case 'js':
+        btn = executeJsBtn;
+        snippetsSelect = jsSnippetsSelect;
+        snippetPre = jsSnippetPre;
+        snippets = jsSnippets;
+        selectedIndexStorageKey = selectedIndexStorageKeyJs;
+        btnClickHandler = executeJs;
+        break;
+    }
+
+    btn.addEventListener('click', btnClickHandler);
+    // To be updated to ES6 syntax later
+    populateSnippetsSelect({ snippetsSelect: snippetsSelect, snippets: snippets });
+    var selectedIndex = localStorage.getItem(selectedIndexStorageKey) || 0;
+    snippetsSelect.selectedIndex = selectedIndex;
+
+    // To be updated to ES6 syntax later
+    fillSnippetPre({
+      snippetsSelect: snippetsSelect,
+      snippetPre: snippetPre,
+      snippets: snippets,
+      selectedIndex: selectedIndex
+    });
+
+    snippetsSelect.addEventListener('change', function () {
+      handleSnippetChange({
+        snippetsSelect: snippetsSelect,
+        snippetPre: snippetPre,
+        snippets: snippets,
+        selectedIndexStorageKey: selectedIndexStorageKey
+      });
+    });
   }
 
+  function init() {
+    handleDomElements('css');
+    handleDomElements('js');
+  }
 
-  // handle DOM elements
-  snippetPre.textContent = snippets['Optional semicolon'];
-  executeBtn.addEventListener('click', executeSnippet);
-  populateSnippetsSelect();
-  var selectedIndex = localStorage.getItem(selectedIndexStorageKey) || 0;
-  snippetsSelect.selectedIndex = selectedIndex;
-  fillSnippetPre(selectedIndex);
-  snippetsSelect.addEventListener('change', handleSnippetChange);
+  init();
+
 })();
