@@ -329,12 +329,30 @@ Object.defineProperty(user, 'name', {
   };
 
   var cssSnippets = {
+    'Universal selector 1': `* {
+  color: red;
+}`,
+    'Universal selector 2': `select > * {
+  color: orange;
+}`,
     'Element selector': `select {
-      color: green;
-    }`,
+  color: yellow;
+}`,
     'Class selector': `.prettyprint {
-      background-color: green;
-    }`
+  background-color: green;
+}`,
+    'Attribute selector 1': `pre[contenteditable] {
+  background-color: blue;
+}`,
+    'Attribute selector 2: =': `pre[contenteditable="true"] {
+  background-color: purple;
+}`,
+    'Attribute selector 3: *=': `pre[contenteditable*="ru"] {
+  background-color: pink;
+}`,
+    'Attribute selector 4: ~=': `pre[class~="prettyprint"] {
+  background-color: red;
+}`,
   };
 
   // define functions

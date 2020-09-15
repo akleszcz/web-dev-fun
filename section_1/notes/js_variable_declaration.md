@@ -394,6 +394,22 @@ const x = 0, y = 0, z = 0;
 ```javascript
 const a; // Uncaught SyntaxError: Missing initializer in const declaration
 ```
+- Variable reassignment - illegal in both strict and non-strict mode:
+```javascript
+// 'use strict';
+const a = 5;
+a = 7; // Uncaught TypeError: Assignment to constant variable.
+```
+- Variable value modification - the value a constant holds can be modified if it is an object:
+```javascript
+const o = {
+    a: 1
+};
+o.a = 2;
+console.log(o); // {a: 2}
+```
+### Note: immutable objects
+
 - Variable declaration and initialization in a loop:
 ```javascript
 const array = ['a', 'b', 'c'];
@@ -438,6 +454,16 @@ const x = 'Hello'; // Uncaught SyntaxError: Identifier 'x' has already been decl
 const x = 5;
 var x = 'Hello'; // Uncaught SyntaxError: Identifier 'x' has already been declared
 ```
+### Variable scope
+- *Block scope* instead of *function scope*:
+```javascript
+const x = 1;
+if (x === 1) {
+  const x = 2;
+  console.log(x); // 2
+}
+console.log(x); // 1
+```
 ### Global variables
 -  Declaring a global variable with `const` does not create a property on the global object.
 
@@ -448,6 +474,19 @@ const y = 'global';
 console.log(window.x); // global
 console.log(window.y); // undefined
 ```
+### Temporal dead zone (TDZ)
+- `const` variables can be in TDZ just like `let` variables:
+```javascript
+function f() {
+  console.log('x: ', x); // x:  undefined
+  console.log('y: ', y); // Uncaught ReferenceError: Cannot access 'y' before initialization
+  var x = 1;
+  const y = 2;
+}
+f();
+```
+### More examples
+
 
 To read: https://exploringjs.com/deep-js/ch_global-scope.html#creating-variables-declarative-record-vs.-object-record
 https://www.freecodecamp.org/news/an-introduction-to-scope-in-javascript-cbd957022652/
