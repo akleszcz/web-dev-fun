@@ -4,13 +4,17 @@
   var jsSnippetPre = document.getElementById('js-snippet-pre');
   var executeJsBtn = document.getElementById('execute-js-btn');
   var jsSnippetsSelect = document.getElementById('js-snippets-select');
+  var tryItIframe = document.getElementById('try-it-ifr');
 
-  var selectedIndexStorageKeyCss = 'selected-css-snippet-index';
   var cssSnippetPre = document.getElementById('css-snippet-pre');
+  var htmlSrcPre = document.getElementById('html-src-pre');
   var applyCssBtn = document.getElementById('apply-css-btn');
   var cssSnippetsSelect = document.getElementById('css-snippets-select');
-  var cssSnippetStyle = document.getElementById('css-snippet-style');
-  // define code snippets
+
+  var selectedIndexStorageKeyCss = 'selected-css-snippet-index';
+
+
+  // define data (hard-coded for now)
   // @TODO: group select options with optgroup
   var jsSnippets = {
     'Optional semicolon 1': `let a
@@ -330,30 +334,57 @@ Object.defineProperty(user, 'name', {
 
   var cssSnippets = {
     'Universal selector 1': `* {
-  color: red;
+  background-color: red;
 }`,
-    'Universal selector 2': `select > * {
-  color: orange;
+    'Universal selector 2': `#outer > * {
+  background-color: orange;
 }`,
-    'Element selector': `select {
-  color: yellow;
+    'Element selector': `div {
+  background-color: yellow;
 }`,
-    'Class selector': `.prettyprint {
+    'Class selector': `.cat-container {
   background-color: green;
 }`,
-    'Attribute selector 1': `pre[contenteditable] {
+    'Attribute selector 1': `div[class] {
   background-color: blue;
 }`,
-    'Attribute selector 2: =': `pre[contenteditable="true"] {
+    'Attribute selector 2: =': `div[class="cat-container"] {
   background-color: purple;
 }`,
-    'Attribute selector 3: *=': `pre[contenteditable*="ru"] {
+    'Attribute selector 3: *=': `div[class*="cont"] {
   background-color: pink;
 }`,
-    'Attribute selector 4: ~=': `pre[class~="prettyprint"] {
+    'Attribute selector 4: ~=': `div[class~="cat-container"] {
   background-color: red;
 }`,
   };
+
+  var getHtmlSrc = function (cssRules) {
+    return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <style>
+    #inner, #outer {
+      border: 1px solid #000;
+      padding: 10px;
+    }
+${cssRules.replace(/^/gm, '    ')}
+  </style>
+  <body>
+    <div id="outer">
+      <span>outer div</span>
+      <div id="inner" class="cat-container">
+        <div>inner div</div>
+        <img src="https://cataas.com/cat" alt="Random cat image" height="100">
+      </div>
+    </div>
+  </body>
+  </html>`;
+  }
 
   // define functions
 
@@ -371,7 +402,11 @@ Object.defineProperty(user, 'name', {
     var selectedSnippetTitle = params.snippetsSelect.options[params.selectedIndex].textContent;
     var selectedSnippet = params.snippets[selectedSnippetTitle];
     params.snippetPre.textContent = selectedSnippet;
-    params.snippetPre.classList.remove('prettyprinted');
+    prettyPrint(params.snippetPre);
+  }
+
+  function prettyPrint(element) {
+    element.classList.remove('prettyprinted');
     PR.prettyPrint();
   }
 
@@ -394,15 +429,26 @@ Object.defineProperty(user, 'name', {
   }
 
   function applyCss() {
-    var style = cssSnippetPre.textContent;
-    // @TODO: compare textContent and HTMLElement.innerText
-    cssSnippetStyle.textContent = style;
+    var cssRules = cssSnippetPre.textContent;
+    var htmlSrc = getHtmlSrc(cssRules);
+    htmlSrcPre.textContent = htmlSrc;
+    renderHtml(htmlSrc);
+    prettyPrint(htmlSrcPre);
+  }
+
+  function getBlobUrl(src) {
+    const blob = new Blob([src], { type: 'text/html' });
+    return URL.createObjectURL(blob)
+  }
+
+  function renderHtml(src) {
+    tryItIframe.src = getBlobUrl(src);
   }
 
   function handleDomElements(type) {
     var btn, btnClickHandler, snippetsSelect, snippetPre, snippets, selectedIndexStorageKey;
 
-    switch(type) {
+    switch (type) {
       case 'css':
         btn = applyCssBtn;
         snippetsSelect = cssSnippetsSelect;
