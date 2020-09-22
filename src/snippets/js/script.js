@@ -345,17 +345,29 @@ Object.defineProperty(user, 'name', {
     'Class selector': `.cat-container {
   background-color: green;
 }`,
-    'Attribute selector 1': `div[class] {
+    'Attribute selector': `div[class] {
   background-color: blue;
 }`,
-    'Attribute selector 2: =': `div[class="cat-container"] {
+    'Attribute selector: =': `div[class="container"] {
   background-color: purple;
 }`,
-    'Attribute selector 3: *=': `div[class*="cont"] {
+    'Attribute selector: ~=': `p[class~="cat-container"] {
+  background-color: red;
+}`,
+    'Attribute selector: |=': `p[class|="cat"] {
   background-color: pink;
 }`,
-    'Attribute selector 4: ~=': `div[class~="cat-container"] {
-  background-color: red;
+    'Attribute selector: ^=': `p[class^="cat-co"] {
+  background-color: purple;
+}`,
+    'Attribute selector: $=': `p[class*="ner"] {
+  background-color: blue;
+}`,
+    'Attribute selector: *=': `p[class*="onta"] {
+  background-color: green;
+}`,
+    'Id selector': `#inner {
+  background-color: yellow;
 }`,
   };
 
@@ -368,20 +380,23 @@ Object.defineProperty(user, 'name', {
     <title>Document</title>
   </head>
   <style>
-    #inner, #outer {
+    .container {
       border: 1px solid #000;
       padding: 10px;
     }
 ${cssRules.replace(/^/gm, '    ')}
   </style>
   <body>
-    <div id="outer">
-      <span>outer div</span>
-      <div id="inner" class="cat-container">
-        <div>inner div</div>
-        <img src="https://cataas.com/cat" alt="Random cat image" height="100">
+    <div id="outer" class="container">
+      outer div
+      <div id="inner" class="container">
+        inner div
       </div>
     </div>
+    <p class="cat-container container">
+      <img src="https://cataas.com/cat" alt="Random cat image" height="100">
+      Meow!
+    </p>
   </body>
   </html>`;
   }
