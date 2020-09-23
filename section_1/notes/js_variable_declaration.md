@@ -400,6 +400,16 @@ const a; // Uncaught SyntaxError: Missing initializer in const declaration
 const a = 5;
 a = 7; // Uncaught TypeError: Assignment to constant variable.
 ```
+### Note
+> If a variable is never reassigned, using the const declaration is better.
+>
+> const declaration tells readers, "this variable is never reassigned," reducing cognitive load and improving maintainability.
+
+[Source](https://eslint.org/docs/rules/prefer-const)
+
+ESLint `prefer-const` rule can be used to make sure `let` declarations are used only when necessary.
+
+---
 - Variable value modification - the value a constant holds can be modified if it is an object:
 ```javascript
 const o = {
@@ -408,8 +418,10 @@ const o = {
 o.a = 2;
 console.log(o); // {a: 2}
 ```
-### Note: immutable objects
+### Note: prevent objects modifications
+If we want to prevent an object from being modified, we can use one of the methods: ` Object.preventExtensions`, `Object.seal` and `Object.freeze`. See [Objects. Prevent objects modifications](objects.md#prevent-objects-modifications) for more details
 
+---
 - Variable declaration and initialization in a loop:
 ```javascript
 const array = ['a', 'b', 'c'];
@@ -485,7 +497,6 @@ function f() {
 }
 f();
 ```
-### More examples
 
 
 To read: https://exploringjs.com/deep-js/ch_global-scope.html#creating-variables-declarative-record-vs.-object-record

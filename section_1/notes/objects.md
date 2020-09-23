@@ -280,7 +280,10 @@ console.log('o.a:', Object.getOwnPropertyDescriptor(o, 'a')); // {value: 5, writ
 console.log('o.b:', Object.getOwnPropertyDescriptor(o, 'b')); // {value: 7, writable: true, enumerable: true, configurable: true}
 console.log('o.c:', Object.getOwnPropertyDescriptor(o, 'c')); // {value: 12, writable: false, enumerable: false, configurable: false}
 ```
-
+## Prevent objects modifications
+-  `extensible` - object's attribute specifying whether new properties can be added to
+the object or not
+@TODO: finish
 
 Sources: 
 - https://medium.com/intrinsic/javascript-symbols-but-why-6b02768f4a5c
