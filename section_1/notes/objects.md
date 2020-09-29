@@ -281,11 +281,73 @@ console.log('o.b:', Object.getOwnPropertyDescriptor(o, 'b')); // {value: 7, writ
 console.log('o.c:', Object.getOwnPropertyDescriptor(o, 'c')); // {value: 12, writable: false, enumerable: false, configurable: false}
 ```
 ## Prevent objects modifications
--  `extensible` - object's attribute specifying whether new properties can be added to
-the object or not
-@TODO: finish
+-  `Object.isExtensible` method - determines whether an object is extensible, i.e. whether new properties can be added to
+the object or not. All user-defined objects are extensible by default:
+```javascript
+const o = {};
+console.log(Object.isExtensible(o)); // true
+o.x = 5;
+console.log(o.x); // 5
+```
+Methods that let us "lock down" objects into a known state:
+- `Object.preventExtensions`:
+   - Makes an object nonextensible (see how an attempt to add a property to a nonextensible object results in error in strict mode):
+      ```javascript
+      const o = {};
+      Object.preventExtensions(o);
+      console.log(Object.isExtensible(o)); // false
+      o.x = 5;
+      console.log(o.x); // undefined
+      ```
+      ```javascript
+      'use strict';
+      const o = {};
+      Object.preventExtensions(o);
+      console.log(Object.isExtensible(o)); // false
+      o.x = 5;
+      console.log(o.x); // Uncaught TypeError: Cannot add property x, object is not extensible
+      ```
+  - Only affects the extensibility of the object itself. The object will still inherit any new properties added to its prototype (more on the prototypal inheritance soon).
+  - There is no way to make an object extensible once it has been made nonextensible.
+- `Object.seal`:
+  - Does what `Object.preventExtensions` does, but additionally makes all of the own properties of an object nonconfigurable. Values of present properties can still be changed as long as they are writable.
+  - `Object.isSealed` method can be used to determine whether an object is sealed.
+  - Example:
+    ```javascript
+    const o = {
+      x: 5
+    };
+
+    console.log(Object.isSealed(o)); // false
+    Object.seal(o);
+    console.log(Object.isSealed(o)); // true
+
+    o.x = 100;
+    o.y = 200;
+
+    console.log(o.x); // 100
+    console.log(o.y); // undefined
+
+    console.log(delete o.x); // false
+    console.log(o.x); // 100
+    ```
+    ```javascript
+    'use strict';  
+    const o = {
+      x: 5
+    };
+
+    Object.seal(o);
+    o.x = 100;
+    o.y = 200; // Uncaught TypeError: Cannot add property y, object is not extensible
+    ```
+
+@TO READ: http://es5.github.io/#x4.3.7
+Native objects, host objects
 
 Sources: 
 - https://medium.com/intrinsic/javascript-symbols-but-why-6b02768f4a5c
 - JavaScript: The Definitive Guide. Chapter 6: Objects
-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty 
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal
+- JavaScript: The Definitive Guide. 6.8.3 The extensible Attribute
