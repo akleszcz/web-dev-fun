@@ -341,8 +341,41 @@ Methods that let us "lock down" objects into a known state:
     o.x = 100;
     o.y = 200; // Uncaught TypeError: Cannot add property y, object is not extensible
     ```
+- `Object.freeze`:
+  - Does what `Object.seal` does, but additionally makes all of the own properties of an object read-only. Setter methods of accessor properties will still work. Values that are objects can still be modified, unless they are also frozen.
+  - `Object.isFrozen` method can be used to determine whether an object is frozen.
+  - Example:
+  ```javascript
+      const o = {
+      x: 5
+    };
 
-@TO READ: http://es5.github.io/#x4.3.7
+    console.log(Object.isFrozen(o)); // false
+    Object.freeze(o);
+    console.log(Object.isFrozen(o)); // true
+
+    o.x = 100;
+    o.y = 200;
+
+    console.log(o.x); // 5
+    console.log(o.y); // undefined
+
+    console.log(delete o.x); // false
+    console.log(o.x); // 5
+  ```
+  ```javascript
+    'use strict';  
+    const o = {
+      x: 5
+    };
+
+    Object.freeze(o);
+    o.x = 100; // Uncaught TypeError: Cannot assign to read only property 'x' of object '#<Object>'
+  ```
+- `Object.preventExtensions`, `Object.seal` and `Object.freeze` all return the same object
+that was passed to them.
+
+@TO READ: http://es5.github.io/#x4.3.7:
 Native objects, host objects
 
 Sources: 

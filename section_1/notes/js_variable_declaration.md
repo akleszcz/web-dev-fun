@@ -373,18 +373,6 @@ funcs.forEach(function(func) {
 ```
 Source: *Understanding ECMAScript 6: The Definitive Guide for JavaScript Developers*, Nicholas C. Zakas
 
-@TODO:
-- Temporal dead zone: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone
-http://jsrocks.org/2015/01/temporal-dead-zone-tdz-demystified
-- Hoisting - example:
-```javascript
-let foo = () => bar; let bar = 'bar'; foo();
-```
-Source:
-https://stackoverflow.com/questions/31219420/are-variables-declared-with-let-or-const-hoisted
-Reference:
-https://www.ecma-international.org/ecma-262/9.0/index.html#sec-let-and-const-declarations
-
 ## `const`
 - Variables declaration and initialization  - variable's value must be specified in the same statement in which it's declared:
 ```javascript
@@ -451,7 +439,7 @@ for (const p in o) {
 // third loop: a
 // Uncaught TypeError: Assignment to constant variable.
 for (const i = 0; i  < array.length; i++) {
-console.log('third loop:', array[i]);
+  console.log('third loop:', array[i]);
 }
 ```
 

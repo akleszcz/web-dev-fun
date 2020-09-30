@@ -188,7 +188,7 @@ console.log('i after loop:', i);`,
 let y = 'global';
 console.log(window.x);
 console.log(window.y);`,
-    'let - hoisting': `let x = 'outer';
+    'let - temportal dead zone': `let x = 'outer';
 {
   console.log('x inside of f:', x);
   let x = 'inner';
@@ -251,7 +251,7 @@ for (const p in o) {
 }
 
 for (const i = 0; i  < array.length; i++) {
-console.log('third loop:', array[i]);
+  console.log('third loop:', array[i]);
 }`,
 'const - repeated declarations': `const x = 5;
 var x = 'Hello';`,
@@ -403,6 +403,68 @@ console.log(user.name);
 Object.defineProperty(user, 'name', {
   writable: true,
 });`,
+'Object.isExtensible': `const o = {};
+console.log(Object.isExtensible(o));
+o.x = 5;
+console.log(o.x);`,
+'Object.preventExtensions 1': `const o = {};
+Object.preventExtensions(o);
+console.log(Object.isExtensible(o));
+o.x = 5;
+console.log(o.x);`,
+'Object.preventExtensions 2': `'use strict';
+const o = {};
+Object.preventExtensions(o);
+console.log(Object.isExtensible(o));
+o.x = 5;
+console.log(o.x);`,
+'Object.seal 1': `const o = {
+  x: 5
+};
+
+console.log(Object.isSealed(o));
+Object.seal(o);
+console.log(Object.isSealed(o));
+
+o.x = 100;
+o.y = 200;
+
+console.log(o.x);
+console.log(o.y);
+
+console.log(delete o.x);
+console.log(o.x);`,
+'Object.seal 2': `'use strict';  
+const o = {
+  x: 5
+};
+
+Object.seal(o);
+o.x = 100;
+o.y = 200;`,
+'Object.freeze 1': `const o = {
+  x: 5
+};
+
+console.log(Object.isFrozen(o));
+Object.freeze(o);
+console.log(Object.isFrozen(o));
+
+o.x = 100;
+o.y = 200;
+
+console.log(o.x);
+console.log(o.y);
+
+console.log(delete o.x);
+console.log(o.x);`,
+'Object.freeze 2': ` 'use strict';  
+const o = {
+  x: 5
+};
+
+Object.freeze(o);
+o.x = 100;`,
   };
 
 var cssSnippets = {
