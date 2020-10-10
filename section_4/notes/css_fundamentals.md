@@ -1,8 +1,58 @@
 # CSS (Cascading Style Sheets) fundamentals
-
 - a style sheet language used to style HTML elements
+## Applying CSS to HTML
+- external stylesheet:
+  ```html
+  <link rel="stylesheet" href="css/style.css">
+  ```
+- internal stylesheet:
+  - styles are defined with rules placed inside a `<style>` element in the `<head>` section of a page:
+  ```html
+  <style>
+    #js-snippet-pre,
+    #html-src-pre,
+    #try-it-ifr {
+      height: 300px;
+      overflow-y: scroll;
+    }
+  </style>
+  ```
+  - placing a `<style>` element in the `<body>` may still work, but is considered an invalid HTML markup. 
+  
+    Example: go to [The W3C Markup Validation Service](https://validator.w3.org/#validate_by_input) and validate the following code:
+  ```html
+  <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+    </head>
+    <body>
+      <div>First div</div>
+      <style>
+        div {
+          background-color: brown;
+        }
+      </style>
+      <div>Second div</div>
+    </body>
+    </html>
+  ```
+  The style `background-color: brown` is applied to both `<div>` elements (checked on Chrome v85.0.4183.121, Firefox v80.0.1 and Edge v86.0.622.38 on Windows 10), but the validator returns the following error:
+  > Error: Element style not allowed as child of element body in this context.
 
-- the anatomy of a CSS rule (or ruleset):
+- inline styles:
+  - defined with a `style` attribute on an HTML element
+  - example:
+  ```html
+  <div style="background: linear-gradient(to  left, #9198e5, #e66465);">
+    inline-styled
+  </div>
+  ```
+
+
+## The anatomy of a CSS rule
 ```css
 selector {
   property: value;
@@ -14,96 +64,7 @@ select {
   color: green;
 }
 ```
-## CSS selectors
-- universal selector
-  - indicated by an asterisk (`*`)
-  - selects everything in the document (or inside the parent element)
-  - examples:
-    ```css
-    * {
-      background-color: red;
-    }
-    ```
-    ```css
-    #outer > * {
-      background-color: orange;
-    }
-    ```
-- element (tag, type) selector
-  - selects an HTML tag/element
-  - example:
-    ```css
-    div {
-      background-color: yellow;
-    }
-    ```
-- class selector
-  - starts with a `.` (period) character, followed by a class name
-  - example:
-    ```css
-    .cat-container {
-      background-color: green;
-    }
-    ```
-- attribute selector 
-  - matches elements based on the presence or value of a given attribute ([source](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors))
-  - > Attributes are placed inside the start tag, and consist of a name and a value, separated by an "=" character. The attribute value can remain unquoted if it doesn't contain spaces or any of " ' ` = < or >. Otherwise, it has to be quoted using either single or double quotes. The value, along with the "=" character, can be omitted altogether if the value is the empty string.
+Find more about CSS selectors [here](css_selectors).
 
-    [Source](https://www.w3.org/TR/2011/WD-html5-20110525/introduction.html)
-  - syntax:
-    - presence and value selectors:
-      - `[attr]` - example: matches `div` elements with a `class` attribute:
-        ```css
-        div[class] {
-          background-color: blue;
-        }
-        ```
-      - `[attr=value]` - example: matches `div` elements with a `class` attribute whose value is exactly "container":
-        ```css
-        div[class="container"] {
-          background-color: purple;
-        }
-        ```
-      - `[attr~=value]` - example: matches `p` elements with a `class` attribute whose value is a whitespace-separated list of words, one of which is exactly "cat-container":
-        ```css
-        p[class~="cat-container"] {
-          background-color: red;
-        }
-        ```
-      - `[attr|=value]` - example: matches `p` elements with a `class` attribute whose value is exactly "class" or begins with "class" immediately followed by a hyphen:
-        ```css
-        p[class|="cat"] {
-          background-color: pink;
-        }
-        ```
-      - `[attr^=value]` - example: matches `p` elements with a `class` attribute whose value starts with "tr":
-        ```p[class^="cat-co"] {
-          background-color: purple;
-        }
-        ```
-    - substring matching selectors:
-      - `[attr$=value]` - example: matches `p` elements with a `class` attribute whose value ends with "ner":
-        ```css
-        p[class*="ner"] {
-          background-color: blue;
-        }
-        ```
-      - `[attr*=value]` - matches elements with a `class` attribute whose value contains "onta":
-        ```css
-        p[class*="onta"] {
-          background-color: green;
-        }
-        ```
-- id selector:
-  - starts with a `#` (hash) character, followed by id name
-  - example:
-    ```css
-      #inner {
-        background-color: yellow;
-      }
-    ```
-## Additional keywords
-- Pseudo-classes
-- Pseudo-elements
-## CSS combinators
-## Rule specificity
+Sources:
+- 'How CSS is structured', https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/How_CSS_is_structured

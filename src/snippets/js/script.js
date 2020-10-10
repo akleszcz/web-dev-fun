@@ -208,7 +208,7 @@ for (var i = 0; i < 10; i++) {
 funcs.forEach(function(func) {
   func();
 });`,
-'var - functions in a loop - IIFE': `var funcs = [];
+    'var - functions in a loop - IIFE': `var funcs = [];
 for (var i = 0; i < 10; i++) {
   funcs.push((function(value) {
     return function() {
@@ -219,7 +219,7 @@ for (var i = 0; i < 10; i++) {
 funcs.forEach(function(func) {
   func();
 });`,
-'let - functions in loop': `var funcs = [];
+    'let - functions in loop': `var funcs = [];
 for (let i = 0; i < 10; i++) {
   funcs.push(function() {
     console.log(i);
@@ -228,15 +228,15 @@ for (let i = 0; i < 10; i++) {
 funcs.forEach(function(func) {
   func();
 });`,
-'const - declaration without initialization': `const a;`,
-'const - value reassignment': `const a = 5;
+    'const - declaration without initialization': `const a;`,
+    'const - value reassignment': `const a = 5;
 a = 7;`,
-'const - object value modification': `const o = {
+    'const - object value modification': `const o = {
   a: 1
 };
 o.a = 2;
 console.log(o);`,
-'const - variable declaration in a loop': `const array = ['a', 'b', 'c'];
+    'const - variable declaration in a loop': `const array = ['a', 'b', 'c'];
 for (const element of array) {
   console.log('first loop:', element);
 } 
@@ -253,19 +253,19 @@ for (const p in o) {
 for (const i = 0; i  < array.length; i++) {
   console.log('third loop:', array[i]);
 }`,
-'const - repeated declarations': `const x = 5;
+    'const - repeated declarations': `const x = 5;
 var x = 'Hello';`,
-'const - block scope': `const x = 1;
+    'const - block scope': `const x = 1;
 if (x === 1) {
   const x = 2;
   console.log(x);
 }
 console.log(x);`,
-'const - global  variables': `var x = 'global';
+    'const - global  variables': `var x = 'global';
 const y = 'global';
 console.log(window.x);
 console.log(window.y);`,
-'const - temporal dead zone': `function f() {
+    'const - temporal dead zone': `function f() {
   console.log('x: ', x);
   console.log('y: ', y);
   var x = 1;
@@ -278,13 +278,13 @@ o['b'] = 2;
 o[2] = 3;
 o[{}] = 4;
 console.log(JSON.stringify(o));`,
-      'Object as a property name 2': `const dwayne = {}, daniel = { firstName: 'Daniel'}, jason = {key: 'jason'};
+    'Object as a property name 2': `const dwayne = {}, daniel = { firstName: 'Daniel'}, jason = {key: 'jason'};
 
 dwayne[daniel] = 123;
 dwayne[jason] = 456;
 
 console.log(dwayne[daniel]);`,
-        'Accessor property': `const user = {
+    'Accessor property': `const user = {
   name: "John",
   surname: "Smith",
 
@@ -302,7 +302,7 @@ user.fullName = "Alice Cooper";
 console.log(user.name);
 console.log(user.surname);
 console.log(user.fullName);`,
-          'Property attributes: writable': `const user = {};
+    'Property attributes: writable': `const user = {};
 Object.defineProperty(user, 'surname', {
   value: 'Jones',
   writable: false
@@ -311,7 +311,7 @@ Object.defineProperty(user, 'surname', {
 console.log('user.surname before change:', user.surname);
 user.surname = 'Smith'; 
 console.log('user.surname after change:', user.surname);`,
-            'Property attributes: enumerable': `const user1 = {};
+    'Property attributes: enumerable': `const user1 = {};
 Object.defineProperty(user1, 'name', {
   value: 'John',
   enumerable: true
@@ -341,7 +341,7 @@ const user3 = {
 // spread operator
 const user4 = { ...user3, ...user1 };
 console.log('user4: ', user4);`,
-              'Property attributes: configurable. 1': `const user = {};
+    'Property attributes: configurable. 1': `const user = {};
 Object.defineProperty(user, 'age', {
   get() { return 50; },
   configurable: false
@@ -385,7 +385,7 @@ try {
 console.log('user.age 1:', user.age);
 delete user.age;
 console.log('user.age 2:', user.age);`,
-                'Property attributes: configurable. 2': `const user = {};
+    'Property attributes: configurable. 2': `const user = {};
 Object.defineProperty(user, 'name', {
   value: 'A',
   writable: true,
@@ -403,22 +403,22 @@ console.log(user.name);
 Object.defineProperty(user, 'name', {
   writable: true,
 });`,
-'Object.isExtensible': `const o = {};
+    'Object.isExtensible': `const o = {};
 console.log(Object.isExtensible(o));
 o.x = 5;
 console.log(o.x);`,
-'Object.preventExtensions 1': `const o = {};
+    'Object.preventExtensions 1': `const o = {};
 Object.preventExtensions(o);
 console.log(Object.isExtensible(o));
 o.x = 5;
 console.log(o.x);`,
-'Object.preventExtensions 2': `'use strict';
+    'Object.preventExtensions 2': `'use strict';
 const o = {};
 Object.preventExtensions(o);
 console.log(Object.isExtensible(o));
 o.x = 5;
 console.log(o.x);`,
-'Object.seal 1': `const o = {
+    'Object.seal 1': `const o = {
   x: 5
 };
 
@@ -434,7 +434,7 @@ console.log(o.y);
 
 console.log(delete o.x);
 console.log(o.x);`,
-'Object.seal 2': `'use strict';  
+    'Object.seal 2': `'use strict';  
 const o = {
   x: 5
 };
@@ -442,7 +442,7 @@ const o = {
 Object.seal(o);
 o.x = 100;
 o.y = 200;`,
-'Object.freeze 1': `const o = {
+    'Object.freeze 1': `const o = {
   x: 5
 };
 
@@ -458,7 +458,7 @@ console.log(o.y);
 
 console.log(delete o.x);
 console.log(o.x);`,
-'Object.freeze 2': ` 'use strict';  
+    'Object.freeze 2': ` 'use strict';  
 const o = {
   x: 5
 };
@@ -467,47 +467,50 @@ Object.freeze(o);
 o.x = 100;`,
   };
 
-var cssSnippets = {
-  'Universal selector 1': `* {
+  var cssSnippets = {
+    'Universal selector 1': `* {
   background-color: red;
 }`,
-  'Universal selector 2': `#outer > * {
+    'Universal selector 2': `#outer > * {
   background-color: orange;
 }`,
-  'Element selector': `div {
+    'Element selector': `div {
   background-color: yellow;
 }`,
-  'Class selector': `.cat-container {
+    'Class selector': `.cat-container {
   background-color: green;
 }`,
-  'Attribute selector': `div[class] {
+    'Attribute selector': `div[class] {
   background-color: blue;
 }`,
-  'Attribute selector: =': `div[class="container"] {
+    'Attribute selector: =': `div[class="container"] {
   background-color: purple;
 }`,
-  'Attribute selector: ~=': `p[class~="cat-container"] {
+    'Attribute selector: ~=': `p[class~="cat-container"] {
   background-color: red;
 }`,
-  'Attribute selector: |=': `p[class|="cat"] {
+    'Attribute selector: |=': `p[class|="cat"] {
   background-color: pink;
 }`,
-  'Attribute selector: ^=': `p[class^="cat-co"] {
+    'Attribute selector: ^=': `p[class^="cat-co"] {
   background-color: purple;
 }`,
-  'Attribute selector: $=': `p[class*="ner"] {
+    'Attribute selector: $=': `p[class*="ner"] {
   background-color: blue;
 }`,
-  'Attribute selector: *=': `p[class*="onta"] {
+    'Attribute selector: *=': `p[class*="onta"] {
   background-color: green;
 }`,
-  'Id selector': `#inner {
+'Attribute selector: i': `p[class*="NER" i] {
+  background-color: blue;
+}`,
+    'Id selector': `#inner {
   background-color: yellow;
 }`,
-};
+  };
 
-var getHtmlSrc = function (cssRules) {
-  return `<!DOCTYPE html>
+  var getHtmlSrc = function (cssRules) {
+    return `<!DOCTYPE html>
   <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -518,6 +521,22 @@ var getHtmlSrc = function (cssRules) {
     .container {
       border: 1px solid #000;
       padding: 10px;
+    }
+
+    .box-sizing {
+      border: 10px solid;
+      height: 100px;
+      margin: 5px;
+      padding: 15px;
+      width: 300px;
+    }
+
+    .border-box {
+      box-sizing: border-box;
+    }
+
+    .content-box {
+      box-sizing: content-box;
     }
 ${cssRules.replace(/^/gm, '    ')}
   </style>
@@ -532,120 +551,126 @@ ${cssRules.replace(/^/gm, '    ')}
       <img src="https://cataas.com/cat" alt="Random cat image" height="100">
       Meow!
     </p>
+    <div class="box-sizing border-box" style="background: linear-gradient(#e66465, #9198e5);">
+      box-sizing: border-box; inline-styled
+    </div>
+    <div class="box-sizing content-box" style="background: linear-gradient(to  left, #9198e5, #e66465);">
+      box-sizing: content-box; inline-styled
+    </div>
   </body>
   </html>`;
-}
-
-// define functions
-
-// use configuration object pattern
-function populateSnippetsSelect(params) {
-  Object.keys(params.snippets).forEach(function (title, index) {  // The Object.keys() method returns an array of a given object's own enumerable property names
-    var snippetOption = document.createElement('option');
-    snippetOption.value = 'snippet-' + index;
-    snippetOption.textContent = title;
-    params.snippetsSelect.appendChild(snippetOption); // @TODO: consider using DocumentFragment instead
-  })
-};
-
-function fillSnippetPre(params) {
-  var selectedSnippetTitle = params.snippetsSelect.options[params.selectedIndex].textContent;
-  var selectedSnippet = params.snippets[selectedSnippetTitle];
-  params.snippetPre.textContent = selectedSnippet;
-  prettyPrint(params.snippetPre);
-}
-
-function prettyPrint(element) {
-  element.classList.remove('prettyprinted');
-  PR.prettyPrint();
-}
-
-function handleSnippetChange(params) {
-  var selectedIndex = params.snippetsSelect.selectedIndex;
-  localStorage.setItem(params.selectedIndexStorageKey, selectedIndex);
-  fillSnippetPre({
-    snippetsSelect: params.snippetsSelect,
-    snippetPre: params.snippetPre,
-    snippets: params.snippets,
-    selectedIndex: selectedIndex
-  })
-}
-
-function executeJs() {
-  console.clear();
-  var command = jsSnippetPre.textContent;
-  // it is disadvised to use eval for real life applications
-  window.eval(command); // indirect eval call to execute code globally
-}
-
-function applyCss() {
-  var cssRules = cssSnippetPre.textContent;
-  var htmlSrc = getHtmlSrc(cssRules);
-  htmlSrcPre.textContent = htmlSrc;
-  renderHtml(htmlSrc);
-  prettyPrint(htmlSrcPre);
-}
-
-function getBlobUrl(src) {
-  const blob = new Blob([src], { type: 'text/html' });
-  return URL.createObjectURL(blob)
-}
-
-function renderHtml(src) {
-  tryItIframe.src = getBlobUrl(src);
-}
-
-function handleDomElements(type) {
-  var btn, btnClickHandler, snippetsSelect, snippetPre, snippets, selectedIndexStorageKey;
-
-  switch (type) {
-    case 'css':
-      btn = applyCssBtn;
-      snippetsSelect = cssSnippetsSelect;
-      snippetPre = cssSnippetPre;
-      snippets = cssSnippets;
-      selectedIndexStorageKey = selectedIndexStorageKeyCss;
-      btnClickHandler = applyCss;
-      break;
-    case 'js':
-      btn = executeJsBtn;
-      snippetsSelect = jsSnippetsSelect;
-      snippetPre = jsSnippetPre;
-      snippets = jsSnippets;
-      selectedIndexStorageKey = selectedIndexStorageKeyJs;
-      btnClickHandler = executeJs;
-      break;
   }
 
-  btn.addEventListener('click', btnClickHandler);
-  // To be updated to ES6 syntax later
-  populateSnippetsSelect({ snippetsSelect: snippetsSelect, snippets: snippets });
-  var selectedIndex = localStorage.getItem(selectedIndexStorageKey) || 0;
-  snippetsSelect.selectedIndex = selectedIndex;
+  // define functions
 
-  // To be updated to ES6 syntax later
-  fillSnippetPre({
-    snippetsSelect: snippetsSelect,
-    snippetPre: snippetPre,
-    snippets: snippets,
-    selectedIndex: selectedIndex
-  });
+  // use configuration object pattern
+  function populateSnippetsSelect(params) {
+    Object.keys(params.snippets).forEach(function (title, index) {  // The Object.keys() method returns an array of a given object's own enumerable property names
+      var snippetOption = document.createElement('option');
+      snippetOption.value = 'snippet-' + index;
+      snippetOption.textContent = title;
+      params.snippetsSelect.appendChild(snippetOption); // @TODO: consider using DocumentFragment instead
+    })
+  };
 
-  snippetsSelect.addEventListener('change', function () {
-    handleSnippetChange({
+  function fillSnippetPre(params) {
+    var selectedSnippetTitle = params.snippetsSelect.options[params.selectedIndex].textContent;
+    var selectedSnippet = params.snippets[selectedSnippetTitle];
+    params.snippetPre.textContent = selectedSnippet;
+    prettyPrint(params.snippetPre);
+  }
+
+  function prettyPrint(element) {
+    element.classList.remove('prettyprinted');
+    PR.prettyPrint();
+  }
+
+  function handleSnippetChange(params) {
+    var selectedIndex = params.snippetsSelect.selectedIndex;
+    localStorage.setItem(params.selectedIndexStorageKey, selectedIndex);
+    fillSnippetPre({
+      snippetsSelect: params.snippetsSelect,
+      snippetPre: params.snippetPre,
+      snippets: params.snippets,
+      selectedIndex: selectedIndex
+    })
+  }
+
+  function executeJs() {
+    console.clear();
+    var command = jsSnippetPre.textContent;
+    // it is disadvised to use eval for real life applications
+    window.eval(command); // indirect eval call to execute code globally
+  }
+
+  function applyCss() {
+    var cssRules = cssSnippetPre.textContent;
+    var htmlSrc = getHtmlSrc(cssRules);
+    htmlSrcPre.textContent = htmlSrc;
+    renderHtml(htmlSrc);
+    prettyPrint(htmlSrcPre);
+  }
+
+  function getBlobUrl(src) {
+    const blob = new Blob([src], { type: 'text/html' });
+    return URL.createObjectURL(blob)
+  }
+
+  function renderHtml(src) {
+    tryItIframe.src = getBlobUrl(src);
+  }
+
+  function handleDomElements(type) {
+    var btn, btnClickHandler, snippetsSelect, snippetPre, snippets, selectedIndexStorageKey;
+
+    switch (type) {
+      case 'css':
+        btn = applyCssBtn;
+        snippetsSelect = cssSnippetsSelect;
+        snippetPre = cssSnippetPre;
+        snippets = cssSnippets;
+        selectedIndexStorageKey = selectedIndexStorageKeyCss;
+        btnClickHandler = applyCss;
+        break;
+      case 'js':
+        btn = executeJsBtn;
+        snippetsSelect = jsSnippetsSelect;
+        snippetPre = jsSnippetPre;
+        snippets = jsSnippets;
+        selectedIndexStorageKey = selectedIndexStorageKeyJs;
+        btnClickHandler = executeJs;
+        break;
+    }
+
+    btn.addEventListener('click', btnClickHandler);
+    // To be updated to ES6 syntax later
+    populateSnippetsSelect({ snippetsSelect: snippetsSelect, snippets: snippets });
+    var selectedIndex = localStorage.getItem(selectedIndexStorageKey) || 0;
+    snippetsSelect.selectedIndex = selectedIndex;
+
+    // To be updated to ES6 syntax later
+    fillSnippetPre({
       snippetsSelect: snippetsSelect,
       snippetPre: snippetPre,
       snippets: snippets,
-      selectedIndexStorageKey: selectedIndexStorageKey
+      selectedIndex: selectedIndex
     });
-  });
-}
 
-function init() {
-  handleDomElements('css');
-  handleDomElements('js');
-}
+    snippetsSelect.addEventListener('change', function () {
+      handleSnippetChange({
+        snippetsSelect: snippetsSelect,
+        snippetPre: snippetPre,
+        snippets: snippets,
+        selectedIndexStorageKey: selectedIndexStorageKey
+      });
+    });
+  }
 
-init();
+  function init() {
+    handleDomElements('css');
+    handleDomElements('js');
+  }
 
-}) ();
+  init();
+
+})();
