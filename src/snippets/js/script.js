@@ -523,21 +523,6 @@ o.x = 100;`,
       padding: 10px;
     }
 
-    .box-sizing {
-      border: 10px solid;
-      height: 100px;
-      margin: 5px;
-      padding: 15px;
-      width: 300px;
-    }
-
-    .border-box {
-      box-sizing: border-box;
-    }
-
-    .content-box {
-      box-sizing: content-box;
-    }
 ${cssRules.replace(/^/gm, '    ')}
   </style>
   <body>
@@ -551,12 +536,6 @@ ${cssRules.replace(/^/gm, '    ')}
       <img src="https://cataas.com/cat" alt="Random cat image" height="100">
       Meow!
     </p>
-    <div class="box-sizing border-box" style="background: linear-gradient(#e66465, #9198e5);">
-      box-sizing: border-box; inline-styled
-    </div>
-    <div class="box-sizing content-box" style="background: linear-gradient(to  left, #9198e5, #e66465);">
-      box-sizing: content-box; inline-styled
-    </div>
   </body>
   </html>`;
   }

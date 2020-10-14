@@ -1,5 +1,23 @@
 # CSS (Cascading Style Sheets) fundamentals
 - a style sheet language used to style HTML elements
+
+## The anatomy of a CSS rule
+```css
+selector {
+  property: value;
+}
+```
+  Example rule:
+```css
+select {
+  color: green;
+}
+```
+Find more about CSS selectors [here](css_selectors).
+
+Sources:
+- 'How CSS is structured', https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/How_CSS_is_structured
+
 ## Applying CSS to HTML
 - external stylesheet:
   ```html
@@ -50,21 +68,20 @@
     inline-styled
   </div>
   ```
+## CSS precedence order
+CSS styles are applied in the following order:
+- inline styles marked as `!important`
+- internal/external rules marked as `!important` in the order of their specificity. Rules of the same specificity are applied in the order in which they appear in stylesheets
+- inline styles
+- internal and external styles in the order of their specificity. Rules of the same specificity are applied in the order in which they appear in stylesheets:
+> If you include multiple \<style\> and \<link\> elements in your document, they will be applied to the DOM in the order they are included in the document — make sure you include them in the correct order, to avoid unexpected cascade issues.
 
+Source: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style
 
-## The anatomy of a CSS rule
-```css
-selector {
-  property: value;
-}
-```
-  Example rule:
-```css
-select {
-  color: green;
-}
-```
-Find more about CSS selectors [here](css_selectors).
+More on CSS specificity coming soon.
 
-Sources:
-- 'How CSS is structured', https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/How_CSS_is_structured
+### Notes on rules' specificity
+
+> (...) directly targeted elements will always take precedence over rules which an element inherits from its ancestor.
+
+Source: https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity
