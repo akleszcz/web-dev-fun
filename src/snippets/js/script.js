@@ -188,7 +188,7 @@ console.log('i after loop:', i);`,
 let y = 'global';
 console.log(window.x);
 console.log(window.y);`,
-    'let - temportal dead zone': `let x = 'outer';
+    'let - temporal dead zone': `let x = 'outer';
 {
   console.log('x inside of f:', x);
   let x = 'inner';
@@ -486,7 +486,7 @@ o.x = 100;`,
     'Attribute selector: =': `div[class="container"] {
   background-color: purple;
 }`,
-    'Attribute selector: ~=': `p[class~="cat-container"] {
+    'Attribute selector: ~=': `[class~="container"] {
   background-color: red;
 }`,
     'Attribute selector: |=': `p[class|="cat"] {
@@ -495,17 +495,35 @@ o.x = 100;`,
     'Attribute selector: ^=': `p[class^="cat-co"] {
   background-color: purple;
 }`,
-    'Attribute selector: $=': `p[class*="ner"] {
+    'Attribute selector: $=': `p[class$="ner"] {
   background-color: blue;
 }`,
     'Attribute selector: *=': `p[class*="onta"] {
   background-color: green;
 }`,
-'Attribute selector: i': `p[class*="NER" i] {
+    'Attribute selector: i': `p[class*="NER" i] {
   background-color: blue;
 }`,
     'Id selector': `#inner {
   background-color: yellow;
+}`,
+    'Pseudo-class :focus': `.cat-input:focus {
+  background-color: purple;
+}`,
+    'Pseudo-class :focus-within': `form:focus-within {
+  background-color: purple;
+}`,
+    'Pseudo-class :focus-visible': `#cat-submit:focus-visible {
+  background-color: purple;
+}`,
+    'Pseudo-class :first-child': `label:first-child {
+  background-color: purple;
+}`,
+    'Pseudo-class :first-of-type': `input:first-of-type {
+  background-color: purple;
+}`,
+    'Pseudo-class :not()': `:not(button) {
+  color: purple;
 }`,
   };
 
@@ -516,15 +534,15 @@ o.x = 100;`,
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-  </head>
-  <style>
-    .container {
-      border: 1px solid #000;
-      padding: 10px;
-    }
+    <style>
+      .container {
+        border: 1px solid #000;
+        padding: 10px;
+      }
 
-${cssRules.replace(/^/gm, '    ')}
-  </style>
+${cssRules.replace(/^/gm, '      ')}
+    </style>
+  </head>
   <body>
     <div id="outer" class="container">
       outer div
@@ -536,6 +554,17 @@ ${cssRules.replace(/^/gm, '    ')}
       <img src="https://cataas.com/cat" alt="Random cat image" height="100">
       Meow!
     </p>
+    <form>
+      <label for="cat-name">Cat name:</label>
+      <br>
+      <input type="text" id="cat-name" name="cat-name" class="cat-input">
+      <br>
+      <label for="cat-breed">Cat breed:</label>
+      <br>
+      <input type="text" id="cat-breed" class="cat-input" name="cat-breed">
+      <br>
+      <button id="cat-submit">Submit</button>
+    </form>
   </body>
   </html>`;
   }
@@ -648,6 +677,7 @@ ${cssRules.replace(/^/gm, '    ')}
   function init() {
     handleDomElements('css');
     handleDomElements('js');
+    applyCss();
   }
 
   init();

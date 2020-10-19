@@ -48,9 +48,9 @@
           background-color: purple;
         }
         ```
-      - `[attr~=value]` - example: matches `p` elements with a `class` attribute whose value is a whitespace-separated list of words, one of which is exactly "cat-container":
+      - `[attr~=value]` - example: matches elements with a `class` attribute whose value is a whitespace-separated list of words, one of which is exactly "container":
         ```css
-        p[class~="cat-container"] {
+        [class~="container"] {
           background-color: red;
         }
         ```
@@ -69,7 +69,7 @@
     - substring matching selectors:
       - `[attr$=value]` - example: matches `p` elements with a `class` attribute whose value ends with "ner":
         ```css
-        p[class*="ner"] {
+        p[class$="ner"] {
           background-color: blue;
         }
         ```
@@ -94,8 +94,71 @@
         background-color: yellow;
       }
     ```
-## Additional keywords
+## 'Pseudo-' keywords
 - Pseudo-classes
+  - specify a special state of an element
+  - syntax:
+    ```css
+    selector:pseudo-class {
+      property: value;
+    }
+    ```
+  - examples:
+    - `:focus`:
+      ```css
+      .cat-input:focus {
+        background-color: purple;
+      }
+      ```
+    - `:focus-visible` (experimental):
+      ```css
+      #cat-submit:focus-visible {
+        background-color: purple;
+      }
+      ```
+    - `:focus-within`:
+      ```css
+      form:focus-within {
+        background-color: purple;
+      }
+      ```
+
+    - `:link`
+    - `:visited`
+    - `:hover`
+    - `:active`
+
+    - `:checked`
+    - `:disabled`
+    - `:enabled`
+
+    - `:first-child`:
+      ```css
+      label:first-child {
+        background-color: purple;
+      }
+      ```
+    - `:first-of-type`:
+      ```css
+      input:first-of-type {
+        background-color: purple;
+      }
+      ```
+    - `:not()`:
+      ```css
+      :not(button) {
+        color: purple;
+      }
+      ```
+    - `:last-child`
+    - `:last-of-type`
+    - `:nth-child()`
+    - `:nth-last-child()`
+    - `:nth-last-of-type()`
+    - `:nth-of-type()`
+    - `:only-child`
+    - `:only-of-type`
+
 - Pseudo-elements
 ## Rule specificity
 
@@ -106,3 +169,8 @@
 - *Type, class, and ID selectors*, https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Type_Class_and_ID_Selectors
 - *Attribute selectors*, https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors
 - *Attribute selectors*, https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Attribute_selectors
+- *Pseudo-classes*, https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
+
+@TOREAD:
+https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector/How_to/Examine_and_edit_CSS
+https://css-tricks.com/almanac/selectors/f/focus-visible/#:~:text=%3Afocus%2Dvisible%20is%20used%20similarly,that%20currently%20has%20the%20focus.&text=%3Afocus%2Dvisible%20is%20part%20of,ahead%20of%20a%20formal%20specification.
