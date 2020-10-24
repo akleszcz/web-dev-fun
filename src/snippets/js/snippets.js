@@ -2,49 +2,13 @@ window.snippets = (function () { // Use IIFE to avoid polluting the global scope
 
   // @TODO: group select options with optgroup
   var _jsSnippets = window.snippets?.config?.jsSnippets || {};
-  var _cssSnippets = window.snippets?.config?.cssSnippets || {};
-
-  var _getHtmlSrc = function (cssRules) {
-    return `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-      .container {
-        border: 1px solid #000;
-        padding: 10px;
-      }
-
-${cssRules.replace(/^/gm, '      ')}
-    </style>
-  </head>
-  <body>
-    <div id="outer" class="container">
-      outer div
-      <div id="inner" class="container">
-        inner div
-      </div>
-    </div>
-    <p class="cat-container container">
-      <img src="https://cataas.com/cat" alt="Random cat image" height="100">
-      Meow!
-    </p>
-    <form>
-      <label for="cat-name">Cat name:</label>
-      <br>
-      <input type="text" id="cat-name" name="cat-name" class="cat-input">
-      <br>
-      <label for="cat-breed">Cat breed:</label>
-      <br>
-      <input type="text" id="cat-breed" class="cat-input" name="cat-breed">
-      <br>
-      <button id="cat-submit">Submit</button>
-    </form>
-  </body>
-  </html>`;
-  }
+  var _htmlSnippets = window.snippets?.config?.htmlSnippets || {};
+  var _cssHtmlSnippets = window.snippets?.config?.cssHtmlSnippets || {};
+  var _cssSnippets = {};
+  // to be replaced with ES6 Object.entries
+  Object.keys(_cssHtmlSnippets).forEach(key => {
+    _cssSnippets[key] = _cssHtmlSnippets[key].css;
+  });
 
   // define functions
 
@@ -89,8 +53,9 @@ ${cssRules.replace(/^/gm, '      ')}
   }
 
   function _applyCss(params) {
-    var cssRules = params.cssSnippetPre.textContent;
-    var htmlSrc = _getHtmlSrc(cssRules);
+    var cssRule = params.cssSnippetPre.textContent;
+    var cssRuleName = Object.keys(_cssSnippets).find(key => _cssSnippets[key] === cssRule);
+    var htmlSrc = _htmlSnippets[_cssHtmlSnippets[cssRuleName].html].replace(/{{css}}/, cssRule);
     params.htmlSrcPre.textContent = htmlSrc;
     _renderHtml({ iframe: params.iframe, src: htmlSrc });
     _prettyPrint(params.htmlSrcPre);

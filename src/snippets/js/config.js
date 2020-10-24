@@ -1,13 +1,13 @@
 window.snippets = window.snippets || {};
-window.snippets.config = {
-  jsSnippets: {
-    'Optional semicolon 1': `let a
+window.snippets.config = window.snippets.config || {};
+window.snippets.config.jsSnippets = {
+  'Optional semicolon 1': `let a
 a
 =
 3
 console.log(a)`,
 
-    'Optional semicolon 2': `function f() {
+  'Optional semicolon 2': `function f() {
   return {js
     a: 5
   };
@@ -23,14 +23,14 @@ function g() {
 console.log('f():', f());
 console.log('g():', g());`,
 
-    'Prefix and postfix increment': `let a = 2;
+  'Prefix and postfix increment': `let a = 2;
 let b = 2;
 console.log(a++);
 console.log(a);
 console.log(++b);
 console.log(b);`,
 
-    'Object example': `let cat = {
+  'Object example': `let cat = {
   name: 'Fluffy',
   age: 2,
   owner: {
@@ -41,7 +41,7 @@ console.log(b);`,
 console.log(cat.name);
 console.log(cat.owner.lastname);`,
 
-    'Function as an object': `function sayHello() {
+  'Function as an object': `function sayHello() {
   console.log('hello');
 }
 sayHello();
@@ -50,31 +50,31 @@ sayHello.newProperty = 'newValue';
 console.log('sayHello.newProperty: ', sayHello.newProperty);
 `,
 
-    'Octal literals in strict mode': `'use strict';
+  'Octal literals in strict mode': `'use strict';
 let x = 03;`,
-    'Falsy string': `let x = "";
+  'Falsy string': `let x = "";
 if (x) {
     console.log('x is truthy!');
 } else {
     console.log('x is falsy!');
 }`,
 
-    '&& operator': `let o = { x : 1 };
+  '&& operator': `let o = { x : 1 };
 let p = null;
 console.log('o && o.x:', o && o.x);
 console.log('p && p.x:', p && p.x);`,
 
-    '|| operator': `console.log('5 || "":', 5 || "");
+  '|| operator': `console.log('5 || "":', 5 || "");
 console.log('0 || NaN:', 0 || NaN);`,
-    '! operator': `let x =[0];
+  '! operator': `let x =[0];
 console.log('!!x: ', !!x);
 let y = null;
 console.log('!!y: ', !!y);`,
-    'Logical operators precedence': `console.log(true || false && false);
+  'Logical operators precedence': `console.log(true || false && false);
 console.log(true || (false && false));
 console.log((true || false) && false);
 `,
-    'Variable declaration in a loop': `var o = {
+  'Variable declaration in a loop': `var o = {
   a: 1,
   b: 2,
   c: 3,
@@ -82,36 +82,36 @@ console.log((true || false) && false);
 for (var p in o) {
   console.log(p);
 }`,
-    'Repeated declaration': `'use strict';
+  'Repeated declaration': `'use strict';
 var x = 5;
 var x = 'Hello';
 console.log(x);`,
-    'Undeclared variable error': `console.log(x);`,
-    'Assignment to undeclated variable': `// 'use strict'
+  'Undeclared variable error': `console.log(x);`,
+  'Assignment to undeclated variable': `// 'use strict'
 x = 5;
 console.log(x);
 `,
-    'Function scope example 1': `function f() {
+  'Function scope example 1': `function f() {
   var a = 'inner value';
   console.log('a inside of f:', a);
 }
 f();
 console.log('a outside of f:', a);`,
-    'Function scope example 2': `var x = 'outer';
+  'Function scope example 2': `var x = 'outer';
 function f() {
   var x = 'inner';
   console.log('x inside of f:', x);
 }
 f();
 console.log('x outside of f:', x);`,
-    'Function scope example 3': `var x = 'outer';
+  'Function scope example 3': `var x = 'outer';
 function f() {
   x = 'inner';
   console.log('x inside of f:', x);
 }
 f();
 console.log('x outside of f:', x);`,
-    'Nested functions': `var scope = 'global scope';
+  'Nested functions': `var scope = 'global scope';
 function f() {
   var scope = 'local scope';
   function g() {
@@ -124,14 +124,14 @@ function f() {
 f();
 console.log('scope outside of f:', scope);
 `,
-    'Hoisting': `var scope = 'global';
+  'Hoisting': `var scope = 'global';
 function f() {
   console.log(scope);
   var scope = 'local';
   console.log(scope);
 }
 f();`,
-    'Block vs function scope': `try {
+  'Block vs function scope': `try {
   console.log('k before the function:', k);
 } catch (error) {
   console.log('error: ', error);
@@ -150,40 +150,40 @@ function f(o) {
 }
 f({});
 `,
-    // 'Global variables': `var x = 5;
-    // y = 6;
-    // console.log(window.x);
-    // console.log(window.y);
-    // console.log(delete window.x);
-    // console.log(delete window.y);`
-    'let - repeated declaration': `let x = 5;
+  // 'Global variables': `var x = 5;
+  // y = 6;
+  // console.log(window.x);
+  // console.log(window.y);
+  // console.log(delete window.x);
+  // console.log(delete window.y);`
+  'let - repeated declaration': `let x = 5;
 let x = 'Hello';`,
-    'let - block scope - 1': `let x = 1;
+  'let - block scope - 1': `let x = 1;
 if (x === 1) {
   let x = 2;
   console.log(x);
 }
 console.log(x);`,
-    'let - block scope - 2': `for (let i = 0; i < 10; i++) {
+  'let - block scope - 2': `for (let i = 0; i < 10; i++) {
   console.log(i);
 }
 console.log('i after loop:', i);`,
-    'let - global variable': `var x = 'global';
+  'let - global variable': `var x = 'global';
 let y = 'global';
 console.log(window.x);
 console.log(window.y);`,
-    'let - temporal dead zone': `let x = 'outer';
+  'let - temporal dead zone': `let x = 'outer';
 {
   console.log('x inside of f:', x);
   let x = 'inner';
 }`,
-    'let - temporal dead zone - typeof operator': `'use strict';
+  'let - temporal dead zone - typeof operator': `'use strict';
 console.log(typeof undeclaredVariable);
 console.log(typeof varVariable);
 console.log(typeof letVariable);
 let letVariable = 1;
 var varVariable = 2;`,
-    'var - functions in a loop': `var funcs = [];
+  'var - functions in a loop': `var funcs = [];
 for (var i = 0; i < 10; i++) {
   funcs.push(function() {
     console.log(i);
@@ -192,7 +192,7 @@ for (var i = 0; i < 10; i++) {
 funcs.forEach(function(func) {
   func();
 });`,
-    'var - functions in a loop - IIFE': `var funcs = [];
+  'var - functions in a loop - IIFE': `var funcs = [];
 for (var i = 0; i < 10; i++) {
   funcs.push((function(value) {
     return function() {
@@ -203,7 +203,7 @@ for (var i = 0; i < 10; i++) {
 funcs.forEach(function(func) {
   func();
 });`,
-    'let - functions in loop': `var funcs = [];
+  'let - functions in loop': `var funcs = [];
 for (let i = 0; i < 10; i++) {
   funcs.push(function() {
     console.log(i);
@@ -212,15 +212,15 @@ for (let i = 0; i < 10; i++) {
 funcs.forEach(function(func) {
   func();
 });`,
-    'const - declaration without initialization': `const a;`,
-    'const - value reassignment': `const a = 5;
+  'const - declaration without initialization': `const a;`,
+  'const - value reassignment': `const a = 5;
 a = 7;`,
-    'const - object value modification': `const o = {
+  'const - object value modification': `const o = {
   a: 1
 };
 o.a = 2;
 console.log(o);`,
-    'const - variable declaration in a loop': `const array = ['a', 'b', 'c'];
+  'const - variable declaration in a loop': `const array = ['a', 'b', 'c'];
 for (const element of array) {
   console.log('first loop:', element);
 } 
@@ -237,38 +237,38 @@ for (const p in o) {
 for (const i = 0; i  < array.length; i++) {
   console.log('third loop:', array[i]);
 }`,
-    'const - repeated declarations': `const x = 5;
+  'const - repeated declarations': `const x = 5;
 var x = 'Hello';`,
-    'const - block scope': `const x = 1;
+  'const - block scope': `const x = 1;
 if (x === 1) {
   const x = 2;
   console.log(x);
 }
 console.log(x);`,
-    'const - global  variables': `var x = 'global';
+  'const - global  variables': `var x = 'global';
 const y = 'global';
 console.log(window.x);
 console.log(window.y);`,
-    'const - temporal dead zone': `function f() {
+  'const - temporal dead zone': `function f() {
   console.log('x: ', x);
   console.log('y: ', y);
   var x = 1;
   const y = 2;
 }
 f();`,
-    'Object as a property name 1': `const o = {};
+  'Object as a property name 1': `const o = {};
 o.a = 1;
 o['b'] = 2;
 o[2] = 3;
 o[{}] = 4;
 console.log(JSON.stringify(o));`,
-    'Object as a property name 2': `const dwayne = {}, daniel = { firstName: 'Daniel'}, jason = {key: 'jason'};
+  'Object as a property name 2': `const dwayne = {}, daniel = { firstName: 'Daniel'}, jason = {key: 'jason'};
 
 dwayne[daniel] = 123;
 dwayne[jason] = 456;
 
 console.log(dwayne[daniel]);`,
-    'Accessor property': `const user = {
+  'Accessor property': `const user = {
   name: "John",
   surname: "Smith",
 
@@ -286,7 +286,7 @@ user.fullName = "Alice Cooper";
 console.log(user.name);
 console.log(user.surname);
 console.log(user.fullName);`,
-    'Property attributes: writable': `const user = {};
+  'Property attributes: writable': `const user = {};
 Object.defineProperty(user, 'surname', {
   value: 'Jones',
   writable: false
@@ -295,7 +295,7 @@ Object.defineProperty(user, 'surname', {
 console.log('user.surname before change:', user.surname);
 user.surname = 'Smith'; 
 console.log('user.surname after change:', user.surname);`,
-    'Property attributes: enumerable': `const user1 = {};
+  'Property attributes: enumerable': `const user1 = {};
 Object.defineProperty(user1, 'name', {
   value: 'John',
   enumerable: true
@@ -325,7 +325,7 @@ const user3 = {
 // spread operator
 const user4 = { ...user3, ...user1 };
 console.log('user4: ', user4);`,
-    'Property attributes: configurable. 1': `const user = {};
+  'Property attributes: configurable. 1': `const user = {};
 Object.defineProperty(user, 'age', {
   get() { return 50; },
   configurable: false
@@ -369,7 +369,7 @@ try {
 console.log('user.age 1:', user.age);
 delete user.age;
 console.log('user.age 2:', user.age);`,
-    'Property attributes: configurable. 2': `const user = {};
+  'Property attributes: configurable. 2': `const user = {};
 Object.defineProperty(user, 'name', {
   value: 'A',
   writable: true,
@@ -387,22 +387,22 @@ console.log(user.name);
 Object.defineProperty(user, 'name', {
   writable: true,
 });`,
-    'Object.isExtensible': `const o = {};
+  'Object.isExtensible': `const o = {};
 console.log(Object.isExtensible(o));
 o.x = 5;
 console.log(o.x);`,
-    'Object.preventExtensions 1': `const o = {};
+  'Object.preventExtensions 1': `const o = {};
 Object.preventExtensions(o);
 console.log(Object.isExtensible(o));
 o.x = 5;
 console.log(o.x);`,
-    'Object.preventExtensions 2': `'use strict';
+  'Object.preventExtensions 2': `'use strict';
 const o = {};
 Object.preventExtensions(o);
 console.log(Object.isExtensible(o));
 o.x = 5;
 console.log(o.x);`,
-    'Object.seal 1': `const o = {
+  'Object.seal 1': `const o = {
   x: 5
 };
 
@@ -418,7 +418,7 @@ console.log(o.y);
 
 console.log(delete o.x);
 console.log(o.x);`,
-    'Object.seal 2': `'use strict';  
+  'Object.seal 2': `'use strict';  
 const o = {
   x: 5
 };
@@ -426,7 +426,7 @@ const o = {
 Object.seal(o);
 o.x = 100;
 o.y = 200;`,
-    'Object.freeze 1': `const o = {
+  'Object.freeze 1': `const o = {
   x: 5
 };
 
@@ -442,72 +442,171 @@ console.log(o.y);
 
 console.log(delete o.x);
 console.log(o.x);`,
-    'Object.freeze 2': ` 'use strict';  
+  'Object.freeze 2': ` 'use strict';  
 const o = {
   x: 5
 };
 
 Object.freeze(o);
 o.x = 100;`,
-  },
+};
 
-  cssSnippets: {
-    'Universal selector 1': `* {
+window.snippets.config.htmlSnippets = {
+  selectors: `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .container {
+          border: 1px solid #000;
+          padding: 10px;
+        }
+  
+  {{css}}
+      </style>
+    </head>
+    <body>
+      <div id="outer" class="container">
+        outer div
+        <div id="inner" class="container">
+          inner div
+        </div>
+      </div>
+      <p class="cat-container container">
+        <img src="https://cataas.com/cat" alt="Random cat image" height="100">
+        Meow!
+      </p>
+    </body>
+    </html>`,
+  pseudoclasses: `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .container {
+          border: 1px solid #000;
+          padding: 10px;
+        }
+  
+  {{css}}
+      </style>
+    </head>
+    <body>
+      <form>
+        <label for="cat-name">Cat name:</label>
+        <br>
+        <input type="text" id="cat-name" name="cat-name" class="cat-input">
+        <br>
+        <label for="cat-breed">Cat breed:</label>
+        <br>
+        <input type="text" id="cat-breed" class="cat-input" name="cat-breed">
+        <br>
+        <button id="cat-submit">Submit</button>
+      </form>
+    </body>
+    </html>`
+};
+
+window.snippets.config.cssHtmlSnippets = {
+  'Universal selector 1': {
+    css: `* {
   background-color: red;
 }`,
-    'Universal selector 2': `#outer > * {
+    html: 'selectors',
+  },
+  'Universal selector 2': {
+    css: `#outer > * {
   background-color: orange;
 }`,
-    'Element selector': `div {
+    html: 'selectors',
+  },
+  'Element selector': {
+    css: `div {
   background-color: yellow;
-}`,
-    'Class selector': `.cat-container {
+}`, html: 'selectors',
+  },
+  'Class selector': {
+    css: `.cat-container {
   background-color: green;
-}`,
-    'Attribute selector': `div[class] {
+}`, html: 'selectors',
+  },
+  'Attribute selector': {
+    css: `div[class] {
   background-color: blue;
-}`,
-    'Attribute selector: =': `div[class="container"] {
+}`, html: 'selectors',
+  },
+  'Attribute selector: =': {
+    css: `div[class="container"] {
   background-color: purple;
-}`,
-    'Attribute selector: ~=': `[class~="container"] {
+}`, html: 'selectors',
+  },
+  'Attribute selector: ~=': {
+    css: `[class~="container"] {
   background-color: red;
-}`,
-    'Attribute selector: |=': `p[class|="cat"] {
+}`, html: 'selectors',
+  },
+  'Attribute selector: |=': {
+    css: `p[class|="cat"] {
   background-color: pink;
-}`,
-    'Attribute selector: ^=': `p[class^="cat-co"] {
+}`, html: 'selectors',
+  },
+  'Attribute selector: ^=': {
+    css: `p[class^="cat-co"] {
   background-color: purple;
-}`,
-    'Attribute selector: $=': `p[class$="ner"] {
+}`, html: 'selectors',
+  },
+  'Attribute selector: $=': {
+    css: `p[class$="ner"] {
   background-color: blue;
-}`,
-    'Attribute selector: *=': `p[class*="onta"] {
+}`, html: 'selectors',
+  },
+  'Attribute selector: *=': {
+    css: `p[class*="onta"] {
   background-color: green;
-}`,
-    'Attribute selector: i': `p[class*="NER" i] {
+}`, html: 'selectors',
+  },
+  'Attribute selector: i': {
+    css: `p[class*="NER" i] {
   background-color: blue;
-}`,
-    'Id selector': `#inner {
+}`, html: 'selectors',
+  },
+  'Id selector': {
+    css: `#inner {
   background-color: yellow;
-}`,
-    'Pseudo-class :focus': `.cat-input:focus {
+}`, html: 'selectors',
+  },
+  'Pseudo-class :focus': {
+    css: `.cat-input:focus {
   background-color: purple;
-}`,
-    'Pseudo-class :focus-within': `form:focus-within {
+}`, html: 'pseudoclasses',
+  },
+  'Pseudo-class :focus-within': {
+    css: `form:focus-within {
   background-color: purple;
-}`,
-    'Pseudo-class :focus-visible': `#cat-submit:focus-visible {
+}`, html: 'pseudoclasses',
+  },
+  'Pseudo-class :focus-visible': {
+    css: `#cat-submit:focus-visible {
   background-color: purple;
-}`,
-    'Pseudo-class :first-child': `label:first-child {
+}`, html: 'pseudoclasses',
+  },
+  'Pseudo-class :first-child': {
+    css: `label:first-child {
   background-color: purple;
-}`,
-    'Pseudo-class :first-of-type': `input:first-of-type {
+}`, html: 'pseudoclasses',
+  },
+  'Pseudo-class :first-of-type': {
+    css: `input:first-of-type {
   background-color: purple;
-}`,
-    'Pseudo-class :not()': `:not(button) {
+}`, html: 'pseudoclasses',
+  },
+  'Pseudo-class :not()': {
+    css: `:not(button) {
   color: purple;
-}`,
+}`, html: 'pseudoclasses',
   },
 };
