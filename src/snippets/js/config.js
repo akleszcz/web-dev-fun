@@ -1,22 +1,6 @@
-(function () { // Use IIFE to avoid polluting the global scope.
-  var selectedIndexStorageKeyJs = 'selected-js-snippet-index';
-  // get DOM elements
-  var jsSnippetPre = document.getElementById('js-snippet-pre');
-  var executeJsBtn = document.getElementById('execute-js-btn');
-  var jsSnippetsSelect = document.getElementById('js-snippets-select');
-  var tryItIframe = document.getElementById('try-it-ifr');
-
-  var cssSnippetPre = document.getElementById('css-snippet-pre');
-  var htmlSrcPre = document.getElementById('html-src-pre');
-  var applyCssBtn = document.getElementById('apply-css-btn');
-  var cssSnippetsSelect = document.getElementById('css-snippets-select');
-
-  var selectedIndexStorageKeyCss = 'selected-css-snippet-index';
-
-
-  // define data (hard-coded for now)
-  // @TODO: group select options with optgroup
-  var jsSnippets = {
+window.snippets = window.snippets || {};
+window.snippets.config = {
+  jsSnippets: {
     'Optional semicolon 1': `let a
 a
 =
@@ -465,9 +449,9 @@ const o = {
 
 Object.freeze(o);
 o.x = 100;`,
-  };
+  },
 
-  var cssSnippets = {
+  cssSnippets: {
     'Universal selector 1': `* {
   background-color: red;
 }`,
@@ -525,161 +509,5 @@ o.x = 100;`,
     'Pseudo-class :not()': `:not(button) {
   color: purple;
 }`,
-  };
-
-  var getHtmlSrc = function (cssRules) {
-    return `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-      .container {
-        border: 1px solid #000;
-        padding: 10px;
-      }
-
-${cssRules.replace(/^/gm, '      ')}
-    </style>
-  </head>
-  <body>
-    <div id="outer" class="container">
-      outer div
-      <div id="inner" class="container">
-        inner div
-      </div>
-    </div>
-    <p class="cat-container container">
-      <img src="https://cataas.com/cat" alt="Random cat image" height="100">
-      Meow!
-    </p>
-    <form>
-      <label for="cat-name">Cat name:</label>
-      <br>
-      <input type="text" id="cat-name" name="cat-name" class="cat-input">
-      <br>
-      <label for="cat-breed">Cat breed:</label>
-      <br>
-      <input type="text" id="cat-breed" class="cat-input" name="cat-breed">
-      <br>
-      <button id="cat-submit">Submit</button>
-    </form>
-  </body>
-  </html>`;
-  }
-
-  // define functions
-
-  // use configuration object pattern
-  function populateSnippetsSelect(params) {
-    Object.keys(params.snippets).forEach(function (title, index) {  // The Object.keys() method returns an array of a given object's own enumerable property names
-      var snippetOption = document.createElement('option');
-      snippetOption.value = 'snippet-' + index;
-      snippetOption.textContent = title;
-      params.snippetsSelect.appendChild(snippetOption); // @TODO: consider using DocumentFragment instead
-    })
-  };
-
-  function fillSnippetPre(params) {
-    var selectedSnippetTitle = params.snippetsSelect.options[params.selectedIndex].textContent;
-    var selectedSnippet = params.snippets[selectedSnippetTitle];
-    params.snippetPre.textContent = selectedSnippet;
-    prettyPrint(params.snippetPre);
-  }
-
-  function prettyPrint(element) {
-    element.classList.remove('prettyprinted');
-    PR.prettyPrint();
-  }
-
-  function handleSnippetChange(params) {
-    var selectedIndex = params.snippetsSelect.selectedIndex;
-    localStorage.setItem(params.selectedIndexStorageKey, selectedIndex);
-    fillSnippetPre({
-      snippetsSelect: params.snippetsSelect,
-      snippetPre: params.snippetPre,
-      snippets: params.snippets,
-      selectedIndex: selectedIndex
-    })
-  }
-
-  function executeJs() {
-    console.clear();
-    var command = jsSnippetPre.textContent;
-    // it is disadvised to use eval for real life applications
-    window.eval(command); // indirect eval call to execute code globally
-  }
-
-  function applyCss() {
-    var cssRules = cssSnippetPre.textContent;
-    var htmlSrc = getHtmlSrc(cssRules);
-    htmlSrcPre.textContent = htmlSrc;
-    renderHtml(htmlSrc);
-    prettyPrint(htmlSrcPre);
-  }
-
-  function getBlobUrl(src) {
-    const blob = new Blob([src], { type: 'text/html' });
-    return URL.createObjectURL(blob)
-  }
-
-  function renderHtml(src) {
-    tryItIframe.src = getBlobUrl(src);
-  }
-
-  function handleDomElements(type) {
-    var btn, btnClickHandler, snippetsSelect, snippetPre, snippets, selectedIndexStorageKey;
-
-    switch (type) {
-      case 'css':
-        btn = applyCssBtn;
-        snippetsSelect = cssSnippetsSelect;
-        snippetPre = cssSnippetPre;
-        snippets = cssSnippets;
-        selectedIndexStorageKey = selectedIndexStorageKeyCss;
-        btnClickHandler = applyCss;
-        break;
-      case 'js':
-        btn = executeJsBtn;
-        snippetsSelect = jsSnippetsSelect;
-        snippetPre = jsSnippetPre;
-        snippets = jsSnippets;
-        selectedIndexStorageKey = selectedIndexStorageKeyJs;
-        btnClickHandler = executeJs;
-        break;
-    }
-
-    btn.addEventListener('click', btnClickHandler);
-    // To be updated to ES6 syntax later
-    populateSnippetsSelect({ snippetsSelect: snippetsSelect, snippets: snippets });
-    var selectedIndex = localStorage.getItem(selectedIndexStorageKey) || 0;
-    snippetsSelect.selectedIndex = selectedIndex;
-
-    // To be updated to ES6 syntax later
-    fillSnippetPre({
-      snippetsSelect: snippetsSelect,
-      snippetPre: snippetPre,
-      snippets: snippets,
-      selectedIndex: selectedIndex
-    });
-
-    snippetsSelect.addEventListener('change', function () {
-      handleSnippetChange({
-        snippetsSelect: snippetsSelect,
-        snippetPre: snippetPre,
-        snippets: snippets,
-        selectedIndexStorageKey: selectedIndexStorageKey
-      });
-    });
-  }
-
-  function init() {
-    handleDomElements('css');
-    handleDomElements('js');
-    applyCss();
-  }
-
-  init();
-
-})();
+  },
+};

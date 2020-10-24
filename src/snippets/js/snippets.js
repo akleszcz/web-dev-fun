@@ -1,0 +1,176 @@
+window.snippets = (function () { // Use IIFE to avoid polluting the global scope.
+
+  // @TODO: group select options with optgroup
+  var _jsSnippets = window.snippets?.config?.jsSnippets || {};
+  var _cssSnippets = window.snippets?.config?.cssSnippets || {};
+
+  var _getHtmlSrc = function (cssRules) {
+    return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .container {
+        border: 1px solid #000;
+        padding: 10px;
+      }
+
+${cssRules.replace(/^/gm, '      ')}
+    </style>
+  </head>
+  <body>
+    <div id="outer" class="container">
+      outer div
+      <div id="inner" class="container">
+        inner div
+      </div>
+    </div>
+    <p class="cat-container container">
+      <img src="https://cataas.com/cat" alt="Random cat image" height="100">
+      Meow!
+    </p>
+    <form>
+      <label for="cat-name">Cat name:</label>
+      <br>
+      <input type="text" id="cat-name" name="cat-name" class="cat-input">
+      <br>
+      <label for="cat-breed">Cat breed:</label>
+      <br>
+      <input type="text" id="cat-breed" class="cat-input" name="cat-breed">
+      <br>
+      <button id="cat-submit">Submit</button>
+    </form>
+  </body>
+  </html>`;
+  }
+
+  // define functions
+
+  // use configuration object pattern
+  function _populateSnippetsSelect(params) {
+    Object.keys(params.snippets).forEach(function (title, index) {  // The Object.keys() method returns an array of a given object's own enumerable property names
+      var snippetOption = document.createElement('option');
+      snippetOption.value = 'snippet-' + index;
+      snippetOption.textContent = title;
+      params.snippetsSelect.appendChild(snippetOption); // @TODO: consider using DocumentFragment instead
+    })
+  };
+
+  function _fillSnippetPre(params) {
+    var selectedSnippetTitle = params.snippetsSelect.options[params.selectedIndex].textContent;
+    var selectedSnippet = params.snippets[selectedSnippetTitle];
+    params.snippetPre.textContent = selectedSnippet;
+    _prettyPrint(params.snippetPre);
+  }
+
+  function _prettyPrint(element) {
+    element.classList.remove('prettyprinted');
+    PR.prettyPrint();
+  }
+
+  function _handleSnippetChange(params) {
+    var selectedIndex = params.snippetsSelect.selectedIndex;
+    localStorage.setItem(params.selectedIndexStorageKey, selectedIndex);
+    _fillSnippetPre({
+      snippetsSelect: params.snippetsSelect,
+      snippetPre: params.snippetPre,
+      snippets: params.snippets,
+      selectedIndex: selectedIndex
+    })
+  }
+
+  function _executeJs(params) {
+    console.clear();
+    var command = params.jsSnippetPre.textContent;
+    // it is disadvised to use eval for real life applications
+    window.eval(command); // indirect eval call to execute code globally
+  }
+
+  function _applyCss(params) {
+    var cssRules = params.cssSnippetPre.textContent;
+    var htmlSrc = _getHtmlSrc(cssRules);
+    params.htmlSrcPre.textContent = htmlSrc;
+    _renderHtml({ iframe: params.iframe, src: htmlSrc });
+    _prettyPrint(params.htmlSrcPre);
+  }
+
+  function _getBlobUrl(src) {
+    const blob = new Blob([src], { type: 'text/html' });
+    return URL.createObjectURL(blob)
+  }
+
+  function _renderHtml(params) {
+    params.iframe.src = _getBlobUrl(params.src);
+  }
+
+  function _handleDomElements({
+    btn,
+    snippetsSelect,
+    snippetPre,
+    snippets,
+    selectedIndexStorageKey,
+    btnClickHandler,
+  }) {
+    btn.addEventListener('click', btnClickHandler);
+    // To be updated to ES6 syntax later
+    _populateSnippetsSelect({ snippetsSelect: snippetsSelect, snippets: snippets });
+    var selectedIndex = localStorage.getItem(selectedIndexStorageKey) || 0;
+    snippetsSelect.selectedIndex = selectedIndex;
+
+    // To be updated to ES6 syntax later
+    _fillSnippetPre({
+      snippetsSelect: snippetsSelect,
+      snippetPre: snippetPre,
+      snippets: snippets,
+      selectedIndex: selectedIndex
+    });
+
+    snippetsSelect.addEventListener('change', function () {
+      _handleSnippetChange({
+        snippetsSelect: snippetsSelect,
+        snippetPre: snippetPre,
+        snippets: snippets,
+        selectedIndexStorageKey: selectedIndexStorageKey
+      });
+    });
+  }
+
+  function _init() {
+    // get DOM elements
+    var _selectedIndexStorageKeyJs = 'selected-js-snippet-index';
+    var _jsSnippetPre = document.getElementById('js-snippet-pre');
+    var _executeJsBtn = document.getElementById('execute-js-btn');
+    var _jsSnippetsSelect = document.getElementById('js-snippets-select');
+    var _tryItIframe = document.getElementById('try-it-ifr');
+
+    var _cssSnippetPre = document.getElementById('css-snippet-pre');
+    var _htmlSrcPre = document.getElementById('html-src-pre');
+    var _applyCssBtn = document.getElementById('apply-css-btn');
+    var _cssSnippetsSelect = document.getElementById('css-snippets-select');
+    var _selectedIndexStorageKeyCss = 'selected-css-snippet-index';
+
+    _handleDomElements({
+      btn: _applyCssBtn,
+      snippetsSelect: _cssSnippetsSelect,
+      snippetPre: _cssSnippetPre,
+      snippets: _cssSnippets,
+      selectedIndexStorageKey: _selectedIndexStorageKeyCss,
+      btnClickHandler: function () { _applyCss({ cssSnippetPre: _cssSnippetPre, htmlSrcPre: _htmlSrcPre, iframe: _tryItIframe }); },
+    });
+
+    _handleDomElements({
+      btn: _executeJsBtn,
+      snippetsSelect: _jsSnippetsSelect,
+      snippetPre: _jsSnippetPre,
+      snippets: _jsSnippets,
+      selectedIndexStorageKey: _selectedIndexStorageKeyJs,
+      btnClickHandler: function () { _executeJs({ jsSnippetPre: _jsSnippetPre }) },
+    });
+
+    _applyCss({ cssSnippetPre: _cssSnippetPre, htmlSrcPre: _htmlSrcPre, iframe: _tryItIframe });
+  }
+
+  _init();
+})();
