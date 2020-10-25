@@ -53,8 +53,8 @@ window.snippets = (function () { // Use IIFE to avoid polluting the global scope
   }
 
   function _applyCss(params) {
-    var cssRule = params.cssSnippetPre.textContent;
-    var cssRuleName = Object.keys(_cssSnippets).find(key => _cssSnippets[key] === cssRule);
+    var cssRule = params.cssSnippetPre.textContent.replace(/^/gm, '      ');
+    var cssRuleName = params.cssSnippetsSelect.options[params.cssSnippetsSelect.selectedIndex].textContent;
     var htmlSrc = _htmlSnippets[_cssHtmlSnippets[cssRuleName].html].replace(/{{css}}/, cssRule);
     params.htmlSrcPre.textContent = htmlSrc;
     _renderHtml({ iframe: params.iframe, src: htmlSrc });
@@ -122,7 +122,7 @@ window.snippets = (function () { // Use IIFE to avoid polluting the global scope
       snippetPre: _cssSnippetPre,
       snippets: _cssSnippets,
       selectedIndexStorageKey: _selectedIndexStorageKeyCss,
-      btnClickHandler: function () { _applyCss({ cssSnippetPre: _cssSnippetPre, htmlSrcPre: _htmlSrcPre, iframe: _tryItIframe }); },
+      btnClickHandler: function () { _applyCss({ cssSnippetPre: _cssSnippetPre, htmlSrcPre: _htmlSrcPre, iframe: _tryItIframe, cssSnippetsSelect: _cssSnippetsSelect }); },
     });
 
     _handleDomElements({
@@ -134,7 +134,7 @@ window.snippets = (function () { // Use IIFE to avoid polluting the global scope
       btnClickHandler: function () { _executeJs({ jsSnippetPre: _jsSnippetPre }) },
     });
 
-    _applyCss({ cssSnippetPre: _cssSnippetPre, htmlSrcPre: _htmlSrcPre, iframe: _tryItIframe });
+    _applyCss({ cssSnippetPre: _cssSnippetPre, htmlSrcPre: _htmlSrcPre, iframe: _tryItIframe, cssSnippetsSelect: _cssSnippetsSelect });
   }
 
   _init();

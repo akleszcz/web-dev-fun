@@ -23,7 +23,7 @@ Sources:
   ```html
   <link rel="stylesheet" href="css/style.css">
   ```
-- internal stylesheet:
+- internal (embedded) stylesheet:
   - styles are defined with rules placed inside a `<style>` element in the `<head>` section of a page:
   ```html
   <style>
@@ -80,7 +80,7 @@ Source: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style
 
 More on CSS specificity coming soon.
 
-### Notes on rules' specificity
+### Notes on inheritance
 
 > (...) directly targeted elements will always take precedence over rules which an element inherits from its ancestor.
 

@@ -492,7 +492,7 @@ window.snippets.config.htmlSnippets = {
           padding: 10px;
         }
   
-  {{css}}
+{{css}}
       </style>
     </head>
     <body>
@@ -507,6 +507,63 @@ window.snippets.config.htmlSnippets = {
         <br>
         <button id="cat-submit">Submit</button>
       </form>
+    </body>
+    </html>`,
+  'pseudoclasses:link': `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .container {
+          border: 1px solid #000;
+          padding: 10px;
+        }
+  
+{{css}}
+      </style>
+    </head>
+    <body>
+      <a href="https://cataas.com/cat/gif"
+      target="_blank"
+      title="Random cat GIF">Cat as a service - GIF</a>
+    </body>
+    </html>`,
+  pseudoelements: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .ad-topbanner {
+          display: inline-block;
+          text-align: center;
+        }
+    
+        q {
+          quotes: "<<outer citation start>>""<<outer citation end>>""<<inner citation start>>""<<inner citation end>>";
+        }
+
+{{css}}
+      </style>
+    </head>
+    
+    <body>
+      <div class="ad-topbanner">
+        <div>
+          <img height=500
+            src="https://preview.redd.it/3jxc3xiau3u51.jpg?width=640&crop=smart&auto=webp&s=f9ccb03c74dc4b512a5323a03beed7daaba4e54b"
+            alt="A cat in a box">
+        </div>
+      </div>
+    
+      <p>According to Wikipedia, <q cite="https://en.wikipedia.org/wiki/Armadillo#Defensive_behavior">The North American
+          nine-banded armadillo tends to jump straight in the air when surprised.</q></p>
+    
+      <p class="diet-and-predation">Armadillos have very poor eyesight, and use their keen sense of smell to hunt for food.[9] They use their claws for digging and finding food, as well as for making their homes in burrows. They dig their burrows with their claws, making only a single corridor the width of the animal's body. They have five clawed toes on their hind feet, and three to five toes with heavy digging claws on their fore feet</p>
     </body>
     </html>`
 };
@@ -608,5 +665,48 @@ window.snippets.config.cssHtmlSnippets = {
     css: `:not(button) {
   color: purple;
 }`, html: 'pseudoclasses',
+  },
+
+  'Pseudo-classes: link': {
+    css: `a {
+  color: purple;
+}
+    
+    
+a:link {
+  color: blue;
+}
+    
+a:visited {
+  color: green;
+}
+    
+a:focus {
+  color: yellow;   
+}
+    
+a:hover {
+  color: orange;
+}
+    
+a:active {
+  color: red;
+}`, html: 'pseudoclasses:link',
+  },
+  'pseudo-element ::before': {
+    css: `.ad-topbanner:before {
+    content: 'Advertisement';
+}`,
+    html: 'pseudoelements',
+  },
+  'pseudo-element ::first-line': {
+    css: `.diet-and-predation::first-line {
+      background-color: pink;
+      color: red;
+      font-size: 16px;
+      text-decoration: underline;
+      text-transform: capitalize;
+    }`,
+    html: 'pseudoelements',
   },
 };
