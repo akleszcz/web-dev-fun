@@ -126,35 +126,46 @@
 
     - link-related:
       - `:link`:
-      ```css
-      a:link {
-        color: blue;
-      }
-      ```
+        - > matches every unvisited \<a>, \<area>, or \<link> element that has an href attribute.
+
+        [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/:link)
+        - example:
+          ```css
+          a:link {
+            color: blue;
+          }
+          ```
       - `:visited`:
-      ```css
-      a:visited {
-        color: green;
-      }
-      ```
+        - example:
+          ```css
+          a:visited {
+            color: green;
+          }
+          ```
       - `:focus` (again):
-      ```css
-      a:focus {
-        color: yellow;   
-      }
-      ```
+        - can be used for other elements, like e.g. buttons, too
+        - example:
+          ```css
+          a:focus {
+            color: yellow;   
+          }
+          ```
       - `:hover`:
-      ```css
-      a:hover {
-        color: orange;
-      }
-      ```
+        - can be used for other elements, like e.g. buttons, too
+        - example:
+          ```css
+          a:hover {
+            color: orange;
+          }
+          ```
       - `:active`:
-      ```css
-      a:active {
-        color: red;
-      }
-      ```
+        - can be used for other elements, like e.g. buttons, too
+        - example:
+          ```css
+          a:active {
+            color: red;
+          }
+          ```
 
       Note:
       > This order is important because the link styles build on one another, for example the styles in the first rule will apply to all the subsequent ones, and when a link is being activated, it is also being hovered over. If you put these in the wrong order, things won't work properly. To remember the order, you could try using a mnemonic like LoVe Fears HAte.
@@ -189,12 +200,17 @@
           color: purple;
         }
         ```
+      - `:nth-of-type()`:
+        ```css
+        li:nth-child(2n) {
+          background-color: purple;
+        }
+        ```
       - `:last-child`
       - `:last-of-type`
       - `:nth-child()`
       - `:nth-last-child()`
       - `:nth-last-of-type()`
-      - `:nth-of-type()`
       - `:only-child`
       - `:only-of-type`
 

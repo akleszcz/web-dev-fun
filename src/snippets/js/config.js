@@ -507,6 +507,17 @@ window.snippets.config.htmlSnippets = {
         <br>
         <button id="cat-submit">Submit</button>
       </form>
+      <br>
+      Armadillos eat:
+      <ul>
+        <li>ants</li>
+        <li>beetles</li>
+        <li>termites</li>
+        <li>plants</li>
+        <li>eggs</li>
+        <li>small vertebrates</li>
+        <li>some fruit</li>
+      </ul>
     </body>
     </html>`,
   'pseudoclasses:link': `<!DOCTYPE html>
@@ -542,11 +553,6 @@ window.snippets.config.htmlSnippets = {
           display: inline-block;
           text-align: center;
         }
-    
-        q {
-          quotes: "<<outer citation start>>""<<outer citation end>>""<<inner citation start>>""<<inner citation end>>";
-        }
-
 {{css}}
       </style>
     </head>
@@ -563,7 +569,7 @@ window.snippets.config.htmlSnippets = {
       <p>According to Wikipedia, <q cite="https://en.wikipedia.org/wiki/Armadillo#Defensive_behavior">The North American
           nine-banded armadillo tends to jump straight in the air when surprised.</q></p>
     
-      <p class="diet-and-predation">Armadillos have very poor eyesight, and use their keen sense of smell to hunt for food.[9] They use their claws for digging and finding food, as well as for making their homes in burrows. They dig their burrows with their claws, making only a single corridor the width of the animal's body. They have five clawed toes on their hind feet, and three to five toes with heavy digging claws on their fore feet</p>
+      <p class="diet-and-predation">Armadillos have very poor eyesight, and use their keen sense of smell to hunt for food. They use their claws for digging and finding food, as well as for making their homes in burrows. They dig their burrows with their claws, making only a single corridor the width of the animal's body. They have five clawed toes on their hind feet, and three to five toes with heavy digging claws on their fore feet</p>
     </body>
     </html>`
 };
@@ -651,22 +657,6 @@ window.snippets.config.cssHtmlSnippets = {
   background-color: purple;
 }`, html: 'pseudoclasses',
   },
-  'Pseudo-class :first-child': {
-    css: `label:first-child {
-  background-color: purple;
-}`, html: 'pseudoclasses',
-  },
-  'Pseudo-class :first-of-type': {
-    css: `input:first-of-type {
-  background-color: purple;
-}`, html: 'pseudoclasses',
-  },
-  'Pseudo-class :not()': {
-    css: `:not(button) {
-  color: purple;
-}`, html: 'pseudoclasses',
-  },
-
   'Pseudo-classes: link': {
     css: `a {
   color: purple;
@@ -692,6 +682,26 @@ a:hover {
 a:active {
   color: red;
 }`, html: 'pseudoclasses:link',
+  },
+  'Pseudo-class :first-child': {
+    css: `label:first-child {
+  background-color: purple;
+}`, html: 'pseudoclasses',
+  },
+  'Pseudo-class :first-of-type': {
+    css: `input:first-of-type {
+  background-color: purple;
+}`, html: 'pseudoclasses',
+  },
+  'Pseudo-class :nth-child': {
+    css: `li:nth-child(2n) {
+  background-color: purple;
+}`, html: 'pseudoclasses',
+  },
+  'Pseudo-class :not()': {
+    css: `:not(button) {
+  color: purple;
+}`, html: 'pseudoclasses',
   },
   'pseudo-element ::before': {
     css: `.ad-topbanner:before {
