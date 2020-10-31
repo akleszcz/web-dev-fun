@@ -53,7 +53,7 @@ window.snippets = (function () { // Use IIFE to avoid polluting the global scope
   }
 
   function _applyCss(params) {
-    var cssRule = params.cssSnippetPre.textContent.replace(/^/gm, '      ');
+    var cssRule = params.cssSnippetPre.textContent.replace(/^/gm, '        ');
     var cssRuleName = params.cssSnippetsSelect.options[params.cssSnippetsSelect.selectedIndex].textContent;
     var htmlSrc = _htmlSnippets[_cssHtmlSnippets[cssRuleName].html].replace(/{{css}}/, cssRule);
     params.htmlSrcPre.textContent = htmlSrc;

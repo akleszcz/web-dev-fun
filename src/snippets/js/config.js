@@ -571,6 +571,49 @@ window.snippets.config.htmlSnippets = {
     
       <p class="diet-and-predation">Armadillos have very poor eyesight, and use their keen sense of smell to hunt for food. They use their claws for digging and finding food, as well as for making their homes in burrows. They dig their burrows with their claws, making only a single corridor the width of the animal's body. They have five clawed toes on their hind feet, and three to five toes with heavy digging claws on their fore feet</p>
     </body>
+    </html>`,
+  combinators: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .container {
+          border: 1px solid #000;
+          margin: 15px;
+        }
+
+{{css}}
+      </style>
+    </head>
+    
+    <body>
+      <div class="container" id="grandparent">
+        Grandparent
+        <div class="container" id="parent">
+          Parent
+          <div class="container" id="brother-1">
+            Brother 1
+          </div>
+          <div class="container" id="sister-1">
+            Sister 1
+          </div>
+          <div class="container" id="sister-2">
+            Sister 2
+          </div>
+        </div>
+      </div>
+    
+      <article class="card">
+        <div class="Native_cards">
+          <img src="https://www.thepaws.net/wp-content/uploads/2019/04/funny-cats.jpg" alt="Random cat image" height="300">
+        </div>
+        <footer>Cat selfie</footer>
+      </article>
+    </body>
+    
     </html>`
 };
 
@@ -711,12 +754,42 @@ a:active {
   },
   'pseudo-element ::first-line': {
     css: `.diet-and-predation::first-line {
-      background-color: pink;
-      color: red;
-      font-size: 16px;
-      text-decoration: underline;
-      text-transform: capitalize;
-    }`,
+  background-color: pink;
+  color: red;
+  font-size: 16px;
+  text-decoration: underline;
+  text-transform: capitalize;
+}`,
     html: 'pseudoelements',
+  },
+  'combinator: descendant': {
+    css: `#grandparent div {
+  border: 1px solid red;
+}`,
+    html: 'combinators',
+  },
+  'combinator: child': {
+    css: `#grandparent > div {
+  border: 1px solid red;
+}`,
+    html: 'combinators',
+  },
+  'combinator: adjacent sibling': {
+    css: `#brother-1 + #sister-1 {
+  border: 1px solid red;
+}`,
+    html: 'combinators',
+  },
+  'combinator: general sibling': {
+    css: `#brother-1 ~ #sister-2 {
+  border: 1px solid red;
+}`,
+    html: 'combinators',
+  },
+  'combinator: real life example': {
+    css: `.card .Native_cards:not([data-empty])~footer {
+  display: none;
+}`,
+    html: 'combinators',
   },
 };

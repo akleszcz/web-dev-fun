@@ -288,8 +288,6 @@
       - `::grammar-error`
       - `::marker`
 
-## Rule specificity
-
 # Sources:
 - *CSS basics*, https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics
 - *CSS selectors*, https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors
