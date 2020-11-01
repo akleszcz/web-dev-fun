@@ -94,7 +94,7 @@
         background-color: yellow;
       }
     ```
-## 'Pseudo-' keywords
+# 'Pseudo-' keywords
 - Pseudo-classes
   - specify a special state of an element
   - syntax:
@@ -216,6 +216,9 @@
 
 - Pseudo-elements
   - used to style a specific part of an element
+  - neither pseudo-elements nor pseudo-classes appear in the document source or document tree
+
+  [Source](https://www.w3.org/TR/CSS2/selector.html#pseudo-elements)
   - syntax:
     ```css
     selector::pseudo-element {
@@ -223,39 +226,38 @@
     }
     ```
   - examples:
-    - regular:
-      - `::before (:before)`:
-        - creates a pseudo-element that is the first child of the selected element
-        - doesn't apply to some elements, e.g.: `<iframe>`, `<video>`, `<img>`, `<br>`
-        - used for presentational elements to separate them from content structure:
-        >  In some cases, authors may want user agents to render content that does not come from the document tree. One familiar example of this is a numbered list; the author does not want to list the numbers explicitly, he or she wants the user agent to generate them automatically. Similarly, authors may want the user agent to insert the word "Figure" before the caption of a figure, or "Chapter 7" before the seventh chapter title. For audio or braille in particular, user agents should be able to insert these strings.
+    - `::before (:before)`:
+      - creates a pseudo-element that is the first child of the selected element
+      - doesn't apply to some elements, e.g.: `<iframe>`, `<video>`, `<img>`, `<br>`
+      - used for presentational elements to separate them from content structure:
+      >  In some cases, authors may want user agents to render content that does not come from the document tree. One familiar example of this is a numbered list; the author does not want to list the numbers explicitly, he or she wants the user agent to generate them automatically. Similarly, authors may want the user agent to insert the word "Figure" before the caption of a figure, or "Chapter 7" before the seventh chapter title. For audio or braille in particular, user agents should be able to insert these strings.
 
-        https://www.w3.org/TR/CSS21/generate.html
+      https://www.w3.org/TR/CSS21/generate.html
+      - not selectable
+      - example 1:
+      ```css
+      .ad-topbanner:before {
+        content: 'Advertisement';
+      }
+      ```
+      - example 2 (user agent stylesheet on Chrome):
+      ```css
+      q::before {
+      content: open-quote;
+      }
+      ```
+      ---
+      ### Note: `quotes` property
+      > The quotes CSS property sets how the browser should render quotation marks that are added using the open-quotes or close-quotes values of the CSS content property.
 
-        - example 1 (user agent stylesheet on Chrome):
-        ```css
-        q::before {
-            content: open-quote;
-        }
-        ```
-        - example 2:
-        ```css
-        .ad-topbanner:before {
-          content: 'Advertisement';
-        }
-        ```
-        ---
-        ### Note: `quotes` property
-        > The quotes CSS property sets how the browser should render quotation marks that are added using the open-quotes or close-quotes values of the CSS content property.
+      [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/quotes)
 
-        [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/quotes)
-
-        Example:
-        ```css
-        q {
-          quotes: "«" "»" "‹" "›"; /* Set two levels of quotation marks */
-        }
-        ```
+      Example:
+      ```css
+      q {
+        quotes: "«" "»" "‹" "›"; /* Set two levels of quotation marks */
+      }
+      ```
       - `::after (:after)`:
         - example:
         ```css
@@ -278,15 +280,57 @@
 
         [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/::first-line)
       - `::first-letter (:first-letter)`
-      - `::selection`
-      - `::cue`
-      - `::cue-region`
+      - `::selection`:
+        - example:
+        ```css
+        .diet-and-predation::selection {
+          color: pink;
+          background-color: red;
+        } 
+        ```
 
-    - experimental:
-      - `::placeholder`
-      - `::backdrop`
-      - `::grammar-error`
-      - `::marker`
+# Grouping selector
+- Selector list
+  - CSS selectors can be grouped in comma-separated lists
+  - syntax:
+    ```css
+    element, element, element {
+      style properties 
+    }
+    ```
+  - example:
+    ```css
+    #inner, #outer {
+      border: 2px double red;
+    }
+    ```
+  
+# Using multiple selectors
+- one element can be selected based on multiple characteristics
+- to achieve this, we can use multiple selectors **with no space between them**
+- example 1 - select all elements with a class `cat-container` that also have a class `container`:
+  ```css
+  .cat-container.container {
+    border: 2px double red;
+  }
+  ```
+- example 2 - select all elements with an id `outer` that also have a class `container`:
+  ```css
+  #outer.container {
+    border: 2px double green;
+  }
+  ```
+---
+### Note:
+The rules above would have a different meaning with a space between the selectors. E.g.
+```css
+.cat-container .container {
+  border: 2px double red;
+}
+```
+would mean: *select all elements with a class `container` that are decendents of an element with a class `cat-container`*. The reason is that the space character is a *descendant combinator* in CSS syntax. Find more about CSS combinators [here](css_combinators.md). 
+
+
 
 # Sources:
 - *CSS basics*, https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics

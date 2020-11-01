@@ -520,7 +520,7 @@ window.snippets.config.htmlSnippets = {
       </ul>
     </body>
     </html>`,
-  'pseudoclasses:link': `<!DOCTYPE html>
+  'Pseudoclasses:link': `<!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
@@ -614,6 +614,29 @@ window.snippets.config.htmlSnippets = {
       </article>
     </body>
     
+    </html>`,
+  specificity: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+{{css}}
+      </style>
+    </head>
+    
+    <body>
+      <div id="outer" class="container">
+        <div id="inner" class="container">
+          <button id="click-me-button"
+            class="class-1 class-2 class-3 class-4 class-5 class-6 class-7 class-8 class-9 class-10 class-11" disabled>Click
+            me!</button>
+        </div>
+      </div>
+    </body>
+    
     </html>`
 };
 
@@ -685,10 +708,24 @@ window.snippets.config.cssHtmlSnippets = {
   background-color: yellow;
 }`, html: 'selectors',
   },
+  'Grouping selector': {
+    css: `#inner, #outer {
+  border: 2px double red;
+}`, html: 'selectors',
+  },
+  'Multiple selectors': {
+    css: `.cat-container.container {
+  border: 2px double red;
+}
+
+#outer.container {
+  border: 2px double green;
+}`, html: 'selectors',
+  },
   'Pseudo-class :focus': {
     css: `.cat-input:focus {
   background-color: purple;
-}`, html: 'pseudoclasses',
+}`, html: 'Combinator:doedoclasses',
   },
   'Pseudo-class :focus-within': {
     css: `form:focus-within {
@@ -746,13 +783,13 @@ a:active {
   color: purple;
 }`, html: 'pseudoclasses',
   },
-  'pseudo-element ::before': {
+  'Pseudo-element ::before': {
     css: `.ad-topbanner:before {
     content: 'Advertisement';
 }`,
     html: 'pseudoelements',
   },
-  'pseudo-element ::first-line': {
+  'Pseudo-element ::first-line': {
     css: `.diet-and-predation::first-line {
   background-color: pink;
   color: red;
@@ -762,34 +799,108 @@ a:active {
 }`,
     html: 'pseudoelements',
   },
-  'combinator: descendant': {
+  'Pseudo-element ::selection': {
+    css: `.diet-and-predation::selection {
+  color: pink;
+  background-color: red;
+} `,
+    html: 'pseudoelements',
+  },
+  'Combinator: descendant': {
     css: `#grandparent div {
   border: 1px solid red;
 }`,
     html: 'combinators',
   },
-  'combinator: child': {
+  'Combinator: child': {
     css: `#grandparent > div {
   border: 1px solid red;
 }`,
     html: 'combinators',
   },
-  'combinator: adjacent sibling': {
+  'Combinator: adjacent sibling': {
     css: `#brother-1 + #sister-1 {
   border: 1px solid red;
 }`,
     html: 'combinators',
   },
-  'combinator: general sibling': {
+  'Combinator: general sibling': {
     css: `#brother-1 ~ #sister-2 {
   border: 1px solid red;
 }`,
     html: 'combinators',
   },
-  'combinator: real life example': {
+  'Combinator: real life example': {
     css: `.card .Native_cards:not([data-empty])~footer {
   display: none;
 }`,
     html: 'combinators',
+  },
+  'Specificity: example 1': {
+    css: `.class-1.class-2 {
+  color: green;
+}
+.class-3 {
+  color: red;
+}`,
+    html: 'specificity'
+  },
+  'Specificity: example 2': {
+    css: `.class-1.class-2:not(div) {
+  color: green;
+}
+button[disabled] {
+  color: red;
+}`,
+    html: 'specificity',
+  },
+  'Specificity: different levels': {
+    css: `#click-me-button {
+  color: green;
+}
+.class-1.class-2.class-3.class-4.class-5.class-6.class-7.class-8.class-9.class-10.class-11 {
+  color: red;
+}`,
+    html: 'specificity'
+  },
+  'Specificity: same specificity - order wins': {
+    css: `.class-1 {
+  color: red;
+}
+
+.class-2 {
+  color: green;
+}`,
+    html: 'specificity'
+  },
+  'Specificity: directly targeted vs inherited': {
+    css: `button {
+  color: green;
+}
+    
+#inner {
+  color: red;
+}`,
+    html: 'specificity'
+  },
+  'Specificity: tree proximity ignorance': {
+    css: `#inner #click-me-button {
+  color: red;
+}
+    
+#outer #click-me-button {
+  color: green;
+}`,
+    html: 'specificity'
+  },
+  'Specificity: form-based': {
+    css: `.class-1.class-2 {
+  color: green;
+}
+
+[id="click-me-button"] {
+  color: red;
+}`,
+    html: 'specificity'
   },
 };
