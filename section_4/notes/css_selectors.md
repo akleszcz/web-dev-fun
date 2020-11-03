@@ -1,4 +1,14 @@
-# Basic CSS selectors
+# CSS selectors
+## Terminology
+> A selector represents a particular pattern of element(s) in a tree structure. The term selector can refer to a simple selector, compound selector, complex selector, or selector list. The subject of a selector is any element that selector is defined to be about; that is, any element matching that selector.
+
+[Source](https://www.w3.org/TR/selectors-4/#complex)
+
+## Simple selectors
+> A simple selector is a single condition on an element. A type selector, universal selector, attribute selector, class selector, ID selector, or pseudo-class is a simple selector. 
+
+[Source](https://www.w3.org/TR/selectors-4/#simple)
+
 - universal selector
   - indicated by an asterisk (`*`)
   - selects everything in the document (or inside the parent element)
@@ -288,49 +298,50 @@
           background-color: red;
         } 
         ```
-
-# Grouping selector
-- Selector list
-  - CSS selectors can be grouped in comma-separated lists
-  - syntax:
-    ```css
-    element, element, element {
-      style properties 
-    }
-    ```
-  - example:
-    ```css
-    #inner, #outer {
-      border: 2px double red;
-    }
-    ```
-  
-# Using multiple selectors
+# Compound selectors
 - one element can be selected based on multiple characteristics
 - to achieve this, we can use multiple selectors **with no space between them**
-- example 1 - select all elements with a class `cat-container` that also have a class `container`:
-  ```css
-  .cat-container.container {
-    border: 2px double red;
-  }
-  ```
-- example 2 - select all elements with an id `outer` that also have a class `container`:
-  ```css
-  #outer.container {
-    border: 2px double green;
-  }
-  ```
+  - example 1 - select all elements with an id `outer` that also have a class `container`:
+    ```css
+    #outer.container {
+      border: 5px double green;
+    }
+    ```
+  - example 2 - select all elements of type `p` that also have a class `cat-container`:
+    ```css
+    p.cat-container {
+      border: 5px double blue;
+    }
+    ```
+  - Formal definition from [w3.org](https://www.w3.org/TR/selectors-4/#compound):
+  > A **compound selector** is a sequence of simple selectors that are not separated by a combinator, and represents a set of simultaneous conditions on a single element. If it contains a type selector or universal selector, that selector must come first in the sequence. Only one type selector or universal selector is allowed in the sequence.
 ---
 ### Note:
 The rules above would have a different meaning with a space between the selectors. E.g.
 ```css
 .cat-container .container {
-  border: 2px double red;
+  border: 5px double red;
 }
 ```
-would mean: *select all elements with a class `container` that are decendents of an element with a class `cat-container`*. The reason is that the space character is a *descendant combinator* in CSS syntax. Find more about CSS combinators [here](css_combinators.md). 
+would mean: *select all elements with a class `container` that are decendents of an element with a class `cat-container`*. The reason is that the space character is a *descendant combinator* in CSS syntax. Find more about CSS combinators [here](css_combinators.md).
 
+# Selector list
+- CSS selectors can be grouped in comma-separated lists
+- >A given element is said to match a selector list when it matches any (at least one) of the selectors in that selector list.
 
+  [Source](https://www.w3.org/TR/selectors-4/#complex)
+- syntax:
+  ```css
+  element, element, element {
+    style properties 
+  }
+  ```
+- example:
+  ```css
+  #inner, #outer {
+    border: 5px double red;
+  }
+  ```
 
 # Sources:
 - *CSS basics*, https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics

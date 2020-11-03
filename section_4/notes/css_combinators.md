@@ -1,4 +1,8 @@
 # CSS combinators
+>A combinator is a condition of relationship between two elements represented by the compound selectors on either side.
+
+[Source](https://www.w3.org/TR/selectors-4/#selector-combinator)
+
 Combinators are used to define relationships between DOM elements based on their location in an HTML document:
 
 - descendant combinator - represented by a space ( ) character:
@@ -25,6 +29,11 @@ Combinators are used to define relationships between DOM elements based on their
   border: 1px solid red;
 }
 ```
+---
+### Note
+A sequence of one or more compound selectors separated by combinators is called a **complex selector**.
+
+[Source](https://www.w3.org/TR/selectors-4/#complex)
 
 ---
 ### Note: column combinator

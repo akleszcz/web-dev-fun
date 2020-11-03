@@ -708,19 +708,20 @@ window.snippets.config.cssHtmlSnippets = {
   background-color: yellow;
 }`, html: 'selectors',
   },
-  'Grouping selector': {
+  'Selectors list': {
     css: `#inner, #outer {
-  border: 2px double red;
+  border: 5px double red;
 }`, html: 'selectors',
   },
-  'Multiple selectors': {
-    css: `.cat-container.container {
-  border: 2px double red;
+  'Compound selectors': {
+    css: `#outer.container {
+  border: 5px double green;
 }
 
-#outer.container {
-  border: 2px double green;
-}`, html: 'selectors',
+p.cat-container {
+  border: 5px double blue;
+}
+`, html: 'selectors',
   },
   'Pseudo-class :focus': {
     css: `.cat-input:focus {
