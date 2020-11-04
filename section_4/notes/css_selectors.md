@@ -319,11 +319,11 @@
 ### Note:
 The rules above would have a different meaning with a space between the selectors. E.g.
 ```css
-.cat-container .container {
+#outer .container {
   border: 5px double red;
 }
 ```
-would mean: *select all elements with a class `container` that are decendents of an element with a class `cat-container`*. The reason is that the space character is a *descendant combinator* in CSS syntax. Find more about CSS combinators [here](css_combinators.md).
+would mean: *select all elements with a class `container` that are decendents of an element with an id `outer`*. The reason is that the space character is a *descendant combinator* in CSS syntax. Find more about CSS combinators [here](css_combinators.md).
 
 # Selector list
 - CSS selectors can be grouped in comma-separated lists
