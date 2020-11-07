@@ -726,7 +726,7 @@ p.cat-container {
   'Pseudo-class :focus': {
     css: `.cat-input:focus {
   background-color: purple;
-}`, html: 'Combinator:doedoclasses',
+}`, html: 'pseudoclasses',
   },
   'Pseudo-class :focus-within': {
     css: `form:focus-within {
