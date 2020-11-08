@@ -11,7 +11,13 @@
 
 - universal selector
   - indicated by an asterisk (`*`)
-  - selects everything in the document (or inside the parent element)
+  - > matches the name of any element type. (...) If the universal selector is not the only component of a simple selector, the "*" may be omitted. For example:
+    > - `*[lang=fr]` and `[lang=fr]` are equivalent.
+    > - `*.warning` and `.warning` are equivalent.
+    > - `*#myid` and `#myid` are equivalent.
+
+    [Source](https://www.w3.org/TR/CSS2/selector.html#universal-selector)
+  - does not affect pseudo-elements
   - examples:
     ```css
     * {

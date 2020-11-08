@@ -11,21 +11,21 @@
     - > The default value for all elements is inline. Most "User Agent Stylesheets" (the default styles the browser applies to all sites) reset many elements to "block".
 
     [Source](https://css-tricks.com/almanac/properties/d/display/)
-    - elements displayed by default as `inline` by popular browsers include: `<a>`, `<b>`, `<button>`, `<em>`, `<iframe>` (surprisingly), `<i>`, `<img>`, `<label>`, `<span>`, `<strong>`, `<video>`
     - by default, does not force a new line to begin in the document flow
     - doesn’t break the flow of a text
-    - inline elements accept margin and padding, but they push other elements away horizontally and not vertically
-    - `height` and `width` properties have no effect on inline, non-replaced elements:
-    > #### 10.3.1 Inline, non-replaced elements
-    > The 'width' property does not apply. 
-    >
-    > (...)
-    >
-    > #### 10.6.1 Inline, non-replaced elements
-    >
-    >  The 'height' property does not apply.
+    - `inline` elements accept `margin` and `padding`, but they push other elements away horizontally and not vertically
+    - `height` and `width` properties have no effect on `inline`, non-replaced elements:
+      > #### 10.3.1 Inline, non-replaced elements
+      > The 'width' property does not apply. 
+      >
+      > (...)
+      >
+      > #### 10.6.1 Inline, non-replaced elements
+      >
+      >  The 'height' property does not apply.
 
-    [Source](https://www.w3.org/TR/CSS21/visudet.html#the-height-property)
+      [Source](https://www.w3.org/TR/CSS21/visudet.html#the-height-property)
+    - elements displayed by default as `inline` by popular browsers include: `<a>`, `<b>`, `<button>`, `<em>`, `<iframe>` (surprisingly), `<i>`, `<img>`, `<label>`, `<span>`, `<strong>`, `<video>`
 
     ---
     ### Note: replaced elements
@@ -42,8 +42,13 @@
     [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element)
 
     ---
-    - examples:
   - `block`:
+    - > By default (without setting a width) they take up as much horizontal space as they can
+
+    [Source](https://css-tricks.com/almanac/properties/d/display/)
+    - > By default, block-level elements begin on new lines, but inline elements can start anywhere in a line.
+
+    [Source](https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements)
     - elements displayed by default as `block` by popular browsers include: `<article>`,  `<aside>`, `<div>`, `<footer>`, `<form>`, `<h1>` - `<h6>`, `<header>`, `<p>`, `<pre>`
     - inline elements should not contain block elements. Try validating the following code:
       ```html
@@ -63,7 +68,19 @@
       ``` 
     with [Markup Validation Service](https://validator.w3.org/) from W3C and you should get the following error:
     > Error: Element div not allowed as child of element span in this context.
-  - `inline-block`
+  - `inline-block`:
+    - similarly to `inline`, doesn’t break the flow of a text
+    - respects `height` and `width` properties on an element
+    - respects `margin` and `padding` and pushes other elements away both horizontally and vertically
+    - elements displayed by default as `inline-block` by popular browsers include `<button>`, `<textarea>`, `<input>` and `<select>`
+    - real-life example - social media icons with `display` set to `inline-block`, so they can have `width` and `height` defined:
+      ```css
+      .widget-share__btn-icon {
+        display: inline-block;
+      }
+      ```
+      [Source](https://www.goal.com/en/news/im-disappointed-and-angry-fulham-boss-parker-slams-lookman/ig0z373bvwfd1hdh248irovfl)
+
   - `list-item`
   - `none`
   - `table`
@@ -84,3 +101,4 @@
 Sources: 
 - 'display', https://developer.mozilla.org/en-US/docs/Web/CSS/display
 - 'display', https://css-tricks.com/almanac/properties/d/display/
+- 'Block-level elements', https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
