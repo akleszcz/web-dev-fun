@@ -38,11 +38,11 @@ Formal definition from [w3.org](https://www.w3.org/TR/CSS22/cascade.html):
 > ```
 
 ### Notes
-* each selector type has its own level of specificity that cannot be overwritten by selectors with a lower specificity level. For example, a million class selectors combined would not be able to overwrite the rules of one id selector.
+* each selector type has its own level of specificity that cannot be overwritten by selectors with a lower specificity level. For example, a million class selectors combined would not be able to overwrite the rules of one id selector
 
   [Source](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance#Specificity_2)
 - when multiple declarations have equal specificity, the last declaration found in the CSS is applied to the element
-- specificity only applies when the same element is targeted by multiple declarations. As per CSS rules, directly targeted elements will always take precedence over rules which an element inherits from its ancestor.
+- specificity only applies when the same element is targeted by multiple declarations. As per CSS rules, directly targeted elements will always take precedence over rules which an element inherits from its ancestor
 - proximity of elements in the document tree has no effect on the specificity
 
   [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)
@@ -50,4 +50,12 @@ Formal definition from [w3.org](https://www.w3.org/TR/CSS22/cascade.html):
 * the specificity is based only on the form of the selector. In particular, a selector of the form "[id=p33]" is counted as an attribute selector (a=0, b=0, c=1, d=0), even if the id attribute is defined as an "ID" in the source document's DTD
 
   [Source](https://www.w3.org/TR/CSS2/cascade.html#specificity)
+
+- it isn't the entire rule which is overwritten, only the properties which are the same
+
+  [Source](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_and_inheritance)
+
+- duplicate simple selectors to increase specificity when you have nothing more to specify
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)
 - you can calculate specificity of any CSS rule [here](https://specificity.keegan.st/)

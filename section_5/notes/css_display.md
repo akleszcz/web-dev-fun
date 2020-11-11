@@ -1,5 +1,5 @@
 # CSS `display` property
-- defines how the element behaves in the layout alongside other elements and, sometimes, how the direct children of the element behave
+- defines how an element behaves in the layout alongside other elements and, sometimes, how the direct children of the element behave
 - syntax (currently single-valued):
   ```css
   selector {
@@ -25,7 +25,7 @@
       >  The 'height' property does not apply.
 
       [Source](https://www.w3.org/TR/CSS21/visudet.html#the-height-property)
-    - elements displayed by default as `inline` by popular browsers include: `<a>`, `<b>`, `<button>`, `<em>`, `<iframe>` (surprisingly), `<i>`, `<img>`, `<label>`, `<span>`, `<strong>`, `<video>`
+    - elements displayed by default as `inline` by popular browsers include: `<a>`, `<b>`, `<button>`, `<em>`, `<iframe>`, `<i>`, `<img>`, `<label>`, `<span>`, `<strong>`, `<video>`
 
     ---
     ### Note: replaced elements

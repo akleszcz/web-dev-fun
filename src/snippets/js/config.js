@@ -637,7 +637,51 @@ window.snippets.config.htmlSnippets = {
       </div>
     </body>
     
-    </html>`
+    </html>`,
+  display: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        * {
+          box-sizing: border-box;
+        }
+    
+        em {
+          background-color: red;
+          margin: 15px;
+          padding: 30px;
+          width: 300px;
+          height: 100px;
+        }
+    
+        .armadillo {
+          width: 400px;
+        }
+    
+        .inline-block {
+          display: inline-block;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <p>
+        Due to their lack of fat stores and low metabolic rate, armadillos hate the cold. If there are times of unusually
+        cold weather, a whole population can be <em>wiped out</em>! Generally solitary creatures except during mating, they
+        will sometimes group together in a burrow in cold conditions to keep warm. Armadillos are closely related to <em class="inline-block">sloths
+        and anteaters</em>, sharing some similarities. For example, an armadillos tongue is long and sticky, like anteaters,
+        designed to extract ants and termites from their tunnels.
+        <img src="https://media.nationalgeographic.org/assets/photos/226/055/aa10a685-4837-4e79-88f9-8850b2b63943.jpg" alt="armadillo" class="armadillo">
+        <a href="https://onekindplanet.org/animal/armadillo/">Source</a>
+        <button>Click me!</button>
+      </p>
+    </body>
+    
+    </html>`,
 };
 
 window.snippets.config.cssHtmlSnippets = {
@@ -903,5 +947,20 @@ button[disabled] {
   color: red;
 }`,
     html: 'specificity'
+  },
+  'Specificity: only conflicting property': {
+    css: `.class-1.class-2 {
+  color: green;
+}
+
+[id="click-me-button"] {
+  background-color: yellow;
+  color: red;
+}`,
+    html: 'specificity'
+  },
+  'Display: inline, block, inline-block': {
+    css: '',
+    html: 'display'
   },
 };
