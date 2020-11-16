@@ -25,23 +25,9 @@
       >  The 'height' property does not apply.
 
       [Source](https://www.w3.org/TR/CSS21/visudet.html#the-height-property)
+
+      See the [note](#replaced-elements) about replaced elements for more details.
     - elements displayed by default as `inline` by popular browsers include: `<a>`, `<b>`, `<button>`, `<em>`, `<iframe>`, `<i>`, `<img>`, `<label>`, `<span>`, `<strong>`, `<video>`
-
-    ---
-    ### Note: replaced elements
-    > In CSS, a replaced element is an element whose representation is outside the scope of CSS; they're external objects whose representation is independent of the CSS formatting model.
-    >
-    > Put in simpler terms, they're elements whose contents are not affected by the current document's styles. The position of the replaced element can be affected using CSS, but not the contents of the replaced element itself.
-    > (...)
-    > Typical replaced elements are:
-    > - `<iframe>`
-    > - `<video>`
-    > - `<embed>`
-    > - `<img>`
-
-    [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element)
-
-    ---
   - `block`:
     - > By default (without setting a width) they take up as much horizontal space as they can
 
@@ -82,7 +68,13 @@
       [Source](https://www.goal.com/en/news/im-disappointed-and-angry-fulham-boss-parker-slams-lookman/ig0z373bvwfd1hdh248irovfl)
 
   - `list-item`
-  - `none`
+  - `none`:
+    - > Turns off the display of an element so that it has no effect on layout (the document is rendered as though the element did not exist). All descendant elements also have their display turned off.
+
+    [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
+
+    See 'display:none vs visibility:hidden vs opacity:0' in the [Notes](#notes) section for more details.
+
   - `table`
   - `inline-table`
   - other table-related values: `table-row-group`, `table-column`, `table-column-group`, `table-header-group`, `table-footer-group`, `table-row`, `table-cell`, `table-caption`
@@ -91,14 +83,35 @@
   [Source](https://www.w3.org/TR/CSS2/visuren.html)
 
 - some of the new values introduced in CSS3:
-  - `flex`
-  - `inline-flex`
+  - `flex`, `inline-flex` - described in more detail [here](flexbox.md)
   - `grid`
   - `inline-grid`
   
-[Source](https://www.w3.org/TR/css-display-3) 
+[Source](https://www.w3.org/TR/css-display-3)
 
-Sources: 
+## Notes
+---
+### Replaced elements
+> In CSS, a replaced element is an element whose representation is outside the scope of CSS; they're external objects whose representation is independent of the CSS formatting model.
+>
+> Put in simpler terms, they're elements whose contents are not affected by the current document's styles. The position of the replaced element can be affected using CSS, but not the contents of the replaced element itself.
+> (...)
+> Typical replaced elements are:
+> - `<iframe>`
+> - `<video>`
+> - `<embed>`
+> - `<img>`
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element)
+
+### display:none vs visibility:hidden vs opacity:0
+|    | display:none | visibility:hidden | opacity:0 |
+|---|---|---|---|
+|element affects layout|no|yes|yes|
+|descendants property value respected|no| yes|no|
+|element consumes pointer events|no|no|yes|
+
+## Sources
 - 'display', https://developer.mozilla.org/en-US/docs/Web/CSS/display
 - 'display', https://css-tricks.com/almanac/properties/d/display/
 - 'Block-level elements', https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .child {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .not-displayed {
+      display: none;
+    }
+
+    .not-visible {
+      visibility: hidden;
+    }
+
+    .transparent {
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container not-displayed">
+    <div class="child">Child 1</div>
+    <div class="child">Child 2</div>
+    <div class="child">Child 3</div>
+  </div>
+  <div class="container not-visible">
+    <div class="child">Child 1</div>
+    <div class="child">Child 2</div>
+    <div class="child">Child 3</div>
+  </div>
+  <div class="container transparent">
+    <div class="child">Child 1</div>
+    <div class="child">Child 2</div>
+    <div class="child">Child 3</div>
+  </div>
+  <div>Visible</div>
+</body>
+<script>
+  (function () {
+    const containers = document.querySelectorAll('.container');
+    containers.forEach((container) => {
+      container.addEventListener('contextmenu', () => alert('contextmenu happened on a container'));
+    });
+
+    const children = document.querySelectorAll('.child');
+    children.forEach((child) => {
+      child.addEventListener('click', (event) => { 
+        alert('click happened on a child'); 
+        event.stopPropagation();
+      });
+    });
+})();
+</script>
+</html>

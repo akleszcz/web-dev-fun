@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .child {
+      background-color: cornflowerblue;
+      flex-grow: 1;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .container {
+      background-color: darkblue;
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    .inline {
+      display: inline-flex;
+      height: 80px;
+      margin: 15px;
+      padding: 10px;
+      width: 400px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="child">A</div>
+    <div class="child">B</div>
+    <div class="child">C</div>
+  </div>
+  <div class="container">
+    <div class="child">D</div>
+    <div class="child">E</div>
+    <div class="child">F</div>
+  </div>
+  <div class="container">
+    <div class="child">G</div>
+    <div class="child">F</div>
+    <div class="child">I</div>
+  </div>
+
+  <div>
+    According to <a href="https://www.mentalfloss.com/article/67346/12-odd-facts-and-stories-about-armadillos">12 Odd
+      Facts and Stories About Armadillos</a>, the three-banded armadillo was the mascot of the 2014
+    <div class="container inline">
+      <div class="child">World</div>
+      <div class="child">Cup</div>
+      <div class="child">tournament</div>
+    </div>
+    in Brazil.
+  </div>
+</body>
+
+</html>
