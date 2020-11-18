@@ -682,6 +682,300 @@ window.snippets.config.htmlSnippets = {
     </body>
     
     </html>`,
+  display_none: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .child {
+          display: block;
+          opacity: 1;
+          visibility: visible;
+        }
+
+        .container {
+          background-color: red;
+          padding: 15px;
+        }
+    
+        .not-displayed {
+          display: none;
+        }
+    
+        .not-visible {
+          visibility: hidden;
+        }
+    
+        .transparent {
+          opacity: 0;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div class="container not-displayed">
+        <div class="child">Child 1</div>
+        <div class="child">Child 2</div>
+        <div class="child">Child 3</div>
+      </div>
+      <div class="container not-visible">
+        <div class="child">Child 1</div>
+        <div class="child">Child 2</div>
+        <div class="child">Child 3</div>
+      </div>
+      <div class="container transparent">
+        <div class="child">Child 1</div>
+        <div class="child">Child 2</div>
+        <div class="child">Child 3</div>
+      </div>
+      <div>Visible</div>
+    </body>
+    <script>
+      (function () {
+        const containers = document.querySelectorAll('.container');
+        containers.forEach((container) => {
+          container.addEventListener('contextmenu', (event) => {
+            alert('contextmenu happened on target: ' + event.target.outerHTML + ' currentTarget: ' + event.currentTarget.outerHTML);
+          });
+        });
+    
+        const children = document.querySelectorAll('.child');
+        children.forEach((child) => {
+          child.addEventListener('click', () => { 
+            alert('click happened on this child'); 
+          });
+        });
+    })();
+    </script>
+    </html>`,
+  display_flex: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .child {
+          background-color: cornflowerblue;
+          flex-grow: 1;
+          margin: 10px;
+          padding: 10px;
+        }
+    
+        .container {
+          background-color: darkblue;
+          display: flex;
+          margin-bottom: 15px;
+        }
+    
+        .inline {
+          display: inline-flex;
+          height: 80px;
+          margin: 15px;
+          padding: 10px;
+          width: 400px;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div class="container">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+      <div class="container">
+        <div class="child">D</div>
+        <div class="child">E</div>
+        <div class="child">F</div>
+      </div>
+      <div class="container">
+        <div class="child">G</div>
+        <div class="child">F</div>
+        <div class="child">I</div>
+      </div>
+    
+      <div>
+        According to <a href="https://www.mentalfloss.com/article/67346/12-odd-facts-and-stories-about-armadillos">12 Odd
+          Facts and Stories About Armadillos</a>, the three-banded armadillo was the mascot of the 2014
+        <div class="container inline">
+          <div class="child">World</div>
+          <div class="child">Cup</div>
+          <div class="child">tournament</div>
+        </div>
+        in Brazil.
+      </div>
+    </body>
+    
+    </html>`,
+  flex_direction: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .child {
+          background-color: cornflowerblue;
+          flex-grow: 1;
+          margin: 10px;
+          padding: 10px;
+        }
+
+        .container {
+          background-color: darkblue;
+          display: flex;
+          margin-bottom: 15px;
+        }
+
+        .row {
+          flex-direction: row;
+        }
+
+        .row-reverse {
+          flex-direction: row-reverse;
+        }
+
+        .column {
+          flex-direction: column;
+        }
+
+        .column-reverse {
+          flex-direction: column-reverse;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div class="container row">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+
+      <div class="container row" dir="rtl">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+
+      <div class="container row-reverse">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+      
+      <div class="container column">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+
+      <div class="container column-reverse">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+    </body>
+    
+    </html>`,
+  flex_wrap: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .child {
+          background-color: cornflowerblue;
+          height: 100px;
+          margin: 10px;
+          width: 100px;
+        }
+    
+        .container {
+          background-color: darkblue;
+          display: flex;
+          margin-bottom: 10px;
+        }
+
+        .nowrap {
+          flex-wrap: nowrap;
+        }
+    
+        .wrap {
+          flex-wrap: wrap;
+        }
+    
+        .wrap-reverse {
+          flex-wrap: wrap-reverse;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div class="container nowrap">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+        <div class="child">D</div>
+        <div class="child">E</div>
+        <div class="child">F</div>
+        <div class="child">G</div>
+        <div class="child">H</div>
+        <div class="child">I</div>
+        <div class="child">J</div>
+        <div class="child">K</div>
+        <div class="child">L</div>
+        <div class="child">M</div>
+        <div class="child">N</div>
+        <div class="child">O</div>
+      </div>
+    
+      <div class="container wrap">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+        <div class="child">D</div>
+        <div class="child">E</div>
+        <div class="child">F</div>
+        <div class="child">G</div>
+        <div class="child">H</div>
+        <div class="child">I</div>
+        <div class="child">J</div>
+        <div class="child">K</div>
+        <div class="child">L</div>
+        <div class="child">M</div>
+        <div class="child">N</div>
+        <div class="child">O</div>
+      </div>
+    
+      <div class="container wrap-reverse">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+        <div class="child">D</div>
+        <div class="child">E</div>
+        <div class="child">F</div>
+        <div class="child">G</div>
+        <div class="child">H</div>
+        <div class="child">I</div>
+        <div class="child">J</div>
+        <div class="child">K</div>
+        <div class="child">L</div>
+        <div class="child">M</div>
+        <div class="child">N</div>
+        <div class="child">O</div>
+      </div>
+    </body>
+    
+    </html>`,
 };
 
 window.snippets.config.cssHtmlSnippets = {
@@ -962,5 +1256,21 @@ button[disabled] {
   'Display: inline, block, inline-block': {
     css: '',
     html: 'display'
+  },
+  'Display: none': {
+    css: '',
+    html: 'display_none'
+  },
+  'Display: flex, inline-flex': {
+    css: '',
+    html: 'display_flex'
+  },
+  'Flexbox: flex-direction': {
+    css: '',
+    html: 'flex_direction',
+  },
+  'Flexbox: flex-wrap': {
+    css: '',
+    html: 'flex_wrap'
   },
 };

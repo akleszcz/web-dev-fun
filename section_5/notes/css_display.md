@@ -75,8 +75,7 @@
 
     See 'display:none vs visibility:hidden vs opacity:0' in the [Notes](#notes) section for more details.
 
-  - `table`
-  - `inline-table`
+  - `table`, `inline-table`
   - other table-related values: `table-row-group`, `table-column`, `table-column-group`, `table-header-group`, `table-footer-group`, `table-row`, `table-cell`, `table-caption`
 
 
@@ -84,8 +83,7 @@
 
 - some of the new values introduced in CSS3:
   - `flex`, `inline-flex` - described in more detail [here](flexbox.md)
-  - `grid`
-  - `inline-grid`
+  - `grid`, `inline-grid`
   
 [Source](https://www.w3.org/TR/css-display-3)
 
@@ -104,14 +102,23 @@
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element)
 
-### display:none vs visibility:hidden vs opacity:0
-|    | display:none | visibility:hidden | opacity:0 |
+### display :none vs visibility: hidden vs opacity: 0
+|    | display :none | visibility: hidden | opacity: 0 |
 |---|---|---|---|
 |element affects layout|no|yes|yes|
 |descendants property value respected|no| yes|no|
 |element consumes pointer events|no|no|yes|
 
+> 1. You know how if you display: hidden; an element, even if you display: block; a child, it doesn’t matter — it’s hidden because its parent is hidden.
+>
+> 2. The same is not true for visibility: hidden;. Children will be hidden because visibility inherits, but if you visibility: visible; them, they become visible again.
+> 3. That’s what is happening here with pointer-events. If you pointer-events: none; on a parent and then pointer-events: auto; on a child, you’re re-enabling pointer events. Then a :hover on a parent will be triggered (for example), when hoving the child, but nowhere else inside the parent.
+
+[Source](https://css-tricks.com/stuff-you-can-do-with-css-pointer-events/)
+
 ## Sources
 - 'display', https://developer.mozilla.org/en-US/docs/Web/CSS/display
 - 'display', https://css-tricks.com/almanac/properties/d/display/
 - 'Block-level elements', https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+
+
