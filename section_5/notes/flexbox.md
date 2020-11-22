@@ -37,9 +37,9 @@
 
   - values: 
     - `flex`:
-      - > The element we've given a   display value of flex to is acting like a block-level element in terms of how it interacts with the rest of the page (...).
+      > The element we've given a   display value of flex to is acting like a block-level element in terms of how it interacts with the rest of the page (...).
 
-        [Source](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox)
+      [Source](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox)
     - `inline-flex`:
       - does not force a new line to begin in the document flow
       - respects `width` and `height` properties values
@@ -76,8 +76,69 @@
 
     See the [note](#css-writing-mode-property) about the `writing-mode` property for more details.
 
-- `justify-content`
-- `align-items`
+- `justify-content`:
+  - > defines the alignment along the main axis
+
+  [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+  - popular values:
+    - `flex-start` (default):
+      >  Aligns the alignment subject to be flush with the edge of the alignment container corresponding to the flex container’s main-start or cross-start side, as appropriate.
+
+      [Source](https://www.w3.org/TR/css-align-3/#positional-values)
+    - `flex-end`:
+      > Aligns the alignment subject to be flush with the edge of the alignment container corresponding to the flex container’s main-end or cross-end side, as appropriate.
+
+      [Source](https://www.w3.org/TR/css-align-3/#positional-values)
+    - `center`:
+      > Centers the alignment subject within its alignment container.
+
+      [Source](https://www.w3.org/TR/css-align-3/#positional-values)
+    - `space-around`:
+    > The alignment subjects are distributed so that the spacing between any two adjacent alignment subjects is the same, and the spacing before the first and after the last alignment subject is half the size of the other spacing.
+    >
+    > ![justify-contnent: space-around](../assets/space-around.svg)
+
+    [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
+    - `space-between`:
+    > The first alignment subject is placed flush with the start edge of the alignment container, the last alignment subject is placed flush with the end edge of the alignment container, and the remaining alignment subjects are distributed so that the spacing between any two adjacent alignment subjects is the same.
+    >
+    > ![justify-contnent: space-between](../assets/space-between.svg)
+
+    [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
+    - `space-evenly`:
+    > The alignment subjects are distributed so that the spacing between any two adjacent alignment subjects, before the first alignment subject, and after the last alignment subject is the same.
+    >
+    > ![justify-contnent: space-evenly](../assets/space-evenly.svg)
+
+    [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
+    
+  - > There are also two additional keywords you can pair with these values: safe and unsafe. Using safe ensures that however you do this type of positioning, you can’t push an element such that it renders off-screen (e.g. off the top) in such a way the content can’t be scrolled too (called “data loss”).
+
+    [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
+    This two keywords are currently (22.11.2020) not supported anywhere except for Firefox:
+    ![flexbox safe and unsafe browser support](../assets/flex-safe-support.png)
+  *Source: https://caniuse.com/?search=flex%20safe*
+- `align-items`:
+  - > This defines the default behavior for how flex items are laid out along the cross axis on the current line.
+
+    [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+  
+  - values:
+    - `stretch` (default) 
+      > If the combined size of the alignment subjects is less than the size of the alignment container, any auto-sized alignment subjects have their size increased equally (not proportionally), while still respecting the constraints imposed by max-height/max-width (or equivalent functionality), so that the combined size exactly fills the alignment container.
+      >
+      > ![justify-contnent: space-stretch](../assets/space-stretch.svg)
+
+      [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
+    - `flex-start`
+    - `start`
+    - `self-start`
+    - `flex-end`
+    - `end`
+    - `self-end`
+    - `center`
+    - `baseline`
 - `align-content`
 ### Flex items properties
 - `order`

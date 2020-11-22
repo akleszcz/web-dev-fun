@@ -721,11 +721,13 @@ window.snippets.config.htmlSnippets = {
         <div class="child">Child 2</div>
         <div class="child">Child 3</div>
       </div>
+
       <div class="container not-visible">
         <div class="child">Child 1</div>
         <div class="child">Child 2</div>
         <div class="child">Child 3</div>
       </div>
+
       <div class="container transparent">
         <div class="child">Child 1</div>
         <div class="child">Child 2</div>
@@ -973,6 +975,181 @@ window.snippets.config.htmlSnippets = {
         <div class="child">N</div>
         <div class="child">O</div>
       </div>
+    </body>
+    
+    </html>`,
+  writing_mode_1: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .vertical-rl {
+          writing-mode: vertical-rl;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div class="vertical-rl">
+        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+      </div>
+    </body>
+    
+    </html>`,
+  writing_mode_2: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .vertical-rl {
+          writing-mode: vertical-rl;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div class="vertical-rl">
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+      </div>
+    </body>
+    
+    </html>`,
+  justify_content: `<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .child {
+          background-color: cornflowerblue;
+          margin: 10px;
+          padding: 10px;
+        }
+    
+        .container {
+          background-color: darkblue;
+          display: flex;
+          margin-bottom: 15px;
+        }
+    
+        .flex-start {
+          justify-content: flex-start;
+        }
+    
+        .flex-end {
+          justify-content: flex-end;
+        }
+    
+        .center {
+          justify-content: center;
+        }
+    
+        .space-around {
+          justify-content: space-around;
+        }
+    
+        .space-between {
+          justify-content: space-between;
+        }
+    
+        .space-evenly {
+          justify-content: space-evenly;
+        }
+    
+        .flex-grow > * {
+          flex-grow: 1;
+        }
+    
+        .wrap {
+          flex-wrap: wrap;
+        }
+      </style>
+    </head>
+    
+    <body>
+      <div class="container">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+    
+      <div class="container flex-start">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+    
+      <div class="container flex-end">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+    
+      <div class="container center">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+    
+      <div class="container space-around">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+    
+      <div class="container space-between">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+    
+      <div class="container space-evenly">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+    
+      <div class="container flex-grow">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+      </div>
+    
+      <div class="container space-around wrap">
+        <div class="child">A</div>
+        <div class="child">B</div>
+        <div class="child">C</div>
+        <div class="child">D</div>
+        <div class="child">E</div>
+        <div class="child">F</div>
+        <div class="child">G</div>
+        <div class="child">H</div>
+        <div class="child">I</div>
+        <div class="child">J</div>
+        <div class="child">K</div>
+        <div class="child">L</div>
+        <div class="child">M</div>
+        <div class="child">N</div>
+        <div class="child">O</div>
+        <div class="child">P</div>
+        <div class="child">Q</div>
+        <div class="child">R</div>
+        <div class="child">S</div>
+        <div class="child">T</div>
+      </div>
+    
     </body>
     
     </html>`,
@@ -1273,4 +1450,16 @@ button[disabled] {
     css: '',
     html: 'flex_wrap'
   },
+  'Writing-mode 1': {
+    css: '',
+    html: 'writing_mode_1',
+  },
+  'Writing-mode 2': {
+    css: '',
+    html: 'writing_mode_2',
+  },
+  'Flexbox: justify-content': {
+    css: '',
+    html: 'justify_content'
+  }
 };
