@@ -987,6 +987,7 @@ window.snippets.config.htmlSnippets = {
       <title>Document</title>
       <style>
         .vertical-rl {
+          height: 200px;
           writing-mode: vertical-rl;
         }
       </style>
@@ -1010,6 +1011,7 @@ window.snippets.config.htmlSnippets = {
       <title>Document</title>
       <style>
         .vertical-rl {
+          height: 200px;
           writing-mode: vertical-rl;
         }
       </style>

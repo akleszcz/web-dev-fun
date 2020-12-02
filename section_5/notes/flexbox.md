@@ -81,7 +81,8 @@
 
   [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
   - popular values:
-    - `flex-start` (default):
+    - `normal` (default, according to [W3C specification](https://www.w3.org/TR/css-align-3/#propdef-justify-content))
+    - `flex-start` ~~(default)~~:
       >  Aligns the alignment subject to be flush with the edge of the alignment container corresponding to the flex container’s main-start or cross-start side, as appropriate.
 
       [Source](https://www.w3.org/TR/css-align-3/#positional-values)
@@ -94,23 +95,23 @@
 
       [Source](https://www.w3.org/TR/css-align-3/#positional-values)
     - `space-around`:
-    > The alignment subjects are distributed so that the spacing between any two adjacent alignment subjects is the same, and the spacing before the first and after the last alignment subject is half the size of the other spacing.
-    >
-    > ![justify-contnent: space-around](../assets/space-around.svg)
+      > The alignment subjects are distributed so that the spacing between any two adjacent alignment subjects is the same, and the spacing before the first and after the last alignment subject is half the size of the other spacing.
+      >
+      > ![justify-contnent: space-around](../assets/space-around.svg)
 
-    [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
+      [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
     - `space-between`:
-    > The first alignment subject is placed flush with the start edge of the alignment container, the last alignment subject is placed flush with the end edge of the alignment container, and the remaining alignment subjects are distributed so that the spacing between any two adjacent alignment subjects is the same.
-    >
-    > ![justify-contnent: space-between](../assets/space-between.svg)
+      > The first alignment subject is placed flush with the start edge of the alignment container, the last alignment subject is placed flush with the end edge of the alignment container, and the remaining alignment subjects are distributed so that the spacing between any two adjacent alignment subjects is the same.
+      >
+      > ![justify-contnent: space-between](../assets/space-between.svg)
 
-    [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
+      [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
     - `space-evenly`:
-    > The alignment subjects are distributed so that the spacing between any two adjacent alignment subjects, before the first alignment subject, and after the last alignment subject is the same.
-    >
-    > ![justify-contnent: space-evenly](../assets/space-evenly.svg)
+      > The alignment subjects are distributed so that the spacing between any two adjacent alignment subjects, before the first alignment subject, and after the last alignment subject is the same.
+      >
+      > ![justify-contnent: space-evenly](../assets/space-evenly.svg)
 
-    [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
+      [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
     
   - > There are also two additional keywords you can pair with these values: safe and unsafe. Using safe ensures that however you do this type of positioning, you can’t push an element such that it renders off-screen (e.g. off the top) in such a way the content can’t be scrolled too (called “data loss”).
 
@@ -119,29 +120,78 @@
     This two keywords are currently (22.11.2020) not supported anywhere except for Firefox:
     ![flexbox safe and unsafe browser support](../assets/flex-safe-support.png)
   *Source: https://caniuse.com/?search=flex%20safe*
+- `justify-items`:
+  > In flexbox layouts, this property is *ignored*
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items)
 - `align-items`:
   - > This defines the default behavior for how flex items are laid out along the cross axis on the current line.
 
     [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
-  
-  - values:
-    - `stretch` (default) 
-      > If the combined size of the alignment subjects is less than the size of the alignment container, any auto-sized alignment subjects have their size increased equally (not proportionally), while still respecting the constraints imposed by max-height/max-width (or equivalent functionality), so that the combined size exactly fills the alignment container.
-      >
-      > ![justify-contnent: space-stretch](../assets/space-stretch.svg)
 
-      [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
+  - > `align-items` sets the default alignment for all of the flex container’s items (...). `align-self` allows this default alignment to be overridden for individual flex items. 
+  
+    [Source](https://www.w3.org/TR/css-flexbox-1/#align-items-property)
+
+    ![flexbox safe and unsafe browser support](../assets/flex-align.svg)
+  *Source: https://www.w3.org/TR/css-flexbox-1/images/flex-align.svg*
+  - values:
+    - `normal` (default, according to [W3C specification](https://www.w3.org/TR/css-align-3/#align-items-property))
+    - `stretch` ~~(default)~~
     - `flex-start`
     - `start`
     - `self-start`
     - `flex-end`
-    - `end`
-    - `self-end`
+    - `end` - currently (November 2020) works on FireFox, but not Chrome
+    - `self-end` - currently (November 2020) works on FireFox, but not Chrome
     - `center`
-    - `baseline`
+    - `baseline` - 
+      > In many cases, when the font size is the same among items (like in the question), or the content is otherwise the same, then flex-start and baseline will be indistinguishable.
+      >
+      > But if content size varies among flex items, then baseline can make a noticeable difference.
+
+      [Source](https://stackoverflow.com/questions/34606879/whats-the-difference-between-flex-start-and-baseline)
+
+      ![flexbox baseline](../assets/baseline.png)
+
 - `align-content`
+   - > The align-content property aligns a flex container’s lines within the flex container when there is extra space in the cross-axis, similar to how justify-content aligns individual items within the main-axis. Note, this property has no effect on a single-line flex container
+
+   [Source](https://www.w3.org/TR/css-flexbox-1/#align-items-property)
+
+   ![flex align-content](../assets/align-content.svg)
+*Source: https://css-tricks.com/wp-content/uploads/2018/10/align-content.svg*
+
+  - values: 
+    - `normal` (default, according to [W3C specification](https://www.w3.org/TR/css-align-3/#align-justify-content))
+    - `stretch` - see [align-content: normal vs stretch](#align-content-normal-vs-stretch)
+    - `flex-start`
+    - `start`
+    - `flex-end`
+    - `end` - currently (December 2020) works on FireFox, but not Chrome
+    - `center`
+    - `space-between`
+    - `space-around`
+    - `space-evenly`
 ### Flex items properties
-- `order`
+- `order`:
+  - > Flex items are, by default, displayed and laid out in the same order as they appear in the source document. The order property can be used to change this ordering.
+    >
+    > (...)
+    >  It takes a single \<integer\> value, which specifies which ordinal group the flex item belongs to.
+    > 
+    > A flex container lays out its content in order-modified document order, starting from the lowest numbered ordinal group and going up. Items with the same ordinal group are laid out in the order they appear in the source document.
+
+    [Source](https://www.w3.org/TR/css-flexbox-1/#order-property)
+
+  - default value: 0
+
+  - a note on accessibility:
+    > The order property does not affect ordering in non-visual media (such as speech). Likewise, order does not affect the default traversal order of sequential navigation modes (such as cycling through links, see e.g. tabindex
+
+    [Source](https://www.w3.org/TR/css-flexbox-1/#order-accessibility)
+
+  - use cases @TODO (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Ordering_Flex_Items)
 - `flex-grow`
 - `flex-shrink`
 - `flex-basis`
@@ -178,5 +228,16 @@
   - `sideways-rl` - experimental
   - `sideways-lr` - experimental
 
-### 
+### `align-content`: `normal` vs `stretch`
 
+> (...) the spec writers of the CSS Flexbox Level 1 spec invented new alignment and distribution properties, justify-content, align-content, align-items and align-self. The value of align-content that was judged most useful as a default for flexbox was stretch, so that was made the initial value.
+>
+> But following not far behind flexbox was the Grid layout Level 1 spec. It made no sense to invent yet another set of alignment properties for that, so the flexbox ones got reused. Additionally, there is a desire to fix the limitation of the 2.x alignment capabilities by applying these to older layout models like the block and columnar models. Which means that having the definition of the properties in the Flexbox spec was out-of-place.
+> 
+> So they're being moved to the CSS Box Alignment spec.
+> 
+> In the case of Grid layouts, align-content:stretch is still a good initial value choice. But if it was chosen as an initial value for block layouts, its defined behaviour would be incompatible will what web pages do today. To get around that, the initial value is redefined there to be normal, which can be interpreted as "whatever web pages do today in all contexts".
+>
+> So then, it defines the behaviour for align-content:normal for Flex layouts to be the same as align-content:stretch giving it perfect backward compatibility with the FlexBox spec. It defines align-content:normal the same for Grid layouts. For other layouts though, it defines the behaviour differently, such that it's compatible with how those layouts work today.
+
+[Source](https://stackoverflow.com/questions/64102949/initial-value-of-align-content)
