@@ -191,9 +191,92 @@
 
     [Source](https://www.w3.org/TR/css-flexbox-1/#order-accessibility)
 
-  - use cases @TODO (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Ordering_Flex_Items)
-- `flex-grow`
-- `flex-shrink`
+  - example use case:
+    > You might have a design, perhaps a card that will display a news item. The heading of the news item is the key thing to highlight and would be the element that a user might jump to if they were tabbing between headings to find content they wanted to read. The card also has a date;
+    > (...)
+    > Visually the date appears above the heading, in the source. However, if the card was read out by a screen reader I would prefer that the title was announced first and then the publication date.
+    
+    [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Ordering_Flex_Items)
+- `flex-grow`:
+  - > The flex-grow property sets the flex grow factor to the provided \<number\>. Negative numbers are invalid.
+
+    [Source](https://www.w3.org/TR/css-flexbox-1/#propdef-flex-grow)
+
+  - **flex grow factor** -  determines how much the flex item will grow relative to the rest of the flex items in the flex container when positive free space is distributed. When omitted, it is set to 1.
+
+    [Source](https://www.w3.org/TR/css-flexbox-1/#flex-flex-grow-factor)
+
+  - > If we have more than one element in a line (row or column) that has a flex-grow value, these elements will share the available space. The total number of flex-grow values will be added up to create the "full pie" — stay with me here. Let’s say we have two elements next to one another. One element has a flex-grow of 2, and the other has a flex-grow of 1. The total number of flex-grow units will be 3. The available space in the flex container is then going to be divided by 3, and distributed accordingly. The first item (flex-grow:2;) will get 2 pieces of the available space, and the second item (flex-grow:1;) will get 1 piece of the available space.
+
+    [Source](https://medium.com/@tiffnogueira/understanding-flex-shrink-flex-grow-and-flex-basis-and-using-these-properties-to-their-full-e4b4afd2c930)
+
+  - example:
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .child {
+          background-color: cornflowerblue;
+        }
+
+        .container {
+          background-color: green;
+          display: flex;
+          height: 50px;
+          margin-bottom: 15px;
+        }
+
+        .container :first-child {
+          background-color: red;
+        }
+
+        .container :nth-child(2) {
+          background-color: orange;
+        }
+
+        .container :last-child {
+          background-color: yellow;
+        }
+
+      </style>
+    </head>
+
+    <body>
+      <div class="container">
+        <div class="child">Content</div>
+        <div class="child">Content</div>
+        <div class="child">Content</div>
+      </div>
+
+      <div class="container">
+        <div class="child" style="flex-grow:1">Content</div>
+        <div class="child">Content</div>
+        <div class="child" style="flex-grow:2">Content</div>
+      </div>
+    </body>
+
+    </html>
+    ```
+
+    ![flex-grow](../assets/flex-grow.png)
+- `flex-shrink`:
+  - > The flex-shrink property sets the flex shrink factor to the provided \<number\>. Negative numbers are invalid.
+
+    [Source](https://www.w3.org/TR/css-flexbox-1/#flex-shrink-property)
+
+  - **flex shrink factor** - determines how much the flex item will shrink relative to the rest of the flex items in the flex container when negative free space is distributed. When omitted, it is set to 1.
+
+    [Source](https://www.w3.org/TR/css-flexbox-1/#flex-flex-shrink-factor)
+
+  - > In use, flex-shrink is used alongside the other flex properties flex-grow and flex-basis, and normally defined using the flex shorthand.
+
+    [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink)
 - `flex-basis`
 - `flex`
 - `align-self`
