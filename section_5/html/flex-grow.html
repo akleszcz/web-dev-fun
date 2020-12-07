@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      background-color: green;
+      display: flex;
+      height: 50px;
+      margin-bottom: 15px;
+    }
+
+    .container :first-child {
+      background-color: red;
+    }
+
+    .container :nth-child(2) {
+      background-color: orange;
+    }
+
+    .container :last-child {
+      background-color: yellow;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="child">Content</div>
+    <div class="child">Content</div>
+    <div class="child">Content</div>
+  </div>
+
+  <div class="container">
+    <div class="child" style="flex-grow:1">Content</div>
+    <div class="child">Content</div>
+    <div class="child" style="flex-grow:2">Content</div>
+  </div>
+</body>
+
+</html>

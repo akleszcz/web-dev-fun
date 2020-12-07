@@ -7,7 +7,7 @@
   <title>Document</title>
   <style>
     .child {
-      background-color: cornflowerblue;
+      width: 200px;
     }
 
     .container {
@@ -39,10 +39,10 @@
     <div class="child">Content</div>
   </div>
 
-  <div class="container">
-    <div class="child" style="flex-grow:1">Content</div>
+  <div class="container" style="max-width: 500px;">
+    <div class="child" style="flex-shrink: 0;">Content</div>
     <div class="child">Content</div>
-    <div class="child" style="flex-grow:2">Content</div>
+    <div class="child" style="flex-shrink:3">Content</div>
   </div>
 </body>
 

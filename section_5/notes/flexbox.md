@@ -202,9 +202,11 @@
 
     [Source](https://www.w3.org/TR/css-flexbox-1/#propdef-flex-grow)
 
-  - **flex grow factor** -  determines how much the flex item will grow relative to the rest of the flex items in the flex container when positive free space is distributed. When omitted, it is set to 1.
+  - **flex grow factor** -  determines how much the flex item will grow relative to the rest of the flex items in the flex container when positive free space is distributed.
 
     [Source](https://www.w3.org/TR/css-flexbox-1/#flex-flex-grow-factor)
+
+  - default value: 0
 
   - > If we have more than one element in a line (row or column) that has a flex-grow value, these elements will share the available space. The total number of flex-grow values will be added up to create the "full pie" — stay with me here. Let’s say we have two elements next to one another. One element has a flex-grow of 2, and the other has a flex-grow of 1. The total number of flex-grow units will be 3. The available space in the flex container is then going to be divided by 3, and distributed accordingly. The first item (flex-grow:2;) will get 2 pieces of the available space, and the second item (flex-grow:1;) will get 1 piece of the available space.
 
@@ -270,16 +272,86 @@
 
     [Source](https://www.w3.org/TR/css-flexbox-1/#flex-shrink-property)
 
-  - **flex shrink factor** - determines how much the flex item will shrink relative to the rest of the flex items in the flex container when negative free space is distributed. When omitted, it is set to 1.
+  - **flex shrink factor** - determines how much the flex item will shrink relative to the rest of the flex items in the flex container when negative free space is distributed.
 
     [Source](https://www.w3.org/TR/css-flexbox-1/#flex-flex-shrink-factor)
+
+  - default value: 1
 
   - > In use, flex-shrink is used alongside the other flex properties flex-grow and flex-basis, and normally defined using the flex shorthand.
 
     [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-shrink)
+
+  - example:
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .child {
+          width: 200px;
+        }
+
+        .container {
+          background-color: green;
+          display: flex;
+          height: 50px;
+          margin-bottom: 15px;
+        }
+
+        .container :first-child {
+          background-color: red;
+        }
+
+        .container :nth-child(2) {
+          background-color: orange;
+        }
+
+        .container :last-child {
+          background-color: yellow;
+        }
+
+      </style>
+    </head>
+
+    <body>
+      <div class="container">
+        <div class="child">Content</div>
+        <div class="child">Content</div>
+        <div class="child">Content</div>
+      </div>
+
+      <div class="container" style="max-width: 500px;">
+        <div class="child" style="flex-shrink: 0;">Content</div>
+        <div class="child">Content</div>
+        <div class="child" style="flex-shrink:3">Content</div>
+      </div>
+    </body>
+
+    </html>
+    ```
+
+    ![flex-shrink](../assets/flex-shrink.png)
 - `flex-basis`
 - `flex`
-- `align-self`
+- `align-self`:
+  - > This allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.
+
+  [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
+  - values:
+    - `auto` (default) - computes to the parent's align-items value. [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/align-self)
+    - `flex-start`
+    - `flex-end`
+    - `center`
+    - `baseline`
+    - `stretch`
+  @TODO: finish example
 ---
 ## Notes
 ### CSS `direction` property
