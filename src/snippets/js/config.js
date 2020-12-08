@@ -19,6 +19,25 @@ import functionScope1 from '../data/js/section_1/function-scope-1.js';
 import functionScope2 from '../data/js/section_1/function-scope-2.js';
 import functionScope3 from '../data/js/section_1/function-scope-3.js';
 import nestedFunctions from '../data/js/section_1/nested-functions.js';
+import hoisting from '../data/js/section_1/hoisting.js';
+import blockVsFunctionScope from '../data/js/section_1/block-vs-function-scope.js';
+import letRepeatedDeclaration from '../data/js/section_1/let-repeated-declaration.js';
+import letBlockScope1 from '../data/js/section_1/let-block-scope-1.js';
+import letBlockScope2 from '../data/js/section_1/let-block-scope-2.js';
+import letGlobalVariable from '../data/js/section_1/let-global-variable.js';
+import letTdz from '../data/js/section_1/let-tdz.js';
+import letTdzTypeof from '../data/js/section_1/let-tdz-typeof.js';
+import varFunctionsInLoop from '../data/js/section_1/var-functions-in-loop.js';
+import varFunctionsInLoopIife from '../data/js/section_1/var-functions-in-loop-iife.js';
+import letFunctionsInLoop from '../data/js/section_1/let-functions-in-loop.js';
+import constDeclarationWithoutInitialization from '../data/js/section_1/const-declaration-without-initialization.js';
+import constReassignment from '../data/js/section_1/const-reassignment.js';
+import constObjectModification from '../data/js/section_1/const-object-modification.js';
+import constDeclarationInLoop from '../data/js/section_1/const-declaration-in-loop.js';
+import constRepeatedDeclaration from '../data/js/section_1/const-repeated-declaration.js';
+import constBlockScope from '../data/js/section_1/const-block-scope.js';
+import constGlobalVariable from '../data/js/section_1/const-global-variable.js';
+import constTdz from '../data/js/section_1/const-tdz.js';
 
 // HTML snippets
 // Section 4
@@ -68,138 +87,31 @@ export const jsSnippets = {
   'Function scope 2': functionScope2,
   'Function scope 3': functionScope3,
   'Nested functions': nestedFunctions,
-  'Hoisting': `var scope = 'global';
-function f() {
-  console.log(scope);
-  var scope = 'local';
-  console.log(scope);
-}
-f();`,
-  'Block vs function scope': `try {
-  console.log('k before the function:', k);
-} catch (error) {
-  console.log('error: ', error);
-}
-function f(o) {
-  console.log('k before the if block:', k);
-  if (o) {
-    var j = 0;
-    console.log('k before the loop:', k);
-    for (var k = 0; k < 10; k++) {
-      console.log('k from the loop:', k);
-    }
-    console.log('k after the loop:', k);
-  }
-  console.log('j after the if block:', j);
-}
-f({});
-`,
+  'Hoisting': hoisting,
+  'Block vs function scope': blockVsFunctionScope,
   // 'Global variables': `var x = 5;
   // y = 6;
   // console.log(window.x);
   // console.log(window.y);
   // console.log(delete window.x);
   // console.log(delete window.y);`
-  'let - repeated declaration': `let x = 5;
-let x = 'Hello';`,
-  'let - block scope - 1': `let x = 1;
-if (x === 1) {
-  let x = 2;
-  console.log(x);
-}
-console.log(x);`,
-  'let - block scope - 2': `for (let i = 0; i < 10; i++) {
-  console.log(i);
-}
-console.log('i after loop:', i);`,
-  'let - global variable': `var x = 'global';
-let y = 'global';
-console.log(window.x);
-console.log(window.y);`,
-  'let - temporal dead zone': `let x = 'outer';
-{
-  console.log('x inside of f:', x);
-  let x = 'inner';
-}`,
-  'let - temporal dead zone - typeof operator': `'use strict';
-console.log(typeof undeclaredVariable);
-console.log(typeof varVariable);
-console.log(typeof letVariable);
-let letVariable = 1;
-var varVariable = 2;`,
-  'var - functions in a loop': `var funcs = [];
-for (var i = 0; i < 10; i++) {
-  funcs.push(function() {
-    console.log(i);
-  });
-}
-funcs.forEach(function(func) {
-  func();
-});`,
-  'var - functions in a loop - IIFE': `var funcs = [];
-for (var i = 0; i < 10; i++) {
-  funcs.push((function(value) {
-    return function() {
-      console.log(value);
-    }
-  }(i)));
-}
-funcs.forEach(function(func) {
-  func();
-});`,
-  'let - functions in loop': `var funcs = [];
-for (let i = 0; i < 10; i++) {
-  funcs.push(function() {
-    console.log(i);
-  });
-}
-funcs.forEach(function(func) {
-  func();
-});`,
-  'const - declaration without initialization': `const a;`,
-  'const - value reassignment': `const a = 5;
-a = 7;`,
-  'const - object value modification': `const o = {
-  a: 1
-};
-o.a = 2;
-console.log(o);`,
-  'const - variable declaration in a loop': `const array = ['a', 'b', 'c'];
-for (const element of array) {
-  console.log('first loop:', element);
-} 
-
-const o = {
-  a: 1,
-  b: 2,
-  c: 3,
-};
-for (const p in o) {
-  console.log('second loop:', p);
-}
-
-for (const i = 0; i  < array.length; i++) {
-  console.log('third loop:', array[i]);
-}`,
-  'const - repeated declarations': `const x = 5;
-var x = 'Hello';`,
-  'const - block scope': `const x = 1;
-if (x === 1) {
-  const x = 2;
-  console.log(x);
-}
-console.log(x);`,
-  'const - global  variables': `var x = 'global';
-const y = 'global';
-console.log(window.x);
-console.log(window.y);`,
-  'const - temporal dead zone': `function f() {
-  console.log('x: ', x);
-  console.log('y: ', y);
-  var x = 1;
-  const y = 2;
-}
-f();`,
+  'let - repeated declaration': letRepeatedDeclaration,
+  'let - block scope - 1': letBlockScope1,
+  'let - block scope - 2': letBlockScope2,
+  'let - global variable': letGlobalVariable,
+  'let - temporal dead zone': letTdz,
+  'let - temporal dead zone - typeof operator': letTdzTypeof,
+  'var - functions in a loop': varFunctionsInLoop,
+  'var - functions in a loop - IIFE': varFunctionsInLoopIife,
+  'let - functions in loop': letFunctionsInLoop,
+  'const - declaration without initialization': constDeclarationWithoutInitialization,
+  'const - value reassignment': constReassignment,
+  'const - object value modification': constObjectModification,
+  'const - variable declaration in a loop': constDeclarationInLoop,
+  'const - repeated declaration': constRepeatedDeclaration,
+  'const - block scope': constBlockScope,
+  'const - global  variable': constGlobalVariable,
+  'const - temporal dead zone': constTdz,
   'Object as a property name 1': `const o = {};
 o.a = 1;
 o['b'] = 2;
