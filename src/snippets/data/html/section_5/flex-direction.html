@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .child {
+      background-color: cornflowerblue;
+      flex-grow: 1;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .container {
+      background-color: darkblue;
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    .row {
+      flex-direction: row;
+    }
+
+    .row-reverse {
+      flex-direction: row-reverse;
+    }
+
+    .column {
+      flex-direction: column;
+    }
+
+    .column-reverse {
+      flex-direction: column-reverse;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container row">
+    <div class="child">A</div>
+    <div class="child">B</div>
+    <div class="child">C</div>
+  </div>
+
+  <div class="container row" dir="rtl">
+    <div class="child">A</div>
+    <div class="child">B</div>
+    <div class="child">C</div>
+  </div>
+
+  <div class="container row-reverse">
+    <div class="child">A</div>
+    <div class="child">B</div>
+    <div class="child">C</div>
+  </div>
+
+  <div class="container column">
+    <div class="child">A</div>
+    <div class="child">B</div>
+    <div class="child">C</div>
+  </div>
+
+  <div class="container column-reverse">
+    <div class="child">A</div>
+    <div class="child">B</div>
+    <div class="child">C</div>
+  </div>
+</body>
+
+</html>

@@ -1,129 +1,73 @@
-window.snippets = window.snippets || {};
-window.snippets.config = window.snippets.config || {};
-window.snippets.config.jsSnippets = {
-  'Optional semicolon 1': `let a
-a
-=
-3
-console.log(a)`,
+// JS snippets
+// Section 1
+import optionalSemicolon1 from '../data/js/section_1/optional-semicolon-1.js';
+import optionalSemicolon2 from '../data/js/section_1/optional-semicolon-2.js';
+import prefixAndPostfix from '../data/js/section_1/prefix-and-postfix.js';
+import object from '../data/js/section_1/object.js';
+import functionAsObject from '../data/js/section_1/function-as-object.js';
+import octalLiterals from '../data/js/section_1/octal-literals.js';
+import falsyString from '../data/js/section_1/falsy-string.js';
+import logicalOperatorAnd from '../data/js/section_1/logical-operator-and.js';
+import logicalOperatorOr from '../data/js/section_1/logical-operator-or.js';
+import logicalOperatorNot from '../data/js/section_1/logical-operator-not.js';
+import logicalOperatorsPrecedence from '../data/js/section_1/logical-operators-precedence.js';
+import variableInLoop from '../data/js/section_1/variable-in-loop.js';
+import repeatedDeclaration from '../data/js/section_1/repeated-declaration.js';
+import undeclaredVariableError from '../data/js/section_1/undeclared-variable-error.js';
+import undeclaredVariableAssignment from '../data/js/section_1/undeclated-variable-assignment.js';
+import functionScope1 from '../data/js/section_1/function-scope-1.js';
+import functionScope2 from '../data/js/section_1/function-scope-2.js';
+import functionScope3 from '../data/js/section_1/function-scope-3.js';
+import nestedFunctions from '../data/js/section_1/nested-functions.js';
 
-  'Optional semicolon 2': `function f() {
-  return {js
-    a: 5
-  };
-}
+// HTML snippets
+// Section 4
+import selectors from '../data/html/section_4/selectors.html';
+import pseudoclasses from '../data/html/section_4/pseudoclasses.html';
+import pseudoclassesLink from '../data/html/section_4/pseudoclasses-link.html';
+import pseudoelements from '../data/html/section_4/pseudoelements.html';
+import combinators from '../data/html/section_4/combinators.html';
+import specificity from '../data/html/section_4/specificity.html';
 
-function g() {
-  return
-  {
-    a: 5
-  };
-}
+// Section 5
+import display from '../data/html/section_5/display.html';
+import displayNone from '../data/html/section_5/display-none.html';
+import displayFlex from '../data/html/section_5/display-flex.html';
+import flexDirection from '../data/html/section_5/flex-direction.html';
+import flexWrap from '../data/html/section_5/flex-wrap.html';
+import alignContent from '../data/html/section_5/align-content.html';
+import alignItems from '../data/html/section_5/align-items.html';
+import alignSelf from '../data/html/section_5/align-self.html';
+import flexGrow from '../data/html/section_5/flex-grow.html';
+import flexShrink from '../data/html/section_5/flex-shrink.html';
+import justifyContent from '../data/html/section_5/justify-content.html';
+import order from '../data/html/section_5/order.html';
+import writingMode1 from '../data/html/section_5/writing-mode-1.html';
+import writingMode2 from '../data/html/section_5/writing-mode-2.html';
 
-console.log('f():', f());
-console.log('g():', g());`,
+export const jsSnippets = {
+  'Optional semicolon 1': optionalSemicolon1,
+  'Optional semicolon 2': optionalSemicolon2,
+  'Prefix and postfix increment': prefixAndPostfix,
+  'Object': object,
+  'Function as an object': functionAsObject,
 
-  'Prefix and postfix increment': `let a = 2;
-let b = 2;
-console.log(a++);
-console.log(a);
-console.log(++b);
-console.log(b);`,
+  'Octal literals in strict mode': octalLiterals,
+  'Falsy string': falsyString,
 
-  'Object example': `let cat = {
-  name: 'Fluffy',
-  age: 2,
-  owner: {
-    firstname: 'John',
-    lastname: 'Smith'
-  }
-};
-console.log(cat.name);
-console.log(cat.owner.lastname);`,
+  '&& operator': logicalOperatorAnd,
 
-  'Function as an object': `function sayHello() {
-  console.log('hello');
-}
-sayHello();
-console.log('sayHello.name:', sayHello.name);
-sayHello.newProperty = 'newValue';
-console.log('sayHello.newProperty: ', sayHello.newProperty);
-`,
-
-  'Octal literals in strict mode': `'use strict';
-let x = 03;`,
-  'Falsy string': `let x = "";
-if (x) {
-    console.log('x is truthy!');
-} else {
-    console.log('x is falsy!');
-}`,
-
-  '&& operator': `let o = { x : 1 };
-let p = null;
-console.log('o && o.x:', o && o.x);
-console.log('p && p.x:', p && p.x);`,
-
-  '|| operator': `console.log('5 || "":', 5 || "");
-console.log('0 || NaN:', 0 || NaN);`,
-  '! operator': `let x =[0];
-console.log('!!x: ', !!x);
-let y = null;
-console.log('!!y: ', !!y);`,
-  'Logical operators precedence': `console.log(true || false && false);
-console.log(true || (false && false));
-console.log((true || false) && false);
-`,
-  'Variable declaration in a loop': `var o = {
-  a: 1,
-  b: 2,
-  c: 3,
-};
-for (var p in o) {
-  console.log(p);
-}`,
-  'Repeated declaration': `'use strict';
-var x = 5;
-var x = 'Hello';
-console.log(x);`,
-  'Undeclared variable error': `console.log(x);`,
-  'Assignment to undeclated variable': `// 'use strict'
-x = 5;
-console.log(x);
-`,
-  'Function scope example 1': `function f() {
-  var a = 'inner value';
-  console.log('a inside of f:', a);
-}
-f();
-console.log('a outside of f:', a);`,
-  'Function scope example 2': `var x = 'outer';
-function f() {
-  var x = 'inner';
-  console.log('x inside of f:', x);
-}
-f();
-console.log('x outside of f:', x);`,
-  'Function scope example 3': `var x = 'outer';
-function f() {
-  x = 'inner';
-  console.log('x inside of f:', x);
-}
-f();
-console.log('x outside of f:', x);`,
-  'Nested functions': `var scope = 'global scope';
-function f() {
-  var scope = 'local scope';
-  function g() {
-    var scope = 'nested scope';
-    console.log('scope from g:', scope);
-  }
-  g();
-  console.log('scope from f:', scope);
-}
-f();
-console.log('scope outside of f:', scope);
-`,
+  '|| operator': logicalOperatorOr,
+  '! operator': logicalOperatorNot,
+  'Logical operators precedence': logicalOperatorsPrecedence,
+  'Variable declaration in a loop': variableInLoop,
+  'Repeated declaration': repeatedDeclaration,
+  'Undeclared variable error': undeclaredVariableError,
+  'Assignment to undeclated variable': undeclaredVariableAssignment,
+  'Function scope 1': functionScope1,
+  'Function scope 2': functionScope2,
+  'Function scope 3': functionScope3,
+  'Nested functions': nestedFunctions,
   'Hoisting': `var scope = 'global';
 function f() {
   console.log(scope);
@@ -451,713 +395,30 @@ Object.freeze(o);
 o.x = 100;`,
 };
 
-window.snippets.config.htmlSnippets = {
-  selectors: `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .container {
-          border: 1px solid #000;
-          padding: 10px;
-        }
-  
-  {{css}}
-      </style>
-    </head>
-    <body>
-      <div id="outer" class="container">
-        outer div
-        <div id="inner" class="container">
-          inner div
-        </div>
-      </div>
-      <p class="cat-container container">
-        <img src="https://cataas.com/cat" alt="Random cat image" height="100">
-        Meow!
-      </p>
-    </body>
-    </html>`,
-  pseudoclasses: `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .container {
-          border: 1px solid #000;
-          padding: 10px;
-        }
-  
-{{css}}
-      </style>
-    </head>
-    <body>
-      <form>
-        <label for="cat-name">Cat name:</label>
-        <br>
-        <input type="text" id="cat-name" name="cat-name" class="cat-input">
-        <br>
-        <label for="cat-breed">Cat breed:</label>
-        <br>
-        <input type="text" id="cat-breed" class="cat-input" name="cat-breed">
-        <br>
-        <button id="cat-submit">Submit</button>
-      </form>
-      <br>
-      Armadillos eat:
-      <ul>
-        <li>ants</li>
-        <li>beetles</li>
-        <li>termites</li>
-        <li>plants</li>
-        <li>eggs</li>
-        <li>small vertebrates</li>
-        <li>some fruit</li>
-      </ul>
-    </body>
-    </html>`,
-  'Pseudoclasses:link': `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .container {
-          border: 1px solid #000;
-          padding: 10px;
-        }
-  
-{{css}}
-      </style>
-    </head>
-    <body>
-      <a href="https://cataas.com/cat/gif"
-      target="_blank"
-      title="Random cat GIF">Cat as a service - GIF</a>
-    </body>
-    </html>`,
-  pseudoelements: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .ad-topbanner {
-          display: inline-block;
-          text-align: center;
-        }
-{{css}}
-      </style>
-    </head>
-    
-    <body>
-      <div class="ad-topbanner">
-        <div>
-          <img height=500
-            src="https://preview.redd.it/3jxc3xiau3u51.jpg?width=640&crop=smart&auto=webp&s=f9ccb03c74dc4b512a5323a03beed7daaba4e54b"
-            alt="A cat in a box">
-        </div>
-      </div>
-    
-      <p>According to Wikipedia, <q cite="https://en.wikipedia.org/wiki/Armadillo#Defensive_behavior">The North American
-          nine-banded armadillo tends to jump straight in the air when surprised.</q></p>
-    
-      <p class="diet-and-predation">Armadillos have very poor eyesight, and use their keen sense of smell to hunt for food. They use their claws for digging and finding food, as well as for making their homes in burrows. They dig their burrows with their claws, making only a single corridor the width of the animal's body. They have five clawed toes on their hind feet, and three to five toes with heavy digging claws on their fore feet</p>
-    </body>
-    </html>`,
-  combinators: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .container {
-          border: 1px solid #000;
-          margin: 15px;
-        }
-
-{{css}}
-      </style>
-    </head>
-    
-    <body>
-      <div class="container" id="grandparent">
-        Grandparent
-        <div class="container" id="parent">
-          Parent
-          <div class="container" id="brother-1">
-            Brother 1
-          </div>
-          <div class="container" id="sister-1">
-            Sister 1
-          </div>
-          <div class="container" id="sister-2">
-            Sister 2
-          </div>
-        </div>
-      </div>
-    
-      <article class="card">
-        <div class="Native_cards">
-          <img src="https://www.thepaws.net/wp-content/uploads/2019/04/funny-cats.jpg" alt="Random cat image" height="300">
-        </div>
-        <footer>Cat selfie</footer>
-      </article>
-    </body>
-    
-    </html>`,
-  specificity: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-{{css}}
-      </style>
-    </head>
-    
-    <body>
-      <div id="outer" class="container">
-        <div id="inner" class="container">
-          <button id="click-me-button"
-            class="class-1 class-2 class-3 class-4 class-5 class-6 class-7 class-8 class-9 class-10 class-11" disabled>Click
-            me!</button>
-        </div>
-      </div>
-    </body>
-    
-    </html>`,
-  display: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        * {
-          box-sizing: border-box;
-        }
-    
-        em {
-          background-color: red;
-          margin: 15px;
-          padding: 30px;
-          width: 300px;
-          height: 100px;
-        }
-    
-        .armadillo {
-          width: 400px;
-        }
-    
-        .inline-block {
-          display: inline-block;
-        }
-      </style>
-    </head>
-    
-    <body>
-      <p>
-        Due to their lack of fat stores and low metabolic rate, armadillos hate the cold. If there are times of unusually
-        cold weather, a whole population can be <em>wiped out</em>! Generally solitary creatures except during mating, they
-        will sometimes group together in a burrow in cold conditions to keep warm. Armadillos are closely related to <em class="inline-block">sloths
-        and anteaters</em>, sharing some similarities. For example, an armadillos tongue is long and sticky, like anteaters,
-        designed to extract ants and termites from their tunnels.
-        <img src="https://media.nationalgeographic.org/assets/photos/226/055/aa10a685-4837-4e79-88f9-8850b2b63943.jpg" alt="armadillo" class="armadillo">
-        <a href="https://onekindplanet.org/animal/armadillo/">Source</a>
-        <button>Click me!</button>
-      </p>
-    </body>
-    
-    </html>`,
-  display_none: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .child {
-          display: block;
-          opacity: 1;
-          visibility: visible;
-        }
-
-        .container {
-          background-color: red;
-          padding: 15px;
-        }
-    
-        .not-displayed {
-          display: none;
-        }
-    
-        .not-visible {
-          visibility: hidden;
-        }
-    
-        .transparent {
-          opacity: 0;
-        }
-      </style>
-    </head>
-    
-    <body>
-      <div class="container not-displayed">
-        <div class="child">Child 1</div>
-        <div class="child">Child 2</div>
-        <div class="child">Child 3</div>
-      </div>
-
-      <div class="container not-visible">
-        <div class="child">Child 1</div>
-        <div class="child">Child 2</div>
-        <div class="child">Child 3</div>
-      </div>
-
-      <div class="container transparent">
-        <div class="child">Child 1</div>
-        <div class="child">Child 2</div>
-        <div class="child">Child 3</div>
-      </div>
-      <div>Visible</div>
-    </body>
-    <script>
-      (function () {
-        const containers = document.querySelectorAll('.container');
-        containers.forEach((container) => {
-          container.addEventListener('contextmenu', (event) => {
-            alert('contextmenu happened on target: ' + event.target.outerHTML + ' currentTarget: ' + event.currentTarget.outerHTML);
-          });
-        });
-    
-        const children = document.querySelectorAll('.child');
-        children.forEach((child) => {
-          child.addEventListener('click', () => { 
-            alert('click happened on this child'); 
-          });
-        });
-    })();
-    </script>
-    </html>`,
-  display_flex: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .child {
-          background-color: cornflowerblue;
-          flex-grow: 1;
-          margin: 10px;
-          padding: 10px;
-        }
-    
-        .container {
-          background-color: darkblue;
-          display: flex;
-          margin-bottom: 15px;
-        }
-    
-        .inline {
-          display: inline-flex;
-          height: 80px;
-          margin: 15px;
-          padding: 10px;
-          width: 400px;
-        }
-      </style>
-    </head>
-    
-    <body>
-      <div class="container">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-      <div class="container">
-        <div class="child">D</div>
-        <div class="child">E</div>
-        <div class="child">F</div>
-      </div>
-      <div class="container">
-        <div class="child">G</div>
-        <div class="child">F</div>
-        <div class="child">I</div>
-      </div>
-    
-      <div>
-        According to <a href="https://www.mentalfloss.com/article/67346/12-odd-facts-and-stories-about-armadillos">12 Odd
-          Facts and Stories About Armadillos</a>, the three-banded armadillo was the mascot of the 2014
-        <div class="container inline">
-          <div class="child">World</div>
-          <div class="child">Cup</div>
-          <div class="child">tournament</div>
-        </div>
-        in Brazil.
-      </div>
-    </body>
-    
-    </html>`,
-  flex_direction: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .child {
-          background-color: cornflowerblue;
-          flex-grow: 1;
-          margin: 10px;
-          padding: 10px;
-        }
-
-        .container {
-          background-color: darkblue;
-          display: flex;
-          margin-bottom: 15px;
-        }
-
-        .row {
-          flex-direction: row;
-        }
-
-        .row-reverse {
-          flex-direction: row-reverse;
-        }
-
-        .column {
-          flex-direction: column;
-        }
-
-        .column-reverse {
-          flex-direction: column-reverse;
-        }
-      </style>
-    </head>
-    
-    <body>
-      <div class="container row">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-
-      <div class="container row" dir="rtl">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-
-      <div class="container row-reverse">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-      
-      <div class="container column">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-
-      <div class="container column-reverse">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-    </body>
-    
-    </html>`,
-  flex_wrap: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .child {
-          background-color: cornflowerblue;
-          height: 100px;
-          margin: 10px;
-          width: 100px;
-        }
-    
-        .container {
-          background-color: darkblue;
-          display: flex;
-          margin-bottom: 10px;
-        }
-
-        .nowrap {
-          flex-wrap: nowrap;
-        }
-    
-        .wrap {
-          flex-wrap: wrap;
-        }
-    
-        .wrap-reverse {
-          flex-wrap: wrap-reverse;
-        }
-      </style>
-    </head>
-    
-    <body>
-      <div class="container nowrap">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-        <div class="child">D</div>
-        <div class="child">E</div>
-        <div class="child">F</div>
-        <div class="child">G</div>
-        <div class="child">H</div>
-        <div class="child">I</div>
-        <div class="child">J</div>
-        <div class="child">K</div>
-        <div class="child">L</div>
-        <div class="child">M</div>
-        <div class="child">N</div>
-        <div class="child">O</div>
-      </div>
-    
-      <div class="container wrap">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-        <div class="child">D</div>
-        <div class="child">E</div>
-        <div class="child">F</div>
-        <div class="child">G</div>
-        <div class="child">H</div>
-        <div class="child">I</div>
-        <div class="child">J</div>
-        <div class="child">K</div>
-        <div class="child">L</div>
-        <div class="child">M</div>
-        <div class="child">N</div>
-        <div class="child">O</div>
-      </div>
-    
-      <div class="container wrap-reverse">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-        <div class="child">D</div>
-        <div class="child">E</div>
-        <div class="child">F</div>
-        <div class="child">G</div>
-        <div class="child">H</div>
-        <div class="child">I</div>
-        <div class="child">J</div>
-        <div class="child">K</div>
-        <div class="child">L</div>
-        <div class="child">M</div>
-        <div class="child">N</div>
-        <div class="child">O</div>
-      </div>
-    </body>
-    
-    </html>`,
-  writing_mode_1: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .vertical-rl {
-          height: 200px;
-          writing-mode: vertical-rl;
-        }
-      </style>
-    </head>
-    
-    <body>
-      <div class="vertical-rl">
-        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
-      </div>
-    </body>
-    
-    </html>`,
-  writing_mode_2: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .vertical-rl {
-          height: 200px;
-          writing-mode: vertical-rl;
-        }
-      </style>
-    </head>
-    
-    <body>
-      <div class="vertical-rl">
-        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-      </div>
-    </body>
-    
-    </html>`,
-  justify_content: `<!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
-      <style>
-        .child {
-          background-color: cornflowerblue;
-          margin: 10px;
-          padding: 10px;
-        }
-    
-        .container {
-          background-color: darkblue;
-          display: flex;
-          margin-bottom: 15px;
-        }
-    
-        .flex-start {
-          justify-content: flex-start;
-        }
-    
-        .flex-end {
-          justify-content: flex-end;
-        }
-    
-        .center {
-          justify-content: center;
-        }
-    
-        .space-around {
-          justify-content: space-around;
-        }
-    
-        .space-between {
-          justify-content: space-between;
-        }
-    
-        .space-evenly {
-          justify-content: space-evenly;
-        }
-    
-        .flex-grow > * {
-          flex-grow: 1;
-        }
-    
-        .wrap {
-          flex-wrap: wrap;
-        }
-      </style>
-    </head>
-    
-    <body>
-      <div class="container">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-    
-      <div class="container flex-start">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-    
-      <div class="container flex-end">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-    
-      <div class="container center">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-    
-      <div class="container space-around">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-    
-      <div class="container space-between">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-    
-      <div class="container space-evenly">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-    
-      <div class="container flex-grow">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-      </div>
-    
-      <div class="container space-around wrap">
-        <div class="child">A</div>
-        <div class="child">B</div>
-        <div class="child">C</div>
-        <div class="child">D</div>
-        <div class="child">E</div>
-        <div class="child">F</div>
-        <div class="child">G</div>
-        <div class="child">H</div>
-        <div class="child">I</div>
-        <div class="child">J</div>
-        <div class="child">K</div>
-        <div class="child">L</div>
-        <div class="child">M</div>
-        <div class="child">N</div>
-        <div class="child">O</div>
-        <div class="child">P</div>
-        <div class="child">Q</div>
-        <div class="child">R</div>
-        <div class="child">S</div>
-        <div class="child">T</div>
-      </div>
-    
-    </body>
-    
-    </html>`,
+export const htmlSnippets = {
+  selectors,
+  pseudoclasses,
+  'pseudoclasses:link': pseudoclassesLink,
+  pseudoelements,
+  combinators,
+  specificity,
+  display,
+  display_none: displayNone,
+  display_flex: displayFlex,
+  flex_direction: flexDirection,
+  flex_wrap: flexWrap,
+  writing_mode_1: writingMode1,
+  writing_mode_2: writingMode2,
+  justify_content: justifyContent,
+  align_content: alignContent,
+  align_items: alignItems,
+  align_self: alignSelf,
+  flex_grow: flexGrow,
+  flex_shrink: flexShrink,
+  order,
 };
 
-window.snippets.config.cssHtmlSnippets = {
+export const cssHtmlSnippets = {
   'Universal selector 1': {
     css: `* {
   background-color: red;
@@ -1463,5 +724,30 @@ button[disabled] {
   'Flexbox: justify-content': {
     css: '',
     html: 'justify_content'
-  }
+  },
+  'Flexbox: align-items': {
+    css: '',
+    html: 'align_items'
+  },
+  'Flexbox: align-content': {
+    css: '',
+    html: 'align_content'
+  },
+
+  'Flexbox: order': {
+    css: '',
+    html: 'order'
+  },
+  'Flexbox: flex-grow': {
+    css: '',
+    html: 'flex_grow'
+  },
+  'Flexbox: flex-shrink': {
+    css: '',
+    html: 'flex_shrink'
+  },
+  'Flexbox: align-self': {
+    css: '',
+    html: 'align_self'
+  },
 };

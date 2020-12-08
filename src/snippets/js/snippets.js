@@ -1,13 +1,18 @@
+import { jsSnippets } from './config.js';
+import { htmlSnippets } from './config.js';
+import { cssHtmlSnippets } from './config.js';
+import { html_beautify } from 'js-beautify';
+
+// var htmlSnippets = window.snippets?.config?.htmlSnippets || {};
+// var cssHtmlSnippets = window.snippets?.config?.cssHtmlSnippets || {};
+
 window.snippets = (function () { // Use IIFE to avoid polluting the global scope.
 
   // @TODO: group select options with optgroup
-  var _jsSnippets = window.snippets?.config?.jsSnippets || {};
-  var _htmlSnippets = window.snippets?.config?.htmlSnippets || {};
-  var _cssHtmlSnippets = window.snippets?.config?.cssHtmlSnippets || {};
-  var _cssSnippets = {};
+  var cssSnippets = {};
   // to be replaced with ES6 Object.entries
-  Object.keys(_cssHtmlSnippets).forEach(key => {
-    _cssSnippets[key] = _cssHtmlSnippets[key].css;
+  Object.keys(cssHtmlSnippets).forEach(key => {
+    cssSnippets[key] = cssHtmlSnippets[key].css;
   });
 
   // define functions
@@ -53,16 +58,31 @@ window.snippets = (function () { // Use IIFE to avoid polluting the global scope
   }
 
   function _applyCss(params) {
-    var cssRule = params.cssSnippetPre.textContent.replace(/^/gm, '        ');
+    // var cssRule = params.cssSnippetPre.textContent.replace(/^/gm, '        ');
+    // var cssRuleName = params.cssSnippetsSelect.options[params.cssSnippetsSelect.selectedIndex].textContent;
+    // var htmlSrc = htmlSnippets[cssHtmlSnippets[cssRuleName].html].replace(/{{css}}/, cssRule);
+    // params.htmlSrcPre.textContent = htmlSrc;
+    // _renderHtml({ iframe: params.iframe, src: htmlSrc });
+    // _prettyPrint(params.htmlSrcPre);
+
+    var cssRule = params.cssSnippetPre.textContent;
     var cssRuleName = params.cssSnippetsSelect.options[params.cssSnippetsSelect.selectedIndex].textContent;
-    var htmlSrc = _htmlSnippets[_cssHtmlSnippets[cssRuleName].html].replace(/{{css}}/, cssRule);
-    params.htmlSrcPre.textContent = htmlSrc;
-    _renderHtml({ iframe: params.iframe, src: htmlSrc });
+    var htmlSrc = htmlSnippets[cssHtmlSnippets[cssRuleName].html]
+    var domparser = new DOMParser();
+    var doc = domparser.parseFromString(htmlSrc, 'text/html');
+    var style = document.createElement('style');
+    style.innerHTML = cssRule;
+    var head = doc.querySelector('head');
+    head.appendChild(style);
+    var docString = html_beautify(`<!DOCTYPE html><html lang="en">${doc.documentElement.innerHTML}</html>`);
+    // var docString = html_beautify(new XMLSerializer().serializeToString(doc));
+    params.htmlSrcPre.textContent = docString;
+    _renderHtml({ iframe: params.iframe, src: docString });
     _prettyPrint(params.htmlSrcPre);
   }
 
   function _getBlobUrl(src) {
-    const blob = new Blob([src], { type: 'text/html' });
+    var blob = new Blob([src], { type: 'text/html' });
     return URL.createObjectURL(blob)
   }
 
@@ -120,7 +140,7 @@ window.snippets = (function () { // Use IIFE to avoid polluting the global scope
       btn: _applyCssBtn,
       snippetsSelect: _cssSnippetsSelect,
       snippetPre: _cssSnippetPre,
-      snippets: _cssSnippets,
+      snippets: cssSnippets,
       selectedIndexStorageKey: _selectedIndexStorageKeyCss,
       btnClickHandler: function () { _applyCss({ cssSnippetPre: _cssSnippetPre, htmlSrcPre: _htmlSrcPre, iframe: _tryItIframe, cssSnippetsSelect: _cssSnippetsSelect }); },
     });
@@ -129,7 +149,7 @@ window.snippets = (function () { // Use IIFE to avoid polluting the global scope
       btn: _executeJsBtn,
       snippetsSelect: _jsSnippetsSelect,
       snippetPre: _jsSnippetPre,
-      snippets: _jsSnippets,
+      snippets: jsSnippets,
       selectedIndexStorageKey: _selectedIndexStorageKeyJs,
       btnClickHandler: function () { _executeJs({ jsSnippetPre: _jsSnippetPre }) },
     });
