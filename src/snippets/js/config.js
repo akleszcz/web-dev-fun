@@ -63,6 +63,7 @@ import justifyContent from '../data/html/section_5/justify-content.html';
 import order from '../data/html/section_5/order.html';
 import writingMode1 from '../data/html/section_5/writing-mode-1.html';
 import writingMode2 from '../data/html/section_5/writing-mode-2.html';
+import writingModeFlexFlow from '../data/html/section_5/writing-mode-flex-flow.html';
 
 export const jsSnippets = {
   'Optional semicolon 1': optionalSemicolon1,
@@ -321,6 +322,7 @@ export const htmlSnippets = {
   flex_wrap: flexWrap,
   writing_mode_1: writingMode1,
   writing_mode_2: writingMode2,
+  writing_mode_flex_flow: writingModeFlexFlow,
   justify_content: justifyContent,
   align_content: alignContent,
   align_items: alignItems,
@@ -632,6 +634,10 @@ button[disabled] {
   'Writing-mode 2': {
     css: '',
     html: 'writing_mode_2',
+  },
+  'Writing-mode & flex-flow': {
+    css: '',
+    html: 'writing_mode_flex_flow',
   },
   'Flexbox: justify-content': {
     css: '',

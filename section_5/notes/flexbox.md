@@ -377,7 +377,7 @@
   [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode)
 
   Values:
-  - `horizontal-tb`
+  - `horizontal-tb` - default
   - `vertical-rl`
   - `vertical-lr`
   - `sideways-rl` - experimental
