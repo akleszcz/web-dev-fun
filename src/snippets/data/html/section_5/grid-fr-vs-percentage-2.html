@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .parent {
+      display: grid;
+      margin-bottom: 15px;
+    }
+
+    .fraction {
+      grid-template-columns: 1fr 1fr 2fr 100px;
+    }
+
+    .percentage-1 {
+      grid-template-columns: 25% 25% 50% 100px;
+    }
+
+    .percentage-2 {
+      grid-template-columns: 10% 10% 20% 100px;
+    }
+
+    .child {
+      border: 1px solid;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>Fraction</h3>
+  <div class="parent fraction">
+    <div class="child">1fr</div>
+    <div class="child">1fr</div>
+    <div class="child">2fr</div>
+    <div class="child">100px</div>
+  </div>
+
+  <h3>Percentage 1</h3>
+  <div class="parent percentage-1">
+    <div class="child">25%</div>
+    <div class="child">25%</div>
+    <div class="child">50%</div>
+    <div class="child">100px</div>
+  </div>
+
+  <h3>Percentage 2</h3>
+  <div class="parent percentage-2">
+    <div class="child">10%</div>
+    <div class="child">10%</div>
+    <div class="child">20%</div>
+    <div class="child">100px</div>
+  </div>
+</body>
+
+</html>

@@ -64,6 +64,10 @@ import order from '../data/html/section_5/order.html';
 import writingMode1 from '../data/html/section_5/writing-mode-1.html';
 import writingMode2 from '../data/html/section_5/writing-mode-2.html';
 import writingModeFlexFlow from '../data/html/section_5/writing-mode-flex-flow.html';
+import gridHorse1 from '../data/html/section_5/grid-horse-1.html';
+import gridHorse2 from '../data/html/section_5/grid-horse-2.html';
+import gridFrVsPercentage1 from '../data/html/section_5/grid-fr-vs-percentage-1.html';
+import gridFrVsPercentage2 from '../data/html/section_5/grid-fr-vs-percentage-2.html';
 
 export const jsSnippets = {
   'Optional semicolon 1': optionalSemicolon1,
@@ -330,6 +334,10 @@ export const htmlSnippets = {
   flex_grow: flexGrow,
   flex_shrink: flexShrink,
   order,
+  grid_horse_1: gridHorse1,
+  grid_horse_2: gridHorse2,
+  grid_fr_vs_percentage_1: gridFrVsPercentage1,
+  grid_fr_vs_percentage_2: gridFrVsPercentage2,
 };
 
 export const cssHtmlSnippets = {
@@ -667,5 +675,21 @@ button[disabled] {
   'Flexbox: align-self': {
     css: '',
     html: 'align_self'
+  },
+  'Grid: without grid-template-areas': {
+    css: '',
+    html: 'grid_horse_1'
+  },
+  'Grid: with grid-template-areas': {
+    css: '',
+    html: 'grid_horse_2'
+  },
+  'Grid: fr vs % - similarity': {
+    css: '',
+    html: 'grid_fr_vs_percentage_1'
+  },
+  'Grid: fr vs % - difference': {
+    css: '',
+    html: 'grid_fr_vs_percentage_2'
   },
 };

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .parent {
+      display: grid;
+      grid-template-columns: 2fr 1fr 3fr 1fr;
+      grid-template-rows: repeat(5, 3fr) 1fr;
+      grid-column-gap: 0px;
+      grid-row-gap: 0px;
+      grid-template-areas:
+        "background-1 ear background-2 background-2"
+        "head head background-2 background-2"
+        "background-3 neck background-2 background-2"
+        "background-3 horse-blanket horse-blanket horse-blanket"
+        "background-3 fore-leg background-4 hind-leg"
+        "background-3 fore-hoof background-4 hind-hoof";
+      height: 300px;
+      width: 400px;
+    }
+
+    #head {
+      grid-area: head;
+    }
+
+    #ear {
+      grid-area: ear;
+    }
+
+    #neck {
+      grid-area: neck;
+    }
+
+    #horse-blanket {
+      grid-area: horse-blanket;
+    }
+
+    #fore-leg {
+      grid-area: fore-leg;
+    }
+
+    #fore-hoof {
+      grid-area: fore-hoof;
+    }
+
+    #hind-leg {
+      grid-area: hind-leg;
+    }
+
+    #hind-hoof {
+      grid-area: hind-hoof;
+    }
+
+    #background-1 {
+      grid-area: background-1;
+    }
+
+    #background-2 {
+      grid-area: background-2;
+    }
+
+    #background-3 {
+      grid-area: background-3;
+    }
+
+    #background-4 {
+      grid-area: background-4;
+    }
+
+    .background {
+      background-color: #bce7f1;
+    }
+
+    .body {
+      background-color: #d7ba77;
+    }
+
+    .hoof {
+      background-color: #877550;
+    }
+
+    #horse-blanket {
+      background-color: #1d8752;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="parent">
+    <div id="head" class="body"> </div>
+    <div id="ear" class="body"> </div>
+    <div id="neck" class="body"> </div>
+    <div id="horse-blanket"> </div>
+    <div id="fore-leg" class="body"> </div>
+    <div id="fore-hoof" class="hoof"> </div>
+    <div id="hind-leg" class="body"> </div>
+    <div id="hind-hoof" class="hoof"> </div>
+    <div id="background-1" class="background"> </div>
+    <div id="background-2" class="background"> </div>
+    <div id="background-3" class="background"> </div>
+    <div id="background-4" class="background"> </div>
+  </div>
+</body>
+
+</html>
