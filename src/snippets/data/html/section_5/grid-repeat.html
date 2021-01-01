@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .parent {
+      display: grid;
+      width: 500px;
+    }
+
+    .without-repeat {
+      grid-template-columns: 100px 100px 100px;
+    }
+
+    .with-repeat {
+      grid-template-columns: repeat(3, 100px);
+    }
+  </style>
+</head>
+
+<body>
+  <h3>Without 'repeat'</h3>
+  <div class="parent without-repeat">
+    <div class="child">100px</div>
+    <div class="child">100px</div>
+    <div class="child">100px</div>
+  </div>
+
+  <h3>With 'repeat'</h3>
+  <div class="parent with-repeat">
+    <div class="child">100px</div>
+    <div class="child">100px</div>
+    <div class="child">100px</div>
+  </div>
+</body>
+
+</html>

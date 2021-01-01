@@ -10,13 +10,14 @@
       box-sizing: border-box;
     }
 
-    body {
+    body, h1, h2, h3, h4 {
       margin: 0;
     }
 
     .parent {
       display: grid;
       margin-bottom: 15px;
+      width: 500px;
     }
 
     .fraction {
@@ -47,6 +48,7 @@
   </div>
 
   <h3>Percentage 1</h3>
+  <div>(notice that the first three columns widths already sum up to 100% of the container's width)</div>
   <div class="parent percentage-1">
     <div class="child">25%</div>
     <div class="child">25%</div>

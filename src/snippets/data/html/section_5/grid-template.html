@@ -8,15 +8,16 @@
   <style>
     .parent {
       display: grid;
-      grid-template-columns: 2fr 1fr 3fr 1fr;
-      grid-template-rows: repeat(5, 3fr) 1fr;
-      grid-template-areas:
-        "background-1 ear background-2 background-2"
-        "head head background-2 background-2"
-        "background-3 neck background-2 background-2"
-        "background-3 horse-blanket horse-blanket horse-blanket"
-        "background-3 fore-leg background-4 hind-leg"
-        "background-3 fore-hoof background-4 hind-hoof";
+      grid-column-gap: 0px;
+      grid-row-gap: 0px;
+      grid-template:
+        "background-1 ear background-2 background-2" 3fr
+        "head head background-2 background-2" 3fr
+        "background-3 neck background-2 background-2" 3fr
+        "background-3 horse-blanket horse-blanket horse-blanket" 3fr
+        "background-3 fore-leg background-4 hind-leg" 3fr
+        "background-3 fore-hoof background-4 hind-hoof" 1fr
+        / 2fr 1fr 3fr 1fr;
       height: 300px;
       width: 400px;
     }
