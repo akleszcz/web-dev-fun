@@ -25,6 +25,13 @@
       background-color: yellow;
     }
 
+    .grow :first-child {
+      flex-grow: 1;
+    }
+
+    .grow :last-child {
+      flex-grow: 2;
+    }
   </style>
 </head>
 
@@ -35,10 +42,10 @@
     <div class="child">Content</div>
   </div>
 
-  <div class="container">
-    <div class="child" style="flex-grow:1">Content</div>
+  <div class="container grow">
     <div class="child">Content</div>
-    <div class="child" style="flex-grow:2">Content</div>
+    <div class="child">Content</div>
+    <div class="child">Content</div>
   </div>
 </body>
 

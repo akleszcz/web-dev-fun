@@ -134,16 +134,13 @@
     [Source](https://www.w3.org/TR/css-flexbox-1/#align-items-property)
 
     ![flexbox safe and unsafe browser support](../assets/flex-align.svg)
+  
   *Source: https://www.w3.org/TR/css-flexbox-1/images/flex-align.svg*
   - values:
     - `normal` (default, according to [W3C specification](https://www.w3.org/TR/css-align-3/#align-items-property))
     - `stretch` ~~(default)~~
     - `flex-start`
-    - `start`
-    - `self-start`
     - `flex-end`
-    - `end` - currently (November 2020) works on FireFox, but not Chrome
-    - `self-end` - currently (November 2020) works on FireFox, but not Chrome
     - `center`
     - `baseline` - 
       > In many cases, when the font size is the same among items (like in the question), or the content is otherwise the same, then flex-start and baseline will be indistinguishable.
@@ -164,11 +161,13 @@
 
   - values: 
     - `normal` (default, according to [W3C specification](https://www.w3.org/TR/css-align-3/#align-justify-content))
-    - `stretch` - see [align-content: normal vs stretch](#align-content-normal-vs-stretch)
+    - `stretch`:
+      - > Lines stretch to take up the remaining space. If the leftover free-space is negative, this value is identical to flex-start. Otherwise, the free-space is split equally between all of the lines, increasing their cross size.
+
+      [Source](https://www.w3.org/TR/css-flexbox-1/#align-items-property)
+      - see also [align-content: normal vs stretch](#align-content-normal-vs-stretch)
     - `flex-start`
-    - `start`
     - `flex-end`
-    - `end` - currently (December 2020) works on FireFox, but not Chrome
     - `center`
     - `space-between`
     - `space-around`
@@ -187,7 +186,7 @@
   - default value: 0
 
   - a note on accessibility:
-    > The order property does not affect ordering in non-visual media (such as speech). Likewise, order does not affect the default traversal order of sequential navigation modes (such as cycling through links, see e.g. tabindex
+    > The order property does not affect ordering in non-visual media (such as speech). Likewise, order does not affect the default traversal order of sequential navigation modes (such as cycling through links, see e.g. tabindex)
 
     [Source](https://www.w3.org/TR/css-flexbox-1/#order-accessibility)
 
@@ -337,8 +336,28 @@
     ```
 
     ![flex-shrink](../assets/flex-shrink.png)
-- `flex-basis`
-- `flex`
+- `flex-basis`:
+  - > specifies the initial size of the flex item, before any available space is distributed according to the flex factors.
+
+    [Source](https://css-tricks.com/almanac/properties/f/flex-basis/)
+
+  - controls flex item's width if flex container's `flex-direction` is set to `row`; controls flex item's height if flex container's `flex-direction` is set to `column`.
+
+  - default value: `auto`:
+    > When specified on a flex item, the `auto` keyword retrieves the value of the main size property as the used `flex-basis`. If that value is itself `auto`, then the used value is `content`.
+
+    [Source](https://www.w3.org/TR/css-flexbox-1/#valdef-flex-basis-auto) 
+
+  - you can read more in [The difference between width and flex-basis in Flexbox](https://www.freecodecamp.org/news/flexboxs-flex-basis-explained-83d1a01413b7/)
+- `flex`:
+  - > This is the shorthand for `flex-grow`, `flex-shrink` and `flex-basis` combined. The second and third parameters (`flex-shrink` and `flex-basis`) are optional.
+
+    [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+  - default value: `0 1 auto`
+  
+  - >Authors are encouraged to control flexibility using the flex shorthand rather than with flex-grow directly, as the shorthand correctly resets any unspecified components to accommodate common uses.
+
+    [Source](https://drafts.csswg.org/css-flexbox/#flex-grow-property)
 - `align-self`:
   - > This allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.
 
@@ -351,7 +370,6 @@
     - `center`
     - `baseline`
     - `stretch`
-  @TODO: finish example
 ---
 ## Notes
 ### CSS `direction` property

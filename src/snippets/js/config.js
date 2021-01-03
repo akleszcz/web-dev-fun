@@ -59,6 +59,7 @@ import alignItems from '../data/html/section_5/align-items.html';
 import alignSelf from '../data/html/section_5/align-self.html';
 import flexGrow from '../data/html/section_5/flex-grow.html';
 import flexShrink from '../data/html/section_5/flex-shrink.html';
+import flexBasis from '../data/html/section_5/flex-basis.html';
 import justifyContent from '../data/html/section_5/justify-content.html';
 import order from '../data/html/section_5/order.html';
 import writingMode1 from '../data/html/section_5/writing-mode-1.html';
@@ -333,6 +334,7 @@ export const htmlSnippets = {
   align_self: alignSelf,
   flex_grow: flexGrow,
   flex_shrink: flexShrink,
+  flex_basis: flexBasis,
   order,
   grid_horse_1: gridHorse1,
   grid_horse_2: gridHorse2,
@@ -627,11 +629,11 @@ button[disabled] {
     css: '',
     html: 'display_flex'
   },
-  'Flexbox: flex-direction': {
+  'Flex container: flex-direction': {
     css: '',
     html: 'flex_direction',
   },
-  'Flexbox: flex-wrap': {
+  'Flex container: flex-wrap': {
     css: '',
     html: 'flex_wrap'
   },
@@ -647,32 +649,36 @@ button[disabled] {
     css: '',
     html: 'writing_mode_flex_flow',
   },
-  'Flexbox: justify-content': {
+  'Flex container: justify-content': {
     css: '',
     html: 'justify_content'
   },
-  'Flexbox: align-items': {
+  'Flex container: align-items': {
     css: '',
     html: 'align_items'
   },
-  'Flexbox: align-content': {
+  'Flex container: align-content': {
     css: '',
     html: 'align_content'
   },
 
-  'Flexbox: order': {
+  'Flex item: order': {
     css: '',
     html: 'order'
   },
-  'Flexbox: flex-grow': {
+  'Flex item: flex-grow': {
     css: '',
     html: 'flex_grow'
   },
-  'Flexbox: flex-shrink': {
+  'Flex item: flex-shrink': {
     css: '',
     html: 'flex_shrink'
   },
-  'Flexbox: align-self': {
+  'Flex item: flex-basis': {
+    css: '',
+    html: 'flex_basis'
+  },
+  'Flex item: align-self': {
     css: '',
     html: 'align_self'
   },
