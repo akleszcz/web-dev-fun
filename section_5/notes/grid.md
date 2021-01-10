@@ -2,6 +2,11 @@
 ## Basics and Terminology
 
 - CSS Grid can be used to create a two-dimensional layout system, optimized for user interface design.
+
+  ![example grid layout](../assets/grid-layout.png)
+  
+  *Example grid layout*
+
 - A **grid container** is an element with `display` property set to `grid` or `inline-grid`. Its children become **grid items**.
 - Other important elements:
   - grid line
@@ -11,7 +16,8 @@
 
     ![grid layout box model](../assets/grid.png)
 
-    ![gli lines](../assets/grid-lines.png)
+    ![grid lines](../assets/grid-lines.png)
+    
   *Source: https://www.w3.org/TR/css-grid-1/#grid-concepts*
 
 ## CSS properties
@@ -133,20 +139,55 @@
     ```
 
 - `grid-column-gap`, `grid-row-gap` - legacy properties that should be treated as aliases for `column-gap` and `row-gap`, respectively
-- `gap`, 
-`grid-gap`
+- `gap`:
+  - a shorthand property for `row-gap` and `column-gap`
+  - > If no row-gap is specified, it’s set to the same value as column-gap
+
+  [Source](https://css-tricks.com/snippets/css/complete-guide-grid/)
+- `grid-gap` - deprecated property; use `gap` instead
 
 ### Grid items properties
 - `grid-column-start`, 
-`grid-column-end`, 
-`grid-row-start`, 
-`grid-row-end`
-- `grid-column`, 
-`grid-row`
-- `grid-area`
+
+  `grid-column-end`,
+
+  `grid-row-start`,
+
+  `grid-row-end`:
+  - > Determines a grid item’s location within the grid by referring to specific grid lines. `grid-column-start`/`grid-row-start` is the line where the item begins, and `grid-column-end`/`grid-row-end` is the line where the item ends.
+
+    [Source](https://css-tricks.com/snippets/css/complete-guide-grid/)
+
+  - example:
+    ```css
+    #head {
+      grid-row-start: 2;
+      grid-column-start: 1;
+      grid-row-end: 3;
+      grid-column-end: 3;
+    }
+    ```
+
+  - note: negative values can be used as well:
+    ```css
+    #head {
+      grid-row-start: 2;
+      grid-column-start: 1;
+      grid-row-end: -5;
+      grid-column-end: 3;
+    }
+    ```
+- `grid-column` - a shorthand property for `grid-column-start` and  `grid-column-end`
+- `grid-row` - a shorthand property for `grid-row-start` and  `grid-row-end` 
+- `grid-area`:
+  - > Gives an item a name so that it can be referenced by a template created with the grid-template-areas property. Alternatively, this property can be used as an even shorter shorthand for grid-row-start + grid-column-start + grid-row-end + grid-column-end.
+
+    [Source](https://css-tricks.com/snippets/css/complete-guide-grid/)
 
 ## Inspect CSS Grid with Chrome DevTools
-@TODO: https://developers.google.com/web/tools/chrome-devtools/css/grid
+Visit https://developers.google.com/web/tools/chrome-devtools/css/grid to get familiar with CSS Grid debugging options available in Chrome.
+
+Visit https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector/How_to/Examine_grid_layouts to get familiar with CSS Grid debugging options available in Firefox.
 
 ---
 ## Notes

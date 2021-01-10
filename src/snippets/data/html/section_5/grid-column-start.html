@@ -7,69 +7,62 @@
   <title>Document</title>
   <style>
     .parent {
-      background-color: #000;
       display: grid;
       grid-template-columns: 2fr 1fr 3fr 1fr;
       grid-template-rows: repeat(5, 3fr) 1fr;
-      row-gap: 5px;
-      column-gap: 2px;
-      grid-template-areas:
-        "background-1 ear background-2 background-2"
-        "head head background-2 background-2"
-        "background-3 neck background-2 background-2"
-        "background-3 horse-blanket horse-blanket horse-blanket"
-        "background-3 fore-leg background-4 hind-leg"
-        "background-3 fore-hoof background-4 hind-hoof";
       height: 300px;
       width: 400px;
     }
 
     #head {
-      grid-area: head;
+      grid-row-start: 2;
+      grid-column-start: 1;
+      grid-row-end: 3;
+      grid-column-end: 3;
     }
 
     #ear {
-      grid-area: ear;
+      grid-area: 1 / 2 / 2 / 3;
     }
 
     #neck {
-      grid-area: neck;
+      grid-area: 3 / 2 / 4 / 3;
     }
 
     #horse-blanket {
-      grid-area: horse-blanket;
+      grid-area: 4 / 2 / 5 / 5;
     }
 
     #fore-leg {
-      grid-area: fore-leg;
+      grid-area: 5 / 2 / 6 / 3;
     }
 
     #fore-hoof {
-      grid-area: fore-hoof;
+      grid-area: 6 / 2 / 7 / 3;
     }
 
     #hind-leg {
-      grid-area: hind-leg;
+      grid-area: 5 / 4 / 6 / 5;
     }
 
     #hind-hoof {
-      grid-area: hind-hoof;
+      grid-area: 6 / 4 / 7 / 5;
     }
 
     #background-1 {
-      grid-area: background-1;
+      grid-area: 1 / 1 / 2 / 2;
     }
 
     #background-2 {
-      grid-area: background-2;
+      grid-area: 3 / 1 / 7 / 2;
     }
 
     #background-3 {
-      grid-area: background-3;
+      grid-area: 1 / 3 / 4 / 5;
     }
 
     #background-4 {
-      grid-area: background-4;
+      grid-area: 5 / 3 / 7 / 4;
     }
 
     .background {

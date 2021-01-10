@@ -222,10 +222,6 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Document</title>
       <style>
-        .child {
-          background-color: cornflowerblue;
-        }
-
         .container {
           background-color: green;
           display: flex;
@@ -245,20 +241,27 @@
           background-color: yellow;
         }
 
+        .grow :first-child {
+          flex-grow: 1;
+        }
+
+        .grow :last-child {
+          flex-grow: 2;
+        }
       </style>
     </head>
 
     <body>
       <div class="container">
-        <div class="child">Content</div>
-        <div class="child">Content</div>
-        <div class="child">Content</div>
+        <div>Content</div>
+        <div>Content</div>
+        <div>Content</div>
       </div>
 
-      <div class="container">
-        <div class="child" style="flex-grow:1">Content</div>
-        <div class="child">Content</div>
-        <div class="child" style="flex-grow:2">Content</div>
+      <div class="container grow">
+        <div>Content</div>
+        <div>Content</div>
+        <div>Content</div>
       </div>
     </body>
 
@@ -346,7 +349,11 @@
   - default value: `auto`:
     > When specified on a flex item, the `auto` keyword retrieves the value of the main size property as the used `flex-basis`. If that value is itself `auto`, then the used value is `content`.
 
-    [Source](https://www.w3.org/TR/css-flexbox-1/#valdef-flex-basis-auto) 
+    [Source](https://www.w3.org/TR/css-flexbox-1/#valdef-flex-basis-auto)
+
+  - > Note: in case both `flex-basis` (other than `auto`) and `width` (or `height` in case of `flex-direction: column`) are set for an element, `flex-basis` has priority.
+
+    [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis) 
 
   - you can read more in [The difference between width and flex-basis in Flexbox](https://www.freecodecamp.org/news/flexboxs-flex-basis-explained-83d1a01413b7/)
 - `flex`:

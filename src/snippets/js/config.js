@@ -69,6 +69,10 @@ import gridHorse1 from '../data/html/section_5/grid-horse-1.html';
 import gridHorse2 from '../data/html/section_5/grid-horse-2.html';
 import gridFrVsPercentage1 from '../data/html/section_5/grid-fr-vs-percentage-1.html';
 import gridFrVsPercentage2 from '../data/html/section_5/grid-fr-vs-percentage-2.html';
+import gridRepeat from '../data/html/section_5/grid-repeat.html';
+import gridTemplate from '../data/html/section_5/grid-template.html';
+import gridRowAndColumnGap from '../data/html/section_5/grid-row-and-column-gap.html';
+import gridColumnStart from '../data/html/section_5/grid-column-start.html';
 
 export const jsSnippets = {
   'Optional semicolon 1': optionalSemicolon1,
@@ -340,6 +344,10 @@ export const htmlSnippets = {
   grid_horse_2: gridHorse2,
   grid_fr_vs_percentage_1: gridFrVsPercentage1,
   grid_fr_vs_percentage_2: gridFrVsPercentage2,
+  grid_repeat: gridRepeat,
+  grid_template: gridTemplate,
+  grid_row_and_column_gap: gridRowAndColumnGap,
+  grid_column_start: gridColumnStart,
 };
 
 export const cssHtmlSnippets = {
@@ -697,5 +705,21 @@ button[disabled] {
   'Grid: fr vs % - difference': {
     css: '',
     html: 'grid_fr_vs_percentage_2'
+  },
+  'Grid: repeat function': {
+    css: '',
+    html: 'grid_repeat'
+  },
+  'Grid: grid-template': {
+    css: '',
+    html: 'grid_template'
+  },
+  'Grid: row-gap and column-gap': {
+    css: '',
+    html: 'grid_row_and_column_gap'
+  },
+  'Grid: grid-column-start, grid-column-end, grid-row-start, grid-row-end': {
+    css: '',
+    html: 'grid_column_start'
   },
 };
