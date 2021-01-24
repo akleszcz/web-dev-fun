@@ -12,7 +12,9 @@ Use flex and grid layouts where appropriate.
 - There is a 15px gap between photos in the gallery.
 - Header's and footer's height is determined by their content.
 - The content area is 3.5 times wider than the sidebar.
-- If a new photo doesn't fit in the existing line, it should be pushed to the start of a new line.
+- If a new photo doesn't fit in the existing line, it should be pushed to the start of a new line (assuming `ltr` direction).
+- Each photo is 100x100px
+- You can use `assets/no-image.png` file as a photo placeholder
 - Main areas' background colors are as follows:
   - header, footer - #909cc2
   - content - #fff
