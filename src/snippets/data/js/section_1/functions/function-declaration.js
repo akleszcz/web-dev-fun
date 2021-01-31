@@ -1,4 +1,4 @@
 function add(x, y) {
   return x + y;
 }
-add(5, 7);
+console.log(add(5, 7));
