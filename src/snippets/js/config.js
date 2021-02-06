@@ -39,17 +39,17 @@ import constBlockScope from '../data/js/section_1/const-block-scope.js';
 import constGlobalVariable from '../data/js/section_1/const-global-variable.js';
 import constTdz from '../data/js/section_1/const-tdz.js';
 
-import anonymousFunctionExpression from '../data/js/section_1/functions/anonymous-function-expression.js';
-import argumentsObject from '../data/js/section_1/functions/arguments-object.js';
-import functionDeclaration from '../data/js/section_1/functions/function-declaration.js';
-import functionHoisting from '../data/js/section_1/functions/function-declaration-vs-expression-hoisting.js';
-import functionExpressionAssigned from '../data/js/section_1/functions/function-expression-assigned.js';
-import functionExpressionStackTrace1 from '../data/js/section_1/functions/function-expression-stack-trace-1.js';
-import functionExpressionStackTrace2 from '../data/js/section_1/functions/function-expression-stack-trace-2.js';
-import namedFunctionExpression from '../data/js/section_1/functions/named-function-expression.js';
-import numberOfParameters1 from '../data/js/section_1/functions/number-of-parameters-1.js';
-import numberOfParameters2 from '../data/js/section_1/functions/number-of-parameters-2.js';
-import restParameter from '../data/js/section_1/functions/rest-parameter.js';
+import anonymousFunctionExpression from '../data/js/section_2/anonymous-function-expression.js';
+import argumentsObject from '../data/js/section_2/arguments-object.js';
+import functionDeclaration from '../data/js/section_2/function-declaration.js';
+import functionHoisting from '../data/js/section_2/function-declaration-vs-expression-hoisting.js';
+import functionExpressionAssigned from '../data/js/section_2/function-expression-assigned.js';
+import functionExpressionStackTrace1 from '../data/js/section_2/function-expression-stack-trace-1.js';
+import functionExpressionStackTrace2 from '../data/js/section_2/function-expression-stack-trace-2.js';
+import namedFunctionExpression from '../data/js/section_2/named-function-expression.js';
+import numberOfParameters1 from '../data/js/section_2/number-of-parameters-1.js';
+import numberOfParameters2 from '../data/js/section_2/number-of-parameters-2.js';
+import restParameter from '../data/js/section_2/rest-parameter.js';
 
 // HTML snippets
 // Section 4
@@ -327,7 +327,7 @@ const o = {
 
 Object.freeze(o);
 o.x = 100;`,
-  'Functions: fuunction declaration': functionDeclaration,
+  'Functions: function declaration': functionDeclaration,
   'Functions: function expression assigned': functionExpressionAssigned,
   'Functions: anonymous function expression': anonymousFunctionExpression,
   'Functions: named function expression': namedFunctionExpression,

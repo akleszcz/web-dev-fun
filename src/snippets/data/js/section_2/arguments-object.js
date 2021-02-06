@@ -5,3 +5,4 @@ function max() {
   return max;
 }
 var largest = max(1, 10, 100, 2, 3, 1000, 4, 5, 10000, 6);
+console.log('largest: ', largest);
