@@ -35,7 +35,7 @@ add(5); // x:  5; y:  undefined; NaN
 
 - > **Note**: “`Array`-like” means that arguments has a `length` property and properties indexed from zero, but it doesn't have `Array`'s built-in methods like `forEach` or `map`.
 
-  See [Rest parameters](#rest-parameters) for more tails.
+  See [Rest parameters](#rest-parameters) for more details.
 
 - `arguments` object is useful for definig *variadic functions*, i.e. functions that can be passed a variable number of arguments, such as `Math.min`
 
@@ -58,7 +58,7 @@ var largest = max(1, 10, 100, 2, 3, 1000, 4, 5, 10000, 6); // => 10000
 **Source**: *JavaScript: The Definitive Guide*, 6th Edition, David Flanagan
 
 ## Rest parameters
-Rest parameter syntax provides an alternative way of definig variadic functions (compare with the [`arguments`](#arguments) object).
+Rest parameter syntax provides an alternative way of definig variadic functions (compare with [the `arguments` object](#the-arguments-object)).
 
 ### Syntax
 > A function definition's last parameter can be prefixed with "..." (...), which will cause all remaining (user supplied) parameters to be placed within a "standard" JavaScript array.
@@ -137,13 +137,13 @@ that a valid value for timeout might actually be 0, but this would replace it wi
 
 ### ...and the new way
 ```javascript
-> function getPropertyNames(o, /* optional */ a = []) {
->   for(var property in o) a.push(property);
->   return a;
-> }
-> // This function can be invoked with 1 or 2 arguments:
-> var a = getPropertyNames(o); // Get o's properties into a new array
-> getPropertyNames(p, a);
+function getPropertyNames(o, /* optional */ a = []) {
+  for (var property in o) a.push(property);
+  return a;
+}
+ // This function can be invoked with 1 or 2 arguments:
+ var a = getPropertyNames(o); // Get o's properties into a new array
+ getPropertyNames(p, a);
 ```
 ### Notes
 - By default, all function parameters default to `undefined`.
@@ -172,6 +172,7 @@ that a valid value for timeout might actually be 0, but this would replace it wi
   ```
 
 - It's possible to definde parameters without default values after the ones with default values:
+
   Example:
   ```javascript
   function sayHello(name = 'world', lastname) {
@@ -221,3 +222,69 @@ that a valid value for timeout might actually be 0, but this would replace it wi
   > ```
 
   **Source**: *Understanding ECMAScript 6: The Definitive Guide for JavaScript Developers*, Nicholas C. Zakas, p. 41
+
+## Primitive and object parameters
+> Arguments are passed to functions by value. If the function changes the value of an argument, this change is not reflected globally or in the calling function. However, object references are values, too, and they are special: if the function changes the referred object's properties, that change is visible outside the function (...).
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions)
+
+> Javascript always passes by value. However, if you pass an object to a function, the "value" is really a reference to that object, so the function can modify that object's properties but not cause the variable outside the function to point to some other object.
+
+[Source](https://stackoverflow.com/questions/6605640/javascript-by-reference-vs-by-value)
+
+### Example 1
+```javascript
+const ourTeamName = 'Commercial';
+
+function rebrand(name, newName) {
+  name = newName;
+  return name;
+}
+
+console.log('ourTeamName before rebranding:', ourTeamName); // ourTeamName before rebranding: Commercial
+const ourNewTeamName = rebrand(ourTeamName, 'Admadillos');
+console.log('ourTeamName after rebranding:', ourTeamName); // ourTeamName after rebranding: Commercial
+console.log('ourNewTeamName:', ourNewTeamName); // ourNewTeamName: Admadillos
+```
+
+### Example 2
+```javascript
+const ourTeam = {
+  name: 'Commercial'
+};
+
+function rebrand(team, newName) {
+  team.name = newName;
+  return team;
+}
+
+console.log('ourTeam before rebranding:', ourTeam); // ourTeam before rebranding: {name: "Commercial"}
+const ourNewTeam = rebrand(ourTeam, 'Admadillos');
+console.log('ourTeam after rebranding:', ourTeam); // ourTeam after rebranding: {name: "Admadillos"}
+console.log('ourNewTeam:', ourNewTeam); // ourNewTeam: {name: "Admadillos"}
+console.log('ourTeam === ourNewTeam:', ourTeam === ourNewTeam); // ourTeam === ourNewTeam: true
+```
+
+### Example 3
+```javascript
+const ourTeam = {
+  name: 'Commercial'
+};
+
+function rebrand(team, newName) {
+  team = {
+    name: newName
+  };
+  return team;
+}
+
+console.log('ourTeam before rebranding:', ourTeam); // ourTeam before rebranding: {name: "Commercial"}
+const ourNewTeam = rebrand(ourTeam, 'Admadillos');
+console.log('ourTeam after rebranding:', ourTeam); // ourTeam after rebranding: {name: "Commercial"}
+console.log('ourNewTeam:', ourNewTeam); // ourNewTeam: {name: "Admadillos"}
+console.log('ourTeam === ourNewTeam:', ourTeam === ourNewTeam); // ourTeam === ourNewTeam: false
+```
+
+@TODO
+- Default values with object params
+- Rest params vs array params

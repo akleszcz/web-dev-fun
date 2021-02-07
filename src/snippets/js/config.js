@@ -39,6 +39,7 @@ import constBlockScope from '../data/js/section_1/const-block-scope.js';
 import constGlobalVariable from '../data/js/section_1/const-global-variable.js';
 import constTdz from '../data/js/section_1/const-tdz.js';
 
+// Section 2
 import anonymousFunctionExpression from '../data/js/section_2/anonymous-function-expression.js';
 import argumentsObject from '../data/js/section_2/arguments-object.js';
 import functionDeclaration from '../data/js/section_2/function-declaration.js';
@@ -50,6 +51,17 @@ import namedFunctionExpression from '../data/js/section_2/named-function-express
 import numberOfParameters1 from '../data/js/section_2/number-of-parameters-1.js';
 import numberOfParameters2 from '../data/js/section_2/number-of-parameters-2.js';
 import restParameter from '../data/js/section_2/rest-parameter.js';
+import defaultParameterOld from '../data/js/section_2/default-parameter-old.js';
+import defaultParameterNew from '../data/js/section_2/default-parameter-new.js';
+import defaultParameterUndefined from '../data/js/section_2/default-parameter-undefined.js';
+import defaultParameterTriggers from '../data/js/section_2/default-parameter-triggers.js';
+import defaultParameterFirst from '../data/js/section_2/default-parameter-first.js';
+import defaultParameterUsingAnotherParameter from '../data/js/section_2/default-parameter-using-another-parameter.js';
+import defaultParameterFunctionCall1 from '../data/js/section_2/default-parameter-function-call-1.js';
+import defaultParameterFunctionCall2 from '../data/js/section_2/default-parameter-function-call-2.js';
+import passedByValuePrimitive from '../data/js/section_2/passed-by-value-primitive.js';
+import passedByValueObject1 from '../data/js/section_2/passed-by-value-object-1.js';
+import passedByValueObject2 from '../data/js/section_2/passed-by-value-object-2.js';
 
 // HTML snippets
 // Section 4
@@ -338,6 +350,17 @@ o.x = 100;`,
   'Functions: number of parameters 2': numberOfParameters2,
   'Functions: arguments object': argumentsObject,
   'Functions: rest parameter': restParameter,
+  'Functions: default parameters - old way': defaultParameterOld,
+  'Functions: default parameters - new way': defaultParameterNew,
+  'Functions: default parameters - undefined': defaultParameterUndefined,
+  'Functions: default parameters - triggers': defaultParameterTriggers,
+  'Functions: default parameters - first': defaultParameterFirst,
+  'Functions: default parameters - using another parameter': defaultParameterUsingAnotherParameter,
+  'Functions: default parameters - function call 1': defaultParameterFunctionCall1,
+  'Functions: default parameters - function call 2': defaultParameterFunctionCall2,
+  'Functions: primitive argument': passedByValuePrimitive,
+  'Functions: object argument 1': passedByValueObject1,
+  'Functions: object argument 2': passedByValueObject2,
 };
 
 export const htmlSnippets = {

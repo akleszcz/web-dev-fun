@@ -4,4 +4,4 @@ function myFun(a,  b, ...manyMoreArgs) {
   console.log("manyMoreArgs", manyMoreArgs)
 }
 
-myFun("one", "two", "three", "four", "five", "six")
+myFun("one", "two", "three", "four", "five", "six");
