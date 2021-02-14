@@ -285,6 +285,155 @@ console.log('ourNewTeam:', ourNewTeam); // ourNewTeam: {name: "Admadillos"}
 console.log('ourTeam === ourNewTeam:', ourTeam === ourNewTeam); // ourTeam === ourNewTeam: false
 ```
 
+## Configuration object pattern
+> The configuration object pattern is a way to provide cleaner APIs, especially if you’re building a library or any other code that will be consumed by other programs.
+
+[Source](https://www.oreilly.com/library/view/javascript-patterns/9781449399115/ch04.html)
+
+### Idea
+
+> Passing a large number of parameters is not convenient. A better approach is to substitute all the parameters with only one and make it an object.
+
+[Source](https://www.oreilly.com/library/view/javascript-patterns/9781449399115/ch04.html)
+
+### Example
+Let's say we want to define a function with the following personal details as parameters:
+- `first` - required, 
+- `last` - required, 
+- `dob` - required, 
+- `gender` - optional, 
+- `address` - optional.
+
+Let's say that later we need to add another required parameter called `username`.
+
+#### Without the pattern used
+The function is first defined like this:
+
+```javascript
+function addPerson(first, last, dob, gender, address) {...}
+```
+
+and called like this (assuming that values for the optional parameters are not provided):
+```javascript
+addPerson("Bruce", "Wayne", new Date());
+```
+
+After the `username` parameter is added, the function looks like this:
+
+```javascript
+function addPerson(first, last, dob, gender, address, username) {...}
+```
+
+and has to be called like this (again, assuming that values for the optional parameters are not provided):
+
+```javascript
+addPerson("Bruce", "Wayne", new Date(), undefined, undefined, "batman");
+```
+
+As you can see, we now have to pass even the optional parameters and be careful not to mix the parameters' order.
+
+#### With the pattern used
+Instead of having multiple parameters, we can have only one, named `config`, that is expected to be an object. This object's properties will contain values for all the personal details that our function needs: 
+```javascript
+function addPerson(config) {...}
+```
+Then our function can be called like this:
+```javascript
+var config = {
+    username: "batman",
+    first: "Bruce",
+    last: "Wayne"
+};
+addPerson(config);
+```
+
+### Pros
+- allows for a cleaner programming interface
+- no need to remember the order of the parameters
+- optional parameters can be safely skipped
+
+### Cons
+- > you need to remember the names of the parameters
+- > property names cannot always be safely minified, especially by simpler minifiers
+
+Source: *JavaScript Patterns: Build Better Applications with Coding and Design Patterns*, 1st Edition, Stoyan Stefanov, p. 8-84
+
+### Note
+If we develop a library and decide to add a required parameter to one of its functions, like in the example above, it means we introduce a breaking change. This means that we cannot ensure backward compatibility for existing implemenentations and should inform the users about it, e.g. by increasing the major version of our library if [semver](https://semver.org/) is used. 
+
+With this breaking change, we could theoretically change the order of our function's params, since its existing calls need to be updated to provide a value the new required param anyway.
+
+Therefore, instead of this:
+
+```javascript
+function addPerson(first, last, dob, gender, address, username) {...}
+```
+
+we could have this:
+
+```javascript
+function addPerson(first, last, dob, username, gender, address) {...}
+```
+
+and call it like this:
+```javascript
+addPerson("Bruce", "Wayne", new Date(), "batman");
+```
+without explicitly setting optional params to `undefined`.
+
+However, this creates a risk that some of the existing function calls will still work, even though they will now pass values to different parameters that they were meant to. This will make it more difficult to detect the problem.
+
+For example, if an existing implementation of our library contained a function call like this:
+```javascript
+addPerson("Bruce", "Wayne", new Date(), "male");
+```
+it wouldn't throw an error after the breaking change was introduced, but it would incorrectly assign the value `male` to `username`, instead of `gender`.
+
+## Destructuring function parameters
+> The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+
+This feature was introduced in ES6.
+
+### Example
+Instead of defining a function like this:
+```javascript
+function addPerson(config) {
+  const first = config.first;
+  const last = config.last;
+  const dob = config.dob;
+  const gender = config.gender;
+  const address = config.address;
+  ...
+}
+```
+
+we can do it like this:
+
+```javascript
+function addPerson({ first, last, dob, gender, address }) {
+  ...
+}
+```
+
+Both versions would be called in the same manner:
+
+```javascript
+addPerson({
+    username: "batman",
+    first: "Bruce",
+    last: "Wayne"
+});
+```
+
+Any params with values unspecified in the configuration object will be set to `undefined`. Any additional properties in the configuration object will be ignored (by "additional" we mean the ones whose names are not in the list of function's destructured params).
+
+@TODO: Examples
+
+
+
+
 @TODO
 - Default values with object params
 - Rest params vs array params
