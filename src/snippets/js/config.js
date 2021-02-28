@@ -63,7 +63,13 @@ import passedByValuePrimitive from '../data/js/section_2/passed-by-value-primiti
 import passedByValueObject1 from '../data/js/section_2/passed-by-value-object-1.js';
 import passedByValueObject2 from '../data/js/section_2/passed-by-value-object-2.js';
 
+// Section 3
+import callbackPattern from '../data/js/section_3/callback-pattern.js';
+
 // HTML snippets
+// Section 3
+import clickEventListener from '../data/html/section_3/click-event-listener.html';
+
 // Section 4
 import selectors from '../data/html/section_4/selectors.html';
 import pseudoclasses from '../data/html/section_4/pseudoclasses.html';
@@ -361,9 +367,11 @@ o.x = 100;`,
   'Functions: primitive argument': passedByValuePrimitive,
   'Functions: object argument 1': passedByValueObject1,
   'Functions: object argument 2': passedByValueObject2,
+  'Async: the callback pattern': callbackPattern,
 };
 
 export const htmlSnippets = {
+  click_event_listener: clickEventListener,
   selectors,
   pseudoclasses,
   'pseudoclasses:link': pseudoclassesLink,
@@ -767,5 +775,9 @@ button[disabled] {
   'Grid: grid-column-start, grid-column-end, grid-row-start, grid-row-end': {
     css: '',
     html: 'grid_column_start'
+  },
+  'Click event listener': {
+    css: '',
+    html: 'click_event_listener',
   },
 };
