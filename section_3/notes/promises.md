@@ -16,11 +16,13 @@ A new, unsettled `Promise` can be defined with the `Promise` constructor like th
 ```javascript
 function sleep(nbrOfSeconds, shouldFail) {
   return new Promise(function (resolve, reject) {
-    if (shouldFail) {
-      reject(new Error(`Rejected after ${nbrOfSeconds} seconds`));
-    } else {
-      resolve(`Resolved after ${nbrOfSeconds} second(s)`);
-    }
+    setTimeout(function () {
+      if (shouldFail) {
+        reject(new Error(`Rejected after ${nbrOfSeconds} seconds`));
+      } else {
+        resolve(`Resolved after ${nbrOfSeconds} second(s)`);
+      }
+    }, nbrOfSeconds * 1000);
   });
 }
 ```
@@ -110,10 +112,7 @@ sleep(1, true)
 ```
 This can be useful e.g. for hiding a loader on a page after data fetching is finished (either with success or error). 
 
-All three of the methods above return new `Promise` instances. Thanks to that, they can be chained:
-```javascript
-@TODO
-```
+All three of the methods above return new `Promise` instances. Thanks to that, they can be chained.
 
 @TODO
 - the constructor
