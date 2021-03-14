@@ -25,7 +25,7 @@ from setTimeout
 ```
 As you can see, the `console.log` instruction defined outside of `setTimeout` was run first, even thought it appears later in the code. This is because  `setTimeout`'s delay (of 0 ms, but still) is handled by Browser API. After the delay time passes, `setTimeout`'s callback is added to the callback queue.
 
-While the timer runs in the browser, `console.log('from outside of setTimeout');` is pushed to the call stack. Only after it is executed and the call stack is empty, `setTimeout`'s callback from the callback queue can be pushed to the call stack and exexuted. 
+While the timer runs in the browser, `console.log('from outside of setTimeout');` is pushed to the call stack. Only after it is executed and the call stack is empty, `setTimeout`'s callback from the callback queue can be pushed to the call stack and executed. 
 
 Based on:
 - *Concurrency model and the event loop*, https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop

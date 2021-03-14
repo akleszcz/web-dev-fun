@@ -22,10 +22,10 @@ btn.addEventListener('click', function(event) {
 > console.log("Hi!"); //  console.log("Hi!") is output immediately after readFile() is called, before console.log(contents) prints anything
 > ```
 > This example uses the traditional Node.js error-fist callback style. The
-readFile() function is intended to read from a fie on disk (specifid as the
+readFile() function is intended to read from a file on disk (specifid as the
 fist argument) and then execute the callback (the second argument) when
 complete. If there’s an error, the err argument of the callback is an error
-object; otherwise, the contents argument contains the fie contents as a
+object; otherwise, the contents argument contains the file contents as a
 string.
 
 Source: *Understanding ECMAScript 6: The Definitive Guide for JavaScript Developers*, Nicholas C. Zakas
