@@ -43,7 +43,85 @@ As you can see in the example above, the `Promise` instance returned by the `sle
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
 
+---
+### Code execution after `resolve` or `reject`
+Consider the following example:
+```javascript
+const p = new Promise(function(resolve, reject) {
+  resolve(5);
+  console.log('I am still executed!');
+});
+console.log('After promise');
 
+p.then(result => console.log('Result: ', result));
+```
+It produces the following result in the console:
+```
+I am still executed!
+After promise
+Result:  5
+```
+As you can see, `console.log('I am still executed!')` was called, even though it is defined after `resolve`. This happened, because `resolve` and `reject` don't terminate function execution, like a `return` statement or throwing an error do. If we don't want function execution to continue after `resolve`, we have to call `return` explicitly like this:
+```javascript
+const p = new Promise(function(resolve, reject) {
+  resolve(5);
+  return;
+  console.log('I am still executed!');
+});
+console.log('After promise');
+
+p.then(result => console.log('Result: ', result));
+```
+or like this:
+```javascript
+const p = new Promise(function(resolve, reject) {
+  return resolve(5);
+  console.log('I am still executed!');
+});
+console.log('After promise');
+
+p.then(result => console.log('Result: ', result));
+```
+This fact is useful e.g. if we want to implement a *cache and revalidate* pattern. Imagine the following scenario: we want to fetch a value from a remote server and save it to localStorage. The value may change from time to time, but it is not crucial for us to return the updated value every single time. What's more important is to return the value as fast as possible to avoid slowing down the page.
+Therefore, we use the following strategy:
+- we implement a function that returns a promise resolving with the value,
+- *cache*: the function checks if the value is already stored in localStorage. If it is, then it resolves with it. If not, then it doesn't resolve yet. In both cases it goes to the next step,
+- *revalidate*: the function fetches the value from the server and saves it to localStorage. If the value has been updated, the new value will be returned by the next function call.
+
+This strategy could be implemented like this:
+```javascript
+const p = new Promise(function (resolve, reject) {
+  const cachedValue = localStorage.getItem('cachedValue');
+  if (cachedValue) {
+    resolve(cachedValue);
+  }
+  fetch('https://api.mocki.io/v1/0350b5d5')
+    .then((response) => response.json())
+    .then((updatedValue) => {
+      console.log('Updating cached value...');
+      localStorage.setItem('cachedValue', JSON.stringify(updatedValue));
+      resolve(updatedValue);
+    })
+    .catch(reject);
+});
+
+p.then(result => console.log('Result: ', result));
+```
+Note how `resolve(cachedValue);` will return the value from localStorage (if found), but `fetch` will still be called and a new value will be saved to localStorage. However, the function will resolve with `updatedValue` only if it didn't resolve with `cachedValue` earlier.
+
+Other interesting facts that can be observed in the first example:
+```javascript
+const p = new Promise(function(resolve, reject) {
+  resolve(5);
+  console.log('I am still executed!');
+});
+console.log('After promise');
+
+p.then(result => console.log('Result: ', result));
+```
+are that:
+- synchronous code passed to `Promise` executor function is executed synchronously: *'I am still executed!'* is logged before *'After promise'*;
+- `then` can be called on an already resolved promise. It will receive the value the promise resolved with as an argument.
 ## Appending rejection and fulfillment handlers
 The following three `Promise` instance methods can be used to handle a `Promise`'s results:
 
@@ -157,7 +235,7 @@ fail()
   .then(console.log)
   .catch(console.error);
 ```
-In the first case, the rejection handler is defined before the fullfilment handlers. Thanks to that, the fullfilment handlers are executed and `succeed`'s function result is logged to the console. 
+In the first case, the rejection handler is defined before the fullfilment handlers. Thanks to that, the fullfilment handlers are executed and `succeed` function's result is logged to the console. 
 
 In the second case, the error is caught after the fullfilment handlers are added to the `Promise` chain. Because of that, the fullfilment handlers are not executed.
 
