@@ -42,86 +42,6 @@ As you can see in the example above, the `Promise` instance returned by the `sle
 > otherwise, the part doing the catching would have to perform checks to see if the argument was a string or an error, and you might lose valuable information like stack traces.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
-
----
-### Code execution after `resolve` or `reject`
-Consider the following example:
-```javascript
-const p = new Promise(function(resolve, reject) {
-  resolve(5);
-  console.log('I am still executed!');
-});
-console.log('After promise');
-
-p.then(result => console.log('Result: ', result));
-```
-It produces the following result in the console:
-```
-I am still executed!
-After promise
-Result:  5
-```
-As you can see, `console.log('I am still executed!')` was called, even though it is defined after `resolve`. This happened, because `resolve` and `reject` don't terminate function execution, like a `return` statement or throwing an error do. If we don't want function execution to continue after `resolve`, we have to call `return` explicitly like this:
-```javascript
-const p = new Promise(function(resolve, reject) {
-  resolve(5);
-  return;
-  console.log('I am still executed!');
-});
-console.log('After promise');
-
-p.then(result => console.log('Result: ', result));
-```
-or like this:
-```javascript
-const p = new Promise(function(resolve, reject) {
-  return resolve(5);
-  console.log('I am still executed!');
-});
-console.log('After promise');
-
-p.then(result => console.log('Result: ', result));
-```
-This fact is useful e.g. if we want to implement a *cache and revalidate* pattern. Imagine the following scenario: we want to fetch a value from a remote server and save it to localStorage. The value may change from time to time, but it is not crucial for us to return the updated value every single time. What's more important is to return the value as fast as possible to avoid slowing down the page.
-Therefore, we use the following strategy:
-- we implement a function that returns a promise resolving with the value,
-- *cache*: the function checks if the value is already stored in localStorage. If it is, then it resolves with it. If not, then it doesn't resolve yet. In both cases it goes to the next step,
-- *revalidate*: the function fetches the value from the server and saves it to localStorage. If the value has been updated, the new value will be returned by the next function call.
-
-This strategy could be implemented like this:
-```javascript
-const p = new Promise(function (resolve, reject) {
-  const cachedValue = localStorage.getItem('cachedValue');
-  if (cachedValue) {
-    resolve(cachedValue);
-  }
-  fetch('https://api.mocki.io/v1/0350b5d5')
-    .then((response) => response.json())
-    .then((updatedValue) => {
-      console.log('Updating cached value...');
-      localStorage.setItem('cachedValue', JSON.stringify(updatedValue));
-      resolve(updatedValue);
-    })
-    .catch(reject);
-});
-
-p.then(result => console.log('Result: ', result));
-```
-Note how `resolve(cachedValue);` will return the value from localStorage (if found), but `fetch` will still be called and a new value will be saved to localStorage. However, the function will resolve with `updatedValue` only if it didn't resolve with `cachedValue` earlier.
-
-Other interesting facts that can be observed in the first example:
-```javascript
-const p = new Promise(function(resolve, reject) {
-  resolve(5);
-  console.log('I am still executed!');
-});
-console.log('After promise');
-
-p.then(result => console.log('Result: ', result));
-```
-are that:
-- synchronous code passed to `Promise` executor function is executed synchronously: *'I am still executed!'* is logged before *'After promise'*;
-- `then` can be called on an already resolved promise. It will receive the value the promise resolved with as an argument.
 ## Appending rejection and fulfillment handlers
 The following three `Promise` instance methods can be used to handle a `Promise`'s results:
 
@@ -208,6 +128,31 @@ method1()
 ```
 See the `read-file.js` and `read-file-promisified.js` files in the `examples` directory of this section for a comparison of a callback and `Promise` approach of reading files.
 
+---
+### Note: `Promise` handlers execution
+> Once a Promise is fulfilled or rejected, the respective handler function (onFulfilled or onRejected) will be called asynchronously (scheduled in the current thread loop).
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then)
+
+Example:
+```javascript
+console.log(1)
+setTimeout(() => console.log(2));
+Promise.resolve().then(() => console.log(3));
+console.log(4);
+```
+Result:
+```
+1
+4
+3
+2
+```
+Notice how `console.log(3)` from promise fulfillment handler is called after synchronous `console.log(4)`, but before `console.log(2)` from `setTimeout`. This happens, because promises callbacks are added to a special *microtask* queue. 
+You can read more about microtasks [here](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide).
+
+---
+
 ## Handling errors
 Catching an error in the `Promise` chain allows the rest of the chain to still be executed. Consider the following example:
 ```javascript
@@ -239,33 +184,209 @@ In the first case, the rejection handler is defined before the fullfilment handl
 
 In the second case, the error is caught after the fullfilment handlers are added to the `Promise` chain. Because of that, the fullfilment handlers are not executed.
 
+---
+### Note: code execution after `resolve` or `reject`
+Consider the following example:
+```javascript
+const p = new Promise(function(resolve, reject) {
+  resolve(5);
+  console.log('I am still executed!');
+});
+console.log('After promise');
+
+p.then(result => console.log('Result: ', result));
+```
+It produces the following result in the console:
+```
+I am still executed!
+After promise
+Result:  5
+```
+As you can see, `console.log('I am still executed!')` was called, even though it is defined after `resolve`. This happened, because `resolve` and `reject` don't terminate function execution, like a `return` statement or throwing an error do. If we don't want function execution to continue after `resolve`, we have to call `return` explicitly like this:
+```javascript
+const p = new Promise(function(resolve, reject) {
+  resolve(5);
+  return;
+  console.log('I am still executed!');
+});
+console.log('After promise');
+
+p.then(result => console.log('Result: ', result));
+```
+or like this:
+```javascript
+const p = new Promise(function(resolve, reject) {
+  return resolve(5);
+  console.log('I am still executed!');
+});
+console.log('After promise');
+
+p.then(result => console.log('Result: ', result));
+```
+This fact is useful e.g. if we want to implement a *cache and revalidate* pattern. Imagine the following scenario: we want to fetch a value from a remote server and save it to localStorage. The value may change from time to time, but it is not crucial for us to return the updated value every single time. What's more important is to return the value as fast as possible to avoid slowing down the page.
+Therefore, we use the following strategy:
+- we implement a function that returns a promise resolving with the value,
+- *cache*: the function checks if the value is already stored in localStorage. If it is, then it resolves with it. If not, then it doesn't resolve yet. In both cases it goes to the next step,
+- *revalidate*: the function fetches the value from the server and saves it to localStorage. If the value has been updated, the new value will be returned by the next function call.
+
+This strategy could be implemented like this:
+```javascript
+const p = new Promise(function (resolve, reject) {
+  const cachedValue = localStorage.getItem('cachedValue');
+  if (cachedValue) {
+    resolve(cachedValue);
+  }
+  fetch('https://api.mocki.io/v1/0350b5d5')
+    .then((response) => response.json())
+    .then((updatedValue) => {
+      console.log('Updating cached value...');
+      localStorage.setItem('cachedValue', JSON.stringify(updatedValue));
+      resolve(updatedValue);
+    })
+    .catch(reject);
+});
+
+p.then(result => console.log('Result: ', result));
+```
+Note how `resolve(cachedValue);` will return the value from localStorage (if found), but `fetch` will still be called and a new value will be saved to localStorage. However, the function will resolve with `updatedValue` only if it didn't resolve with `cachedValue` earlier.
+
+Other interesting facts that can be observed in the first example:
+```javascript
+const p = new Promise(function(resolve, reject) {
+  resolve(5);
+  console.log('I am still executed!');
+});
+console.log('After promise');
+
+p.then(result => console.log('Result: ', result));
+```
+are that:
+- synchronous code passed to `Promise` executor function is executed synchronously: `I am still executed!` is logged before `After promise`. The fullfilment handler, however, is executed asynchronously, as mentioned in [Promise handlers execution](#note-promise-handlers-execution). So, if we modified the example above to look like this:
+  ```javascript
+  const p = new Promise(function(resolve, reject) {
+    resolve(5);
+    console.log('I am still executed!');
+  });
+  p.then(result => console.log('Result: ', result));
+  console.log('After promise');
+  ```
+we would see the following result in the console (notice how `Result: 5` is logged after `After promise`):
+```
+I am still executed!
+After promise
+Result:  5
+```
+
+- `then` can be called on an already resolved promise. It will receive the value the promise resolved with as an argument.
+
+## Creating already settled promises
+You can create `Promise` objects that are resolved or rejected with `Promise.resolve` and `Promise.reject` methods, respectively.
+
+Examples:
+```javascript
+const p = Promise.resolve('According to Wikipedia, "the name Firefox was said to be derived from a nickname of the red panda"');
+p.then(console.log);
+```
+```javascript
+const p = Promise.reject(new Error('I reject!'));
+p.catch(console.error);
+```
+This syntax is useful e.g. for mocking functions that return promises in unit tests:
+```javascript
+jest.spyOn(utils, 'fetchXml').mockImplementationOnce(() => Promise.resolve(XML_MOCK));
+
+```
+
 ## Passing values in `Promise` chains
 
 As mentioned in [Appending rejection and fulfillment handlers](#appending-rejection-and-fulfillment-handlers), each of the `then`, `catch` and `finally` methods returns a new `Promise` instance. This is done based on the following rules:
 
 ### `then`
 > If a handler function:
-> - returns a value, the promise returned by then gets resolved with the returned value as its value.
+> - returns a value, the promise returned by `then` gets resolved with the returned value as its value.
+
+Example:
+```javascript
+const p1 = Promise.resolve();
+const p2 = p1.then(() => 2);
+p2.then((value) => console.log('p2 resolved with: ', value));
+```
+
 > - doesn't return anything, the promise returned by then gets resolved with an undefined value.
+
+Example:
+```javascript
+const p1 = Promise.resolve(1);
+const p2 = p1.then((value) => { console.log('p1 resolved with: ', value) }); 
+p2.then((value) => console.log('p2 resolved with: ', value));
+```
+
 > - throws an error, the promise returned by then gets rejected with the thrown error as its value.
+
+Examples:
+```javascript
+const p1 = Promise.resolve();
+const p2 = p1.then(() => {
+  throw new Error('I throw an error!');
+});
+p2.catch((error) => console.error('p2 error: ', error));
+```
+```javascript
+const p1 = Promise.resolve();
+const p2 = p1.then(() => {
+  JSON.parse('Invalid JSON string');
+});
+p2.catch((error) => console.error('p2 error: ', error));
+```
+
 > - returns an already fulfilled promise, the promise returned by then gets fulfilled with that promise's value as its value.
+
+Example:
+```javascript
+const p1 = Promise.resolve();
+const af = Promise.resolve(5); // already fulfilled promise
+const p2 = p1.then(() => af);
+p2.then((value) => console.log('p2 resolved with: ', value));
+```
+
 > - returns an already rejected promise, the promise returned by then gets rejected with that promise's value as its value.
+
+Example:
+```javascript
+const p1 = Promise.resolve();
+const ar = Promise.reject(new Error('I reject!')); // already rejected promise
+const p2 = p1.then(() => ar);
+p2.catch((value) => console.log('p2 rejected with: ', value));
+```
+
 > - returns another pending promise object, the resolution/rejection of the promise returned by then will be subsequent to the resolution/rejection of the promise returned by the handler. Also, the resolved value of the promise returned by then will be the same as the resolved value of the promise returned by the handler.
 
-[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then)
+Example:
+```javascript
+const p1 = fetch('https://jsonplaceholder.typicode.com/todos').then(response => response.json()); // fetch all todos
+const p2 = p1.then((todos) => {
+  const firstTodoId = todos[0].id;
+  return fetch(`https://jsonplaceholder.typicode.com/todos/${firstTodoId}`)
+});
+p2
+  .then(response => response.json())
+  .then((value) => console.log('p2 resolved with: ', value));
+```
+
+[Source (of the bullet point descriptions)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then)
 
 ### `catch`
 > Internally calls Promise.prototype.then on the object upon which it was called, passing the parameters undefined and the received onRejected handler. Returns the value of that call, which is a Promise.
 
-[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catchs)
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
 
 @TODO
-- adding handlers to an already fullfilled Promise
-- then on already resolved Promises
-- then, catch, finally return types
-- finally details
 - Keep in mind that the executor runs immediately when readFile() is
 called. When either resolve() or reject() is called inside the executor, a job
 is added to the job queue to resolve the promise.
 - Promise.all, race, allSettled
 - reject vs throw
+
+@TOREAD:
+https://www.imaginea.com/the-javascript-event-loop-micro-tasks-and-macro-tasks/
+https://michael-pautov.medium.com/micro-and-macro-tasks-in-javascript-4c556a3ea18c

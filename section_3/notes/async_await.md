@@ -23,7 +23,7 @@ The `async` keyword is used to declare an asynchronous function.
       async function getTodo() {
         const todo = await fetch('https://api.mocki.io/v1/0350b5d5');
         return todo;
-      };
+      }
       ```
 
 - Function expression
