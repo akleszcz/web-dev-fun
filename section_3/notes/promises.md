@@ -18,7 +18,7 @@ function sleep(nbrOfSeconds, shouldFail) {
   return new Promise(function (resolve, reject) {
     setTimeout(function () {
       if (shouldFail) {
-        reject(new Error(`Rejected after ${nbrOfSeconds} seconds`));
+        reject(new Error(`Rejected after ${nbrOfSeconds} second(s)`));
       } else {
         resolve(`Resolved after ${nbrOfSeconds} second(s)`);
       }
@@ -83,7 +83,7 @@ sleep(1, true)
   })
   .catch((error) => {
     console.error('error: ', error)
-  }); // VM178:6 error:  Error: Rejected after 1 seconds
+  }); // VM178:6 error:  Error: Rejected after 1 second(s)
 ```
 
 ### `finally`
@@ -128,6 +128,24 @@ method1()
 ```
 See the `read-file.js` and `read-file-promisified.js` files in the `examples` directory of this section for a comparison of a callback and `Promise` approach of reading files.
 
+## Creating already settled promises
+You can create `Promise` objects that are resolved or rejected with `Promise.resolve` and `Promise.reject` methods, respectively.
+
+Examples:
+```javascript
+const p = Promise.resolve('According to Wikipedia, "the name Firefox was said to be derived from a nickname of the red panda"');
+p.then(console.log);
+```
+```javascript
+const p = Promise.reject(new Error('I reject!'));
+p.catch(console.error);
+```
+This syntax is useful e.g. for mocking functions that return promises in unit tests:
+```javascript
+jest.spyOn(utils, 'fetchXml').mockImplementationOnce(() => Promise.resolve(XML_MOCK));
+
+```
+
 ---
 ### Note: `Promise` handlers execution
 > Once a Promise is fulfilled or rejected, the respective handler function (onFulfilled or onRejected) will be called asynchronously (scheduled in the current thread loop).
@@ -136,7 +154,7 @@ See the `read-file.js` and `read-file-promisified.js` files in the `examples` di
 
 Example:
 ```javascript
-console.log(1)
+console.log(1);
 setTimeout(() => console.log(2));
 Promise.resolve().then(() => console.log(3));
 console.log(4);
@@ -279,25 +297,8 @@ Result:  5
 
 - `then` can be called on an already resolved promise. It will receive the value the promise resolved with as an argument.
 
-## Creating already settled promises
-You can create `Promise` objects that are resolved or rejected with `Promise.resolve` and `Promise.reject` methods, respectively.
-
-Examples:
-```javascript
-const p = Promise.resolve('According to Wikipedia, "the name Firefox was said to be derived from a nickname of the red panda"');
-p.then(console.log);
-```
-```javascript
-const p = Promise.reject(new Error('I reject!'));
-p.catch(console.error);
-```
-This syntax is useful e.g. for mocking functions that return promises in unit tests:
-```javascript
-jest.spyOn(utils, 'fetchXml').mockImplementationOnce(() => Promise.resolve(XML_MOCK));
-
-```
-
 ## Passing values in `Promise` chains
+
 
 As mentioned in [Appending rejection and fulfillment handlers](#appending-rejection-and-fulfillment-handlers), each of the `then`, `catch` and `finally` methods returns a new `Promise` instance. This is done based on the following rules:
 
@@ -376,15 +377,131 @@ p2
 [Source (of the bullet point descriptions)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then)
 
 ### `catch`
-> Internally calls Promise.prototype.then on the object upon which it was called, passing the parameters undefined and the received onRejected handler. Returns the value of that call, which is a Promise.
+> Internally calls `Promise.prototype.then` on the object upon which it was called, passing the parameters `undefined` and the received `onRejected` handler. Returns the value of that call, which is a `Promise`.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
 
+## Handling multiple promises
+There are several static methods defined on the `Promise` constructor that let us handle an array (or more generally: an [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterable_protocol)) of promises. All of them return a single promise. 
+
+These methods are:
+- `Promise.all` - 
+  > returns a single Promise that resolves to an array of the results of the input promises. This returned promise will resolve when all of the input's promises have resolved, or if the input iterable contains no promises. It rejects immediately upon any of the input promises rejecting or non-promises throwing an error, and will reject with this first rejection message / error.
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
+
+  ### Return value
+  > - An **already resolved** Promise if the iterable passed is empty.
+
+  Example:
+  ```javascript
+  const p = Promise.all([]).then((result) => console.log('Result: ', result));
+  console.log(p);
+  // Promise {<fulfilled>: Array(0)}
+  // Result: []
+  ```
+  > - An **asynchronously resolved** Promise if the iterable passed contains no promises. Note, Google Chrome 58 returns an already resolved promise in this case.
+
+  Example:
+  ```javascript
+  const p = Promise.all([
+    123,
+    'According to WWF, pandas need at least 2 different bamboo species in their range to avoid starvation',
+  ]).then((result) => console.log('Result: ', result));
+  console.log(p);
+  setTimeout(() => console.log(p));
+
+  // Promise {<pending>}
+  // Result:  (2) [123, "According to WWF, pandas need at least 2 different bamboo species in their range to avoid starvation"]
+  // Promise {<fulfilled>: undefined}
+  ```
+
+  > - A **pending** Promise in all other cases. This returned promise is then resolved/rejected **asynchronously** (as soon as the stack is empty) when all the promises in the given iterable have resolved, or if any of the promises reject. (...) Returned values will be in order of the Promises passed, regardless of completion order.
+
+  Example 1:
+  ```javascript
+  Promise.all([sleep(2), sleep(1), sleep(5)])
+    .then((result) => console.log('Result: ', result));
+  // Result: ["Resolved after 2 second(s)", "Resolved after 1 second(s)", "Resolved after 5 second(s)"]
+  ```
+
+  Example 2:
+  ```javascript
+  Promise.all([sleep(2), 1, sleep(5)])
+    .then((result) => console.log('Result: ', result));
+  // Result: ["Resolved after 2 second(s)", 1, "Resolved after 5 second(s)"]
+  ```
+
+  Example 3:
+  ```javascript
+  Promise.all([sleep(2, true), sleep(1), sleep(5)])
+    .then((result) => console.log('Result: ', result))
+    .catch((error) => console.error('Error: ', error));
+  // Error:  Error: Rejected after 2 second(s)
+  ```
+
+  Example 4:
+  ```javascript
+  Promise.all([sleep(2, true), sleep(1, true), sleep(5, true)])
+    .then((result) => console.log('Result: ', result))
+    .catch((error) => console.error('Error: ', error));
+  // Error:  Error: Rejected after 1 second(s)
+  ```
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all#return_value)
+
+  ---
+  ### Note 1
+  Sometimes you may want to make sure that the promise returned by `Promise.all` will always be resolved rather than rejected. To achieve that, you can handle possible rejections with `catch` in the promises array:
+
+  ```javascript
+  Promise.all([
+    sleep(2, true).catch(console.error),
+    sleep(1, true).catch(console.error),
+    sleep(5, true).catch(console.error),
+  ])
+    .then((result) => console.log('Fulfillment handler called with result: ', result))
+    .catch((error) => console.error('Rejection handler called with error: ', error));
+  //Error: Rejected after 1 second(s)
+  // Error: Rejected after 2 second(s)
+  // Error: Rejected after 5 second(s)
+  // Fulfillment handler called with result: [undefined, undefined, undefined]
+  ```
+
+  ### Note 2
+  Note that even if `Promise.all` rejects, because one of the promises in the array rejected, the rest of the promises won't be *cancelled*. Consider the following example:
+  ```javascript
+  function sleep(nbrOfSeconds, shouldFail) {
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        if (shouldFail) {
+          const errorMsg = `Rejected after ${nbrOfSeconds} second(s)`;
+          console.error(errorMsg);
+          reject(new Error(errorMsg));
+        } else {
+          const msg = `Resolved after ${nbrOfSeconds} second(s)`;
+          console.log(msg);
+          resolve(msg);
+        }
+      }, nbrOfSeconds * 1000);
+    });
+  }
+
+  Promise.all([sleep(0, true), sleep(2)])
+    .then((result) => console.log('Result: ', result))
+    .catch((error) => console.error('Error: ', error));
+
+  // Rejected after 0 second(s)
+  // Error:  Error: Rejected after 0 second(s)
+  // Resolved after 2 second(s)
+  ```
+`Resolved after 2 second(s)` is still logged in the console, even though the promise returned by `Promise.all` has already rejected.
+- `Promise.race`
+- `Promise.allSettled`
+- `Promise.any`
+
+
 @TODO
-- Keep in mind that the executor runs immediately when readFile() is
-called. When either resolve() or reject() is called inside the executor, a job
-is added to the job queue to resolve the promise.
-- Promise.all, race, allSettled
 - reject vs throw
 
 @TOREAD:
