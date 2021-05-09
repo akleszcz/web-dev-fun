@@ -496,7 +496,159 @@ These methods are:
   // Resolved after 2 second(s)
   ```
 `Resolved after 2 second(s)` is still logged in the console, even though the promise returned by `Promise.all` has already rejected.
-- `Promise.race`
+- `Promise.race`- 
+  > returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects, with the value or reason from that promise.
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
+
+  ### Return value
+  - A forever pending promise if the iterable passed is empty.
+
+  Example:
+  ```javascript
+  const p = Promise.race([]);
+  console.log('p: ', p);
+  setTimeout(function(){
+    console.log('p:', p);
+  });
+  p
+    .then(() => console.log('resolved')) // will never be called
+    .catch(() => console.error('rejected')); // will never be called
+  ```
+  - > If the iterable contains one or more non-promise value and/or an already settled promise, then Promise.race will resolve to the first of these values found in the iterable.
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
+
+  Examples:
+  ```javascript
+  const p = Promise.race([Promise.resolve(1), Promise.resolve(2)]);
+    console.log('p: ', p);
+  setTimeout(function(){
+    console.log('p:', p);
+  });
+  p
+    .then((result) => console.log('result:', result))
+    .catch((error) => console.error('error:', error));
+
+  // p: Promise {<pending>}
+  // result: 1
+  // p: {<fulfilled>: 1} 
+  ```
+
+  ```javascript
+  const p = Promise.race([Promise.resolve(1), 'just a string']);
+    console.log('p: ', p);
+  setTimeout(function(){
+    console.log('p:', p);
+  });
+  p
+    .then((result) => console.log('result:', result))
+    .catch((error) => console.error('error:', error));
+
+  // p: Promise {<pending>}
+  // result: 1
+  // p: {<fulfilled>: 1} 
+  ```
+
+  ```javascript
+  const p = Promise.race(['just a string', Promise.resolve(1)]);
+    console.log('p: ', p);
+  setTimeout(function(){
+    console.log('p:', p);
+  });
+  p
+    .then((result) => console.log('result:', result))
+    .catch((error) => console.error('error:', error));
+
+  // p: Promise {<pending>}
+  // result: just a string
+  // Promise {<fulfilled>: "just a string"}
+  ```
+  ```javascript
+  const p = Promise.race([new Error('Test error'), Promise.resolve(1)]);
+    console.log('p: ', p);
+  setTimeout(function(){
+    console.log('p:', p);
+  });
+  p
+    .then((result) => console.log('result:', result))
+    .catch((error) => console.error('error:', error));
+
+  // p: Promise {<pending>}
+  // result: Error: Test error
+  // p: Promise {<fulfilled>: Error: Test error at <anonymous>:1:27}
+  ```
+  ```javascript
+  const p = Promise.race([sleep(2), Promise.resolve(1)]);
+    console.log('p: ', p);
+  setTimeout(function(){
+    console.log('p:', p);
+  });
+  p
+    .then((result) => console.log('result:', result))
+    .catch((error) => console.error('error:', error));
+
+  // p: Promise {<pending>}
+  // result: Error: Test error
+  // p: Promise {<fulfilled>: Error: Test error at <anonymous>:1:27}
+  ```
+  ```javascript
+  const p = Promise.race([sleep(2), Promise.resolve(1)]);
+    console.log('p: ', p);
+  setTimeout(function(){
+    console.log('p:', p);
+  });
+  p
+    .then((result) => console.log('result:', result))
+    .catch((error) => console.error('error:', error));
+  
+  // p: Promise {<pending>}
+  // result: 1
+  // p: Promise {<fulfilled>: 1}
+  ```
+  - > a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
+
+  ```javascript
+  const p = Promise.race([sleep(2), sleep(1, true)]);
+  console.log('p: ', p);
+  p
+    .then((result) => console.log('result:', result))
+    .catch((error) => console.error('error:', error));
+  
+  // p: Promise {<pending>}
+  // error: Error: Rejected after 1 second(s) at <anonymous>:5:16
+  ```
+  Note that the first promise (`[sleep(2)`) will still resolve, even if `Promise.race` won't return its resolve value (notice how `'I am about to resolve.'` message added to the `sleep` method is still logged):
+  ```javascript
+  function sleep(nbrOfSeconds, shouldFail) {
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        if (shouldFail) {
+          console.log('I am about to reject.');
+          reject(new Error(`Rejected after ${nbrOfSeconds} second(s)`));
+        } else {
+          console.log('I am about to resolve.');
+          resolve(`Resolved after ${nbrOfSeconds} second(s)`);
+        }
+      }, nbrOfSeconds * 1000);
+    });
+  }
+
+    const p = Promise.race([sleep(2), sleep(1, true)]);
+    console.log('p: ', p);
+    p
+      .then((result) => console.log('result:', result))
+      .catch((error) => console.error('error:', error));
+  
+  // p: Promise {<pending>}
+  // I am about to reject.
+  // error: Error: Rejected after 1 second(s) at <anonymous>:6:16
+  // I am about to resolve.
+  ```
+
+  
 - `Promise.allSettled`
 - `Promise.any`
 
