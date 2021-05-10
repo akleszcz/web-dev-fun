@@ -318,7 +318,7 @@ p2.then((value) => console.log('p2 resolved with: ', value));
 Example:
 ```javascript
 const p1 = Promise.resolve(1);
-const p2 = p1.then((value) => { console.log('p1 resolved with: ', value) }); 
+const p2 = p1.then((value) => { console.log('p1 resolved with: ', value); }); 
 p2.then((value) => console.log('p2 resolved with: ', value));
 ```
 
@@ -395,7 +395,8 @@ These methods are:
 
   Example:
   ```javascript
-  const p = Promise.all([]).then((result) => console.log('Result: ', result));
+  const p = Promise.all([]);
+  p.then((result) => console.log('Result: ', result));
   console.log(p);
   // Promise {<fulfilled>: Array(0)}
   // Result: []
@@ -407,13 +408,14 @@ These methods are:
   const p = Promise.all([
     123,
     'According to WWF, pandas need at least 2 different bamboo species in their range to avoid starvation',
-  ]).then((result) => console.log('Result: ', result));
+  ]);
+  p.then((result) => console.log('Result: ', result));
   console.log(p);
   setTimeout(() => console.log(p));
 
   // Promise {<pending>}
   // Result:  (2) [123, "According to WWF, pandas need at least 2 different bamboo species in their range to avoid starvation"]
-  // Promise {<fulfilled>: undefined}
+  // Promise {<fulfilled>: Array(2)}
   ```
 
   > - A **pending** Promise in all other cases. This returned promise is then resolved/rejected **asynchronously** (as soon as the stack is empty) when all the promises in the given iterable have resolved, or if any of the promises reject. (...) Returned values will be in order of the Promises passed, regardless of completion order.
@@ -565,20 +567,6 @@ These methods are:
   // Promise {<fulfilled>: "just a string"}
   ```
   ```javascript
-  const p = Promise.race([new Error('Test error'), Promise.resolve(1)]);
-    console.log('p: ', p);
-  setTimeout(function(){
-    console.log('p:', p);
-  });
-  p
-    .then((result) => console.log('result:', result))
-    .catch((error) => console.error('error:', error));
-
-  // p: Promise {<pending>}
-  // result: Error: Test error
-  // p: Promise {<fulfilled>: Error: Test error at <anonymous>:1:27}
-  ```
-  ```javascript
   const p = Promise.race([sleep(2), Promise.resolve(1)]);
     console.log('p: ', p);
   setTimeout(function(){
@@ -589,8 +577,8 @@ These methods are:
     .catch((error) => console.error('error:', error));
 
   // p: Promise {<pending>}
-  // result: Error: Test error
-  // p: Promise {<fulfilled>: Error: Test error at <anonymous>:1:27}
+  // result: 1
+  // p: Promise {<fulfilled>: 1}
   ```
   ```javascript
   const p = Promise.race([sleep(2), Promise.resolve(1)]);

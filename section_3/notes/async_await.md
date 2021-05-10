@@ -59,14 +59,7 @@ The `async` keyword is used to declare an asynchronous function.
 An asynchronous function:
 
 - always returns a promise:
-
   - Example 1:
-    ```javascript
-    const result = getTodo();
-    console.log(result instanceof Promise); // true
-    result.then(console.log); // Response {type: "basic", url: "https://jsonplaceholder.typicode.com/todos/1", redirected: false, status: 200, ok: true, …}
-    ```
-  - Example 2:
     ```javascript
     async function getNumber() {
       return 5;
@@ -74,6 +67,12 @@ An asynchronous function:
     const result = getNumber();
     console.log(result instanceof Promise); // true
     result.then(console.log); // 5
+    ```
+  - Example 2:
+    ```javascript
+    const result = getTodo();
+    console.log(result instanceof Promise); // true
+    result.then(console.log); // Response {type: "basic", url: "https://jsonplaceholder.typicode.com/todos/1", redirected: false, status: 200, ok: true, …}
     ```
 - is the only type of function that can contain the `await` keyword within its body:
   ```javascript
@@ -101,7 +100,7 @@ The `await` keyword can therefore be used instead of the `then` method of a `Pro
 
  - Example 2 - using `await`:
       ```javascript
-      const todo = await getTodo()
+      const todo = await getTodo();
       console.log('todo: ', todo);
       ```
 ## Error handling
@@ -292,3 +291,13 @@ Sources:
 - [async function expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/async_function)
 - [JavaScript async and await in loops](https://zellwk.com/blog/async-await-in-loops/)
 - [How to use async functions with Array.forEach in Javascript](https://advancedweb.hu/how-to-use-async-functions-with-array-foreach-in-javascript/)
+
+@TODO
+async function getNumber() {
+  throw new Error('5');
+}
+const result = getNumber();
+console.log(result instanceof Promise); // true
+result
+    .then(console.log)
+    .catch((err) => console.error('it rejected!', err));
