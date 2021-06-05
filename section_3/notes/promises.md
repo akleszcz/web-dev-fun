@@ -637,9 +637,126 @@ These methods are:
   ```
 
   
-- `Promise.allSettled`
-- `Promise.any`
+- `Promise.allSettled` 
+  > returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.
 
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
+
+  ### Return value
+  - > (...) **if and only if** an empty iterable is passed as an argument, `Promise.allSettled()` returns a `Promise` object that has **already been resolved** as an empty array.
+
+    [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
+
+  Example:
+  ```javascript
+  const p = Promise.allSettled([]);
+  p.then((result) => console.log('Result: ', result));
+  console.log(p);
+  // Promise {<fulfilled>: Array(0)}
+  // Result: []
+  ```
+
+  - > A pending Promise that will be asynchronously fulfilled once every promise in the specified collection of promises has completed, either by successfully being fulfilled or by being rejected.
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
+
+  Example:
+  ```javascript
+  const p = Promise.allSettled([sleep(2), sleep(1, true), sleep(4, true), sleep(3)]);
+  console.log('p: ', p);
+  p
+    .then((result) => console.log('result:', result))
+    .catch((error) => console.error('error:', error));
+
+  /* Promise {<pending>}
+     result: [
+      {
+        "status": "fulfilled",
+        "value": "Resolved after 2 second(s)"
+      },
+      {
+        "status": "rejected",
+        "reason": {
+          "message": "Rejected after 1 second(s)",
+          "stack": "Error: Rejected after 1 second(s)\n    at <anonymous>:5:16"
+        }
+      },
+      {
+        "status": "rejected",
+        "reason": {
+          message: "Rejected after 4 second(s)",
+          "stack": "Error: Rejected after 4 second(s)\n    at <anonymous>:5:16"
+        }
+      },
+      {
+        "status": "fulfilled",
+        "value": "Resolved after 3 second(s)"
+      }
+    ]
+  */
+  ```
+
+- `Promise.any`
+  - > as soon as one of the promises in the iterable fulfills, returns a single promise that resolves with the value from that promise. If no promises in the iterable fulfill (if all of the given promises are rejected), then the returned promise is rejected with an AggregateError, a new subclass of Error that groups together individual errors.
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any)
+
+  ### Return value
+  - > An already rejected Promise if the iterable passed is empty.
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any)
+
+  Example:
+  ```javascript
+  const p = Promise.any([]);
+  p.then((result) => console.log('Result: ', result))
+  .catch((error) => console.log('Error: ', error));
+  console.log(p);
+  // Promise {<rejected>: AggregateError: All promises were rejected}
+  // Error: AggregateError: All promises were rejected
+  ```
+
+  - > An asynchronously resolved Promise if the iterable passed contains no promises.
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any)
+
+  Example:
+  ```javascript
+  const p = Promise.any(['one', 2]);
+  p.then((result) => console.log('Result: ', result))
+  .catch((error) => console.log('Error: ', error));
+  console.log(p);
+  // Promise {<pending>}
+  // Result: one
+  ```
+
+  - > A pending Promise in all other cases. This returned promise is then resolved/rejected asynchronously (as soon as the stack is empty) when any of the promises in the given iterable resolve, or if all the promises have rejected.
+    >
+    > (...)
+    >
+    > The returned promise is fulfilled with the first resolved value (or non-promise value) in the iterable passed as the argument, whether or not the other promises have rejected.
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any)
+
+  Example:
+  ```javascript
+  Promise.any([sleep(2), sleep(1), sleep(5)]).then((result) => console.log('Result: ', result));
+
+  Promise.any([sleep(2), 1, sleep(5)]).then((result) => console.log('Result: ', result));
+
+  Promise.any([sleep(2, true), sleep(1), sleep(5)])
+    .then((result) => console.log('Result: ', result))
+    .catch((error) => console.error('Error: ', error));
+
+  Promise.any([sleep(2, true), sleep(1, true), sleep(5, true)])
+    .then((result) => console.log('Result: ', result))
+    .catch((error) => console.error('Error: ', error));
+  
+  // Result: 1
+  // Result:  Resolved after 1 second(s)
+  // Result:  Resolved after 1 second(s)
+  // Error:  AggregateError: All promises were rejected
+  ```
 
 @TODO
 - reject vs throw
