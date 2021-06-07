@@ -12,6 +12,8 @@ function sleep(nbrOfSeconds, shouldFail) {
 
 Promise.any([sleep(2), sleep(1), sleep(5)]).then((result) => console.log('Result: ', result));
 
+Promise.any([sleep(2), sleep(1, true), sleep(5)]).then((result) => console.log('Result: ', result));
+
 Promise.any([sleep(2), 1, sleep(5)]).then((result) => console.log('Result: ', result));
 
 Promise.any([sleep(2, true), sleep(1), sleep(5)])

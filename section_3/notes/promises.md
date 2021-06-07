@@ -580,20 +580,7 @@ These methods are:
   // result: 1
   // p: Promise {<fulfilled>: 1}
   ```
-  ```javascript
-  const p = Promise.race([sleep(2), Promise.resolve(1)]);
-    console.log('p: ', p);
-  setTimeout(function(){
-    console.log('p:', p);
-  });
-  p
-    .then((result) => console.log('result:', result))
-    .catch((error) => console.error('error:', error));
-  
-  // p: Promise {<pending>}
-  // result: 1
-  // p: Promise {<fulfilled>: 1}
-  ```
+
   - > a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects
 
   [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
@@ -742,6 +729,8 @@ These methods are:
   ```javascript
   Promise.any([sleep(2), sleep(1), sleep(5)]).then((result) => console.log('Result: ', result));
 
+  Promise.any([sleep(2), sleep(1, true), sleep(5)]).then((result) => console.log('Result: ', result));
+
   Promise.any([sleep(2), 1, sleep(5)]).then((result) => console.log('Result: ', result));
 
   Promise.any([sleep(2, true), sleep(1), sleep(5)])
@@ -755,6 +744,7 @@ These methods are:
   // Result: 1
   // Result:  Resolved after 1 second(s)
   // Result:  Resolved after 1 second(s)
+  // Result:  Resolved after 2 second(s)
   // Error:  AggregateError: All promises were rejected
   ```
 
