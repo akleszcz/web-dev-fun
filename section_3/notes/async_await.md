@@ -281,7 +281,45 @@ const myTasks = [
       // logTimes result:  (3) [40, 120, 150]
       ```
 
-  - `filter`
+  - `filter`:
+      - > The `filter()` method creates a new array with all elements that pass the test implemented by the provided function.
+
+      [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+
+      An element "passes the test", if the callback function passed to the `filter` method returns a truthy (not necessarily `true`) value when called on this element:
+      ```javascript
+      [1, 2, 3, 4].filter(nbr => nbr > 2); // [3, 4]
+      [1, 2, 3, 4].filter(() => true); // [1, 2, 3, 4]
+      [1, 2, 3, 4].filter(() => 1); // [1, 2, 3, 4]
+      [1, 2, 3, 4].filter(() => 0); // []
+      [1, 2, 3, 4].filter(() => ({})); // [1, 2, 3, 4] - callback function returns an empty object, which is truthy
+      [1, 2, 3, 4].filter(() => {}); // [] - callback function returns undefined, which is falsy
+      ```
+      - An `async` function always returns a `Promise` instance, and a promise is always truthy (just like any non-null object). Because of that, passing an `async` callback to `filter` will result in an array containing all the elements of the original array:
+      ```javascript
+      function logTimes(tasks) {
+        const longTasks = tasks.filter(async (task) => await getTimeSpent(task) > 60);
+        return longTasks;
+      }
+
+      logTimes(myTasks); // [ {id: 1, description: "feeding pandas"}, {id: 2, description: "playing with red pandas"}, {id: 3, description: "dancing with armadillos"} ]
+      ```
+
+      - The problem above can be fixed with a combination of `map` and `Promise.all`:
+      ```javascript
+      async function logTimes(tasks) {
+        const tasksTimesPromises = tasks.map(async (task) => await getTimeSpent(task.id));
+        const tasksTimes = await Promise.all(tasksTimesPromises);
+        console.log('tasksTimes:', tasksTimes);
+        const longTasks = tasks.filter((task, index) => tasksTimes[index] > 60);
+        return longTasks;
+      }
+
+      await logTimes(myTasks);
+
+      // tasksTimes: [40, 120, 150]
+      // [ {id: 1, description: "feeding pandas"}, {id: 2, description: "playing with red pandas"}, {id: 3, description: "dancing with armadillos"} ]
+      ```
 
 Sources:
 
