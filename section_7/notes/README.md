@@ -39,7 +39,7 @@ You should see a message: _Server is running on port 3000_ in the console. Now, 
 [{"url":"/","method":"GET","date":"2021-06-19T09:57:06.444Z"}]
 ```
 
-Every time you reload the page, the array in the response will contain one more element.
+Every time you reload the page, the array in the response will contain two more elements (see [Note: Sending GET requests from a browser](#note-sending-get-requests-from-a-browser), to find out why there are two of them).
 
 You can also send a request with a different HTTP method, e.g. POST, using a tool like `curl` or Postman. With `curl` you can do it like this:
 
@@ -72,7 +72,47 @@ Server is running on port 3000
 
 ![remote target](./assets/remote-target.png)
 
-Click on *Inspect*.
+- Click on *inspect*. It will open a new DevTools window. In this new window, select the *Memory* tab, and then click the *Take snapshot* button:
+
+![take snapshot](./assets/take-snapshot.png)
+
+- Now send a few (let's say 8) requests to the server. You can do it with `curl` like this:
+```
+$ curl -X GET http://localhost:3000
+```
+- Go back to the *Memory* tab and take another snapshot. When it's ready, compare how many `Date` objects have been allocated between Snapshot 1 and Snapshot 2:
+
+![comparison](./assets/comparison.png)
+
+You can see that 8 new `Date` objects have been created between the snapshots, which matches the number of requests sent. In the details below, you can see that these objects come from the `requestLogs` array. You can even see the name of the file where they're defined:
+
+![file name](./assets/file-name.png)
+
+In more complex apps, it can be useful for identifying the source of ever-growing memory usage.
+
+---
+### Note: Sending GET requests from a browser
+
+If you use a browser, instead of `curl`, to send requests to the server, you may notice that there are twice as many `Date` objects created as there were times you reloaded the page. The reason is that browsers send an additional request to http://localhost:3000/favicon.ico along with every request to http://localhost:3000.
+
+---
+
+## How to automate test requests
+
+Sending requests to the server manually can be cumbersome, especially if we need a huge number of them. Instead, we can use a library, like [loadtest](https://github.com/alexfernandez/loadtest), to automate the process. For this we need to perform the following steps:
+
+- install `loadtest` globally:
+```
+npm install -g loadtest
+```
+- run it, specifying the number of requests with `-n` option, and the URL to send them to:
+```
+loadtest -n 125 http://localhost:3000
+```
+When the task is finished, in the result you should see the number of requests sent:
+```
+[Sun Jun 20 2021 10:02:08 GMT+0200 (Central European Summer Time)] INFO Completed requests:  125
+```
 
 Sources:
 
