@@ -166,10 +166,46 @@ console.log(iterator.next()); // {value: undefined, done: true}
 ---
 #### Note: passing a value to the `next` method
 > If an optional value is passed to the generator's `next()` method, that value becomes the value returned by the generator's current `yield` operation.
+>
+> (...)
+>
+> **Warning**: Unfortunately, `next()` is asymmetric, but that can’t be helped: It always sends a value to the currently suspended `yield`, but returns the operand of the following `yield`.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield#description)
 
-Example:
+> When using a generator as an observer, it is important to note that the only purpose of the first invocation of `next()` is to start the observer. It is only ready for input afterwards, because this first invocation advances execution to the first `yield`. Therefore, any input you send via the first `next()` is ignored (...).
+
+[Source](https://exploringjs.com/es6/ch_generators.html#sec_generators-as-observers)
+
+
+Example 1:
+```javascript
+function* g() {
+  console.log(`First yield result: ${yield 100}`);
+  console.log(`After first yield`);
+  console.log(`Second yield result: ${yield 200}`);
+  console.log(`After second yield`);
+}
+const iterator = g();
+iterator.next(1);
+// {value: 100, done: false}
+iterator.next(2);
+// First yield result: 2
+// After first yield
+// {value: 200, done: false}
+iterator.next(3);
+// Second yield result: 3
+// After second yield
+// {value: undefined, done: true}
+```
+What happens here is that:
+1. When the `next` method is called for the first time (`iterator.next(1)`), it returns the operand of the first `yield` (`100`) and the generator body is paused. The value passed to `next` (`1`) is ignored;
+2. When the `next` method is called for the second time (`iterator.next(2)`), the value passed to `next` (`2`) is used as the return value of the `yield` expression the generator is currently suspended on (`yield 100`). Therefore, `First yield result: 2` is logged to the console. The generator's body is then executed until the next `yield` expression (`yield 200`). The value of this expression is returned by the current `next` method call, so `{value: 200, done: false}` is logged to the console.
+3. Similarly, when the `next` method is called for the third time (`iterator.next(3)`), `3` is returned by the `yield 200` expression and `Second yield result: 3` is logged to the console, followed by `After second yield`. Since there are no more `yield`s and no value is returned with a `return` statement, `next` returns `{value: undefined, done: true}`.
+
+See [this thread](https://stackoverflow.com/questions/44246673/es6-generators-mechanism-first-value-passed-to-next-goes-where) for comparison.
+
+Example 2:
 ```javascript
 function* counter(value) {
  let step;
