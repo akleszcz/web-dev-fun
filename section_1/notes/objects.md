@@ -151,7 +151,7 @@ Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global
 - accessor properties attributes:
   - `get`
   - `set`
-- all properties atttributes:
+- all properties attributes:
   - `enumerable`
     - defines whether the property is picked by `Object.assign` or spread operator (`...`)
     - for non-Symbols properties it also defines whether it shows up in a `for...in` loop and `Object.keys` or not (Symbol properties are never enumerable in `for...in` iterations and `Object.keys` method)
@@ -280,7 +280,7 @@ console.log('o.a:', Object.getOwnPropertyDescriptor(o, 'a')); // {value: 5, writ
 console.log('o.b:', Object.getOwnPropertyDescriptor(o, 'b')); // {value: 7, writable: true, enumerable: true, configurable: true}
 console.log('o.c:', Object.getOwnPropertyDescriptor(o, 'c')); // {value: 12, writable: false, enumerable: false, configurable: false}
 ```
-## Prevent objects modifications
+## Preventing objects modifications
 -  `Object.isExtensible` method - determines whether an object is extensible, i.e. whether new properties can be added to
 the object or not. All user-defined objects are extensible by default:
 ```javascript
@@ -374,6 +374,190 @@ Methods that let us "lock down" objects into a known state:
   ```
 - `Object.preventExtensions`, `Object.seal` and `Object.freeze` all return the same object
 that was passed to them.
+
+## Merging objects
+
+- `Object.assign`:
+  - > copies all enumerable own properties from one or more source objects to a target object. It returns the modified target object.
+
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
+
+  - Example 1 - one source object:
+  ```javascript
+  const target = { a: 1, b: 2, c: 3 };
+  const source = { x: 10, y: 20, z: 30 };
+  const result = Object.assign(target, source);
+
+  console.log('target: ', JSON.stringify(target));
+  console.log('source: ', JSON.stringify(source));
+  console.log('result: ', JSON.stringify(result));
+  console.log(target === result);
+
+  /*
+  Result:
+  target:  {"a":1,"b":2,"c":3,"x":10,"y":20,"z":30}
+  source:  {"x":10,"y":20,"z":30}
+  result:  {"a":1,"b":2,"c":3,"x":10,"y":20,"z":30}
+  true
+  */
+  ```
+
+  - Example 2 - multiple source objects - overwriting existing properties:
+  ```javascript
+  const target = { a: 1, b: 2, c: 3 };
+  const source1 = { b: 20, c: 30 };
+  const source2 = { c: 300 };
+  const result = Object.assign(target, source1, source2);
+
+  console.log('target: ', JSON.stringify(target));
+  console.log('source1: ', JSON.stringify(source1));
+  console.log('source2: ', JSON.stringify(source2));
+  console.log('result: ', JSON.stringify(result));
+  console.log(target === result);
+
+  /*
+  Result:
+  target:  {"a":1,"b":20,"c":300}
+  source1:  {"b":20,"c":30}
+  source2:  {"c":300}
+  result:  {"a":1,"b":20,"c":300}
+  true
+  */
+  ```
+  - Example 3 - enumerable & non-enumerable properties:
+  ```javascript
+  function logOwnProperties(desc, obj) {
+    console.log(`${desc}:`, JSON.stringify(Object.getOwnPropertyDescriptors(obj), null, 2));
+  }
+
+  const target = { a: 1, b: 2, c: 3 };
+  const source = [20, 30];
+
+  logOwnProperties('source', source);
+
+  const result = Object.assign(target, source);
+
+  logOwnProperties('result', result);
+
+  /*
+  Result:
+  source: {
+    "0": {
+      "value": 20,
+      "writable": true,
+      "enumerable": true,
+      "configurable": true
+    },
+    "1": {
+      "value": 30,
+      "writable": true,
+      "enumerable": true,
+      "configurable": true
+    },
+    "length": {
+      "value": 2,
+      "writable": true,
+      "enumerable": false,
+      "configurable": false
+    }
+  }
+
+  result: {
+    "0": {
+      "value": 20,
+      "writable": true,
+      "enumerable": true,
+      "configurable": true
+    },
+    "1": {
+      "value": 30,
+      "writable": true,
+      "enumerable": true,
+      "configurable": true
+    },
+    "a": {
+      "value": 1,
+      "writable": true,
+      "enumerable": true,
+      "configurable": true
+    },
+    "b": {
+      "value": 2,
+      "writable": true,
+      "enumerable": true,
+      "configurable": true
+    },
+    "c": {
+      "value": 3,
+      "writable": true,
+      "enumerable": true,
+      "configurable": true
+    }
+  }
+  */
+  ```
+
+  - Example 4 - own & inherited properties:
+  ```javascript
+  const target = { a: 1, b: 2, c: 3 };
+  const source = [20, 30];
+
+  console.log(typeof source.map); // function
+  console.log(Object.hasOwnProperty(source, 'map')); // false
+
+  const result = Object.assign(target, source);
+
+  console.log(typeof result.map); // undefined
+  ```
+
+  - > For deep cloning, we need to use alternatives, because `Object.assign()` copies property values.
+    >
+    > If the source value is a reference to an object, it only copies the reference value.
+
+    [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#deep_clone)
+
+  - Example 5 - properties with objects as values:
+  ```javascript
+  const source = {
+    a: 1,
+    b: { x: 10, y: 20 }
+  };
+  const result = Object.assign({}, source);
+
+  source.a = 2;
+  console.log('1: source: ', JSON.stringify(source)); 
+  console.log('1: result: ', JSON.stringify(result));
+
+  result.a = 3;
+  console.log('2: source: ', JSON.stringify(source)); 
+  console.log('3: result: ', JSON.stringify(result));
+
+  console.log('source.b === result.b:', source.b === result.b);
+
+  source.b.x = 11;
+  console.log('3: source: ', JSON.stringify(source)); 
+  console.log('3: result: ', JSON.stringify(result));
+
+  result.b.x = 12;
+  console.log('4: source: ', JSON.stringify(source)); 
+  console.log('4: result: ', JSON.stringify(result)); 
+
+  /*
+  Result:
+  1: source:  {"a":2,"b":{"x":10,"y":20}}
+  1: result:  {"a":1,"b":{"x":10,"y":20}}
+  2: source:  {"a":2,"b":{"x":10,"y":20}}
+  3: result:  {"a":3,"b":{"x":10,"y":20}}
+  source.b === result.b: true
+  3: source:  {"a":2,"b":{"x":11,"y":20}}
+  3: result:  {"a":3,"b":{"x":11,"y":20}}
+  4: source:  {"a":2,"b":{"x":12,"y":20}}
+  4: result:  {"a":3,"b":{"x":12,"y":20}}
+  */
+  ```
+
+
+
 
 @TO READ: http://es5.github.io/#x4.3.7:
 Native objects, host objects
