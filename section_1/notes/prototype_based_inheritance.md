@@ -104,9 +104,61 @@ console.log('Favourite movie of panda Wanda (1):', panda.favouriteMovie);
 Panda.prototype.favouriteMovie = 'Kung Fu Panda';
 console.log('Favourite movie of panda Wanda (2):', panda.favouriteMovie);
 ```
+
+The `prototype` object can also contain methods, that will be available on the constructor's instances. The `this` keyword inside these methods bodies will refer to objects they are called on, e.g.:
+```javascript
+function Panda(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+}
+
+Panda.prototype.sayHello = function() {
+  console.log('Hello, my name is ' + this.name + '!');
+};
+
+const panda = new Panda('Wanda', 'female', 2015);
+
+panda.sayHello(); // Hello, my name is Wanda!
+```
+A similar effect can be achieved by defining the `sayHello` method directly on the object inside the constructor function:
+```javascript
+function Panda(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+  this.sayHello = function() {
+    console.log('Hello, my name is ' + this.name + '!');
+  };
+}
+
+const panda = new Panda('Wanda', 'female', 2015);
+
+panda.sayHello(); // Hello, my name is Wanda!
+```
+
+The difference is that in the first case all instances share the same copy of the `sayHello` function. In the second case, each instance gets its own copy of the function:
+
+```javascript
+function Panda(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+  this.methodFromConstructor = function() {};
+}
+
+Panda.prototype.methodFromPrototype = function() {};
+
+const panda1 = new Panda('Wanda', 'female', 2015);
+const panda2 = new Panda('Miranda', 'female', 2018);
+
+console.log(panda1.methodFromConstructor === panda2.methodFromConstructor); // false
+console.log(panda1.methodFromPrototype === panda2.methodFromPrototype); // true
+```
+
 ---
 ### Note: extending vs overriding constructor's `prototype` property
-Add properties to constructor's `prototype` property instead of overriding the whole property value. Otherwise you will lose some of `prototype`'s native properties:
+Add properties to constructor's `prototype` property instead of overriding the whole property value. Otherwise you will lose some of `prototype`'s properties:
 ```javascript
 function Panda(name, sex, yearOfBirth) {
   this.name = name;
@@ -133,6 +185,44 @@ function Panda(name, sex, yearOfBirth) {
 Panda.prototype = { favouriteFood: 'bamboo' };
 Panda.prototype.constructor;
 // ƒ Object() { [native code] }
+```
+
+---
+### Note: Naming convention
+> (...) constructor functions define, in a sense, classes, and classes have names that begin with capital letters. Regular functions and methods have names that begin with lowercase letters.
+
+Source: [David Flanagan's 'JavaScript: The Definitive Guide'](https://www.amazon.com/JavaScript-Definitive-Most-Used-Programming-Language/dp/1491952024/ref=sr_1_1?crid=27DYQEI5YUD4T&dchild=1&keywords=javascript+the+definitive+guide&qid=1592932638&sprefix=javascript+the+defini%2Caps%2C107&sr=8-1), p. 202
+
+---
+### Note: returning a value from a constructor function
+As mentioned before, if a constructor function doesn't return an object explicitly (i.e. with a `return` statement), then by default it returns the newly created object that `this` refers to. This means that if the constructor's body contains a `return` statement followed by a primitive value, this value will be ignored and `this` will be returned instead when the constructor is called with `new`:
+```javascript
+function Panda(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+  return 5;
+}
+
+Panda.prototype.favouriteFood = 'bamboo';
+
+const panda = new Panda('Wanda', 'female', 2015); 
+console.log(panda); // 5, as a primitive value, is ignored and a Panda instance is returned instead
+```
+
+```javascript
+function Panda(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+  return { x: 1, y: 2 };
+}
+
+Panda.prototype.favouriteFood = 'bamboo';
+
+const panda = new Panda('Wanda', 'female', 2015);
+console.log(panda); // { x: 1, y: 2 } is an object, so it is returned instead of `this`. The returned object's `__proto__` property is not set to the constructor function's prototype object, so `panda.favouriteFood` is `undefined`:
+console.log(panda.favouriteFood);
 ```
 ---
 ### Note: calling a constructor function as a regular function
@@ -176,8 +266,32 @@ console.log(window.name); // "Wanda", when run in the browser
 > for (var id in users) {
 >     console.log(id); // "123", "456", "extra"
 > }
-> s```
+> ```
 
 [Source](https://eslint.org/docs/rules/no-extend-native)
 
+## The `instanceof` operator
+> The instanceof operator tests to see if the prototype property of a constructor appears anywhere in the prototype chain of an object. The return value is a boolean value.
 
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
+
+Example 1:
+```javascript
+function Panda(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+}
+
+const panda = new Panda('Wanda', 'female', 2015);
+
+console.log(panda instanceof Panda); // true
+console.log(panda instanceof Object); // true
+```
+
+Example 2:
+```javascript
+const numbers = [, 2, 3, 4, 5 ];
+console.log(numbers instanceof Array); // true
+console.log(numbers instanceof Object); // true
+```
