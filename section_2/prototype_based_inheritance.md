@@ -293,5 +293,11 @@ Example 2:
 ```javascript
 const numbers = [, 2, 3, 4, 5 ];
 console.log(numbers instanceof Array); // true
-console.log(numbers instanceof Object); // true
+conso
+le.log(numbers instanceof Object); // true
 ```
+## Inheritance between child and parent constructor functions
+
+Prior to ECMAScript 6, there was no specific keyword to extend one, "parent" constructor in order to create a child constructor. Instead, this goal could be achieved by explicitly calling the parent constructor in the child one and setting child's prototype to a copy of parent's prototype. You can read more aout it [here](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance).
+
+In ES6, a new `class` keyword has been introduced, along with `extends`, which simplifies implementation of inheritance between classes. You can find more about ES6 classes in the [Classes](./classes.md) section.

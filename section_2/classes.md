@@ -1,0 +1,147 @@
+# Classes
+
+The `class` keyword has been introduced in ES6 version of JavaScript. In earlier versions, a class-like behavior was achieved by using constructor functions, that you can read more about [here](./prototype_based_inheritance.md).
+
+## Simple class declaration
+
+A simple class declaration looks like this:
+
+```javascript
+class Panda {
+  constructor(name, sex, yearOfBirth) {
+    this.name = name;
+    this.sex = sex;
+    this.yearOfBirth = yearOfBirth;
+  }
+}
+```
+
+Compare it to the constructor function we analysed in the [Prototype-based inheritance section](./prototype_based_inheritance.md):
+
+```javascript
+function Panda(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+}
+```
+
+## Methods
+
+Class methods can be defined with the following syntax:
+
+```javascript
+class Panda {
+  constructor(name, sex, yearOfBirth) {
+    this.name = name;
+    this.sex = sex;
+    this.yearOfBirth = yearOfBirth;
+  }
+
+  sayHello() {
+    console.log("Hello, my name is " + this.name + "!");
+  }
+}
+```
+
+which is the equivalent of
+
+```javascript
+Panda.prototype.sayHello = function () {
+  console.log("Hello, my name is " + this.name + "!");
+};
+```
+
+syntax that we used for constructor functions. As can be seen below, the `Panda` class also has a prototype and the `sayHello` method was added to it:
+
+```javascript
+class Panda {
+  constructor(name, sex, yearOfBirth) {
+    this.name = name;
+    this.sex = sex;
+    this.yearOfBirth = yearOfBirth;
+  }
+
+  sayHello() {
+    console.log("Hello, my name is " + this.name + "!");
+  }
+}
+
+console.log(Panda.prototype.sayHello);
+// Result in the browser:
+// ƒ sayHello() {
+//   console.log('Hello, my name is ' + this.name + '!');
+// }
+```
+
+Generally speaking, class declarations are just syntactic sugar on top of the
+constructor function syntax. For example, the `Panda` class declaration above is equivalent to the following code:
+
+```javascript
+let Panda = (function () {
+  "use strict";
+  const Panda = function (name) {
+    if (typeof new.target === "undefined") {
+      throw new Error("Constructor must be called with new.");
+    }
+    this.name = name;
+  };
+  Object.defineProperty(Panda.prototype, "sayHello", {
+    value: function () {
+      if (typeof new.target !== "undefined") {
+        throw new Error("Method cannot be called with new.");
+      }
+      console.log("Hello, my name is " + this.name + "!");
+    },
+    enumerable: false,
+    writable: true,
+    configurable: true,
+  });
+  return Panda;
+})();
+```
+
+Sorce: this is a slightly modified example of the `PersonClass` example from _Understanding ECMAScript 6: The Definitive Guide for JavaScript Developers_, Nicholas C. Zakas, p. 169
+
+This implies some differences between classes and constructor functions that we are going to explore in the next section.
+
+## Differences between classes and constructor functions
+
+### Hoisting
+
+> An important difference between function declarations and class declarations is that function declarations are hoisted and class declarations are not. You first need to declare your class and then access it, otherwise code like the following will throw a `ReferenceError`.
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+
+Example:
+
+```javascript
+try {
+  const panda1 = new Panda1("Wanda", "female", 2015);
+  console.log("panda1: ", panda1); // panda1: Panda1 {name: 'Wanda', sex: 'female', yearOfBirth: 2015}
+  const panda2 = new Panda2("Miranda", "female", 2018);
+  console.log("panda2 :", panda2);
+} catch (error) {
+  console.error("Error: ", error); // Error:  ReferenceError: Panda2 is not defined
+}
+
+function Panda1(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+}
+
+class Panda2 {
+  constructor(name, sex, yearOfBirth) {
+    this.name = name;
+    this.sex = sex;
+    this.yearOfBirth = yearOfBirth;
+  }
+}
+```
+
+### Strict mode
+
+The code inside of a class's body is executed in strict mode. Some of the differences between strict and non-strict mode that we've learned so far are that:
+
+-
