@@ -82,7 +82,7 @@ let Panda = (function () {
   "use strict";
   const Panda = function (name) {
     if (typeof new.target === "undefined") {
-      throw new Error("Constructor must be called with new.");
+      throw new Error("Class constructor Panda cannot be invoked without 'new'");
     }
     this.name = name;
   };
@@ -142,6 +142,46 @@ class Panda2 {
 
 ### Strict mode
 
-The code inside of a class's body is executed in strict mode. Some of the differences between strict and non-strict mode that we've learned so far are that:
+The code inside of a class's body is executed in strict mode. One of the differences between strict and non-strict mode that we've learned so far is that only in non-strict mode we are allowed to:
 
--
+- assign a value to an undeclared variable:
+  ```javascript
+  // 'use strict';
+  x = 5;
+  console.log(x); // 'Uncaught ReferenceError: x is not defined' in strict mode.
+  ```
+
+- use octal integers:
+  ```javascript
+  // 'use strict';
+  let x = 03; // 'Uncaught SyntaxError: Octal literals are not allowed' in strict mode.
+  ```
+
+  Example:
+  ```javascript
+  function RedPanda() {
+    x = 5;
+  }
+
+  class GiantPanda {
+    constructor() {
+      y = 5;
+    }
+  }
+
+  const panda1 = new RedPanda();
+  const panda2 = new GiantPanda();
+  ```
+
+### Invocation without `new`
+Trying to use a class as a regular function, that is to call it without the `new` keyword, will result in an error:
+
+```javascript
+function RedPanda() { }
+
+class GiantPanda { }
+
+const panda1 = RedPanda();
+const panda2 = GiantPanda(); // Uncaught TypeError: Class constructor GiantPanda cannot be invoked without 'new'
+```
+

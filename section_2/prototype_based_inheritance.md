@@ -271,7 +271,7 @@ console.log(window.name); // "Wanda", when run in the browser
 [Source](https://eslint.org/docs/rules/no-extend-native)
 
 ## The `instanceof` operator
-> The instanceof operator tests to see if the prototype property of a constructor appears anywhere in the prototype chain of an object. The return value is a boolean value.
+> The `instanceof` operator tests to see if the prototype property of a constructor appears anywhere in the prototype chain of an object. The return value is a boolean value.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)
 
