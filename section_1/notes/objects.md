@@ -556,7 +556,38 @@ that was passed to them.
   */
   ```
 
+## Objects creation
+There are multiple ways of creating an object in JavaScript, including:
+- the _object literal_ syntax that we've seen in the examples above:
+  ```javascript
+  const user = {
+    name: 'John',
+    surname: 'Smith',
+  };
+  ```
+- using a [constructor function](../../section_2/prototype_based_inheritance.md#constructor-functions),
+- using a method called `Object.create`:
+  > The `Object.create()` method creates a new object, using an existing object as the prototype of the newly created object.
 
+  [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create)
+
+  Example:
+  ```javascript
+  const Animal = { 
+    favouriteFood: 'pizza',
+    eat: function () {
+      return 'Om nom nom nom...';
+    }
+  }
+
+  const panda = Object.create(Animal);
+  console.log('panda: ', panda);
+  panda.favouriteFood = 'bamboo';
+  console.log('panda: ', panda);
+  ```
+
+You can read more about objects creation [here](
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects#creating_new_objects).
 
 
 @TO READ: http://es5.github.io/#x4.3.7:

@@ -52,7 +52,7 @@ Panda.prototype.sayHello = function () {
 };
 ```
 
-syntax that we used for constructor functions. As can be seen below, the `Panda` class also has a prototype and the `sayHello` method was added to it:
+syntax that we used for constructor functions, with one difference: methods defined with the `class` syntax are non-enumerable:
 
 ```javascript
 class Panda {
@@ -72,6 +72,24 @@ console.log(Panda.prototype.sayHello);
 // ƒ sayHello() {
 //   console.log('Hello, my name is ' + this.name + '!');
 // }
+
+console.log(Object.getOwnPropertyDescriptor(Panda.prototype, 'sayHello'));
+// { writable: true, enumerable: false, configurable: true, value: ƒ }
+```
+while methods added manually to a constructor function's prototype are enumerable:
+```javascript
+function Panda(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+}
+
+Panda.prototype.sayHello = function () {
+  console.log("Hello, my name is " + this.name + "!");
+};
+
+console.log(Object.getOwnPropertyDescriptor(Panda.prototype, 'sayHello'));
+// { writable: true, enumerable: true, configurable: true, value: ƒ }
 ```
 
 Generally speaking, class declarations are just syntactic sugar on top of the
@@ -454,5 +472,44 @@ class Panda {
 ---
 
 ## Inheritance
+Before the `class` syntax was introduced in ES6, implementing the logic of extending a "class" (i.e. a constructor function) required quite a lot code. You can read more on this topic [here](./prototype_based_inheritance.md#inheritance-between-child-and-parent-constructor-functions).
 
-@TODO
+With the `class` syntax, a new keyword `extends` was provided to simplify this task.
+
+### Syntax
+```javascript
+class ChildClass extends ParentClass { ... }
+```
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends)
+
+Example:
+```javascript
+class Animal {
+  constructor(name, sex, yearOfBirth) {
+    this.name = name;
+    this.sex = sex;
+    this.yearOfBirth = yearOfBirth;
+  }
+
+  eat () {
+    return 'Om nom nom nom...';
+  };
+}
+
+class Llama extends Animal {
+  constructor(name, sex, yearOfBirth, spittingDistance) {
+    super(name, sex, yearOfBirth);
+    this.spittingDistance = spittingDistance;
+  }
+
+  spit () {
+    return 'Ptui!';
+  };
+}
+
+const llama = new Llama('Daisy', 'female', 2015, 450);
+console.log('llama: ', llama);
+console.log('llama.eat(): ', llama.eat());
+console.log('llama.spit(): ', llama.spit());
+```
+

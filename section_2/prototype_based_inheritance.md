@@ -297,6 +297,67 @@ console.log(numbers instanceof Object); // true
 ```
 ## Inheritance between child and parent constructor functions
 
-Prior to ECMAScript 6, there was no specific keyword to extend one, "parent" constructor in order to create a child constructor. Instead, this goal could be achieved by explicitly calling the parent constructor in the child one and setting child's prototype to a copy of parent's prototype. You can read more about it [here](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance).
+Prior to ECMAScript 6, there was no specific keyword to extend one, "parent" constructor in order to create a child constructor. Instead, this goal could be achieved by explicitly calling the parent constructor in the child one and setting child's prototype to a copy of parent's prototype.
+
+Here's an example:
+```javascript
+function Animal(name, sex, yearOfBirth) {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+}
+
+Animal.prototype.eat = function () {
+  return 'Om nom nom nom...';
+};
+
+function GiantPanda(name, sex, yearOfBirth, favouriteSportDiscipline) {
+  Animal.call(this, name, sex, yearOfBirth);
+  this.favouriteSportDiscipline = favouriteSportDiscipline;
+}
+GiantPanda.prototype = Object.create(Animal.prototype);
+Object.defineProperty(GiantPanda.prototype, 'constructor', {
+  value: GiantPanda,
+  enumerable: false,
+  writable: true,
+});
+
+function Llama(name, sex, yearOfBirth, spittingDistance) {
+  Animal.call(this, name, sex, yearOfBirth);
+  this.spittingDistance = spittingDistance;
+}
+Llama.prototype = Object.create(Animal.prototype);
+Object.defineProperty(Llama.prototype, 'constructor', {
+  value: Llama,
+  enumerable: false,
+  writable: true,
+});
+Llama.prototype.spit = function () {
+  return 'Ptui!';
+};
+
+
+const panda = new GiantPanda('Wanda', 'female', 2015, 'climbing');
+console.log('panda: ', panda);
+console.log('panda.eat(): ', panda.eat());
+
+const llama = new Llama('Daisy', 'female', 2015, 450);
+console.log('llama: ', llama);
+console.log('llama.eat(): ', llama.eat());
+console.log('llama.spit(): ', llama.spit());
+```
+
+Note that in the line:
+```javascript
+GiantPanda.prototype = Object.create(Animal.prototype);
+```
+we don't set `GiantPanda`'s prototype to `Animal.prototype`, but to an object that has its prototype set to `Animal.prototype`:
+```javascript
+GiantPanda.prototype === Animal.prototype; // false
+GiantPanda.prototype.__proto__ === Animal.prototype; // true
+```
+Thanks to that, we can add methods and properties to `GiantPanda.prototype` without adding them to `Animal.prototype`.
+
+ You can read more about prototypal inheritance [here](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance).
 
 In ES6, a new `class` keyword has been introduced, along with `extends`, which simplifies implementation of inheritance between classes. You can find more about ES6 classes in the [Classes](./classes.md) section.
