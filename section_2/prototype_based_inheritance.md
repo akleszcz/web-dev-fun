@@ -20,6 +20,12 @@ This kind of syntax is called a literal notation.
 
 Source: [David Flanagan's 'JavaScript: The Definitive Guide'](https://www.amazon.com/JavaScript-Definitive-Most-Used-Programming-Language/dp/1491952024/ref=sr_1_1?crid=27DYQEI5YUD4T&dchild=1&keywords=javascript+the+definitive+guide&qid=1592932638&sprefix=javascript+the+defini%2Caps%2C107&sr=8-1), p. 201
 
+### Accessing object's prototype
+
+> The `__proto__` property of `Object.prototype` is an accessor property (a getter function and a setter function) that exposes the internal `[[Prototype]]` (either an object or `null`) of the object through which it is accessed.
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/proto)
+
 Example:
 ```javascript
 const o = {
@@ -27,6 +33,8 @@ const o = {
 };
 o.__proto__ === Object.prototype; // true
 ```
+
+> Warning: Changing the `[[Prototype]]` of an object is, by the nature of how modern JavaScript engines optimize property accesses, a very slow operation, in every browser and JavaScript engine. (...) If you care about performance you should avoid setting the `[[Prototype]]` of an object. Instead, create a new object with the desired `[[Prototype]]` using `Object.create()`.
 
 > Warning: While `Object.prototype.__proto__` is supported today in most browsers, its existence and exact behavior has only been standardized in the ECMAScript 2015 specification as a legacy feature to ensure compatibility for web browsers. For better support, use `Object.getPrototypeOf()` instead.
 
@@ -40,7 +48,8 @@ const o = {
 Object.getPrototypeOf(o) === Object.prototype; // true
 ```
 
-Properties defined directly on the object, like `a` in the examples above, are called the object's *own* properties. Apart from them, we also have access to properties that the object inherited from its prototype, for example the `toString` method:
+### Own properties
+Properties defined directly on an object, like `a` in the examples above, are called the object's *own* properties. Apart from them, we also have access to properties that the object inherited from its prototype, for example the `toString` method:
 ```javascript
 const o = {
   a: 5,
@@ -52,9 +61,20 @@ o.toString(); // "[object Object]"
 
 [Source](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_prototypes)
 
+We can check if a given property is an own property of an object or not by using a built-in `hasOwnProperty` method:
+```javascript
+const f = () => {};
+console.log(f.__proto__); // ƒ () { [native code] }
+console.log(f.hasOwnProperty('__proto__')); // false
+console.log(Object.prototype.hasOwnProperty('__proto__')); // true
+```
+We can also get more details about object's own properties by calling `Object.getOwnPropertyDescriptor`:
+```javascript
+console.log(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__')); // {enumerable: false, configurable: true, get: ƒ, set: ƒ}
+```
 
 ## Constructor functions
-In [The prototype chain](#the-prototype-chain) section, we saw examples of an object created with the object literal syntax. Another way of creating objects in JavaScript involves using a constructor function. 
+In [The prototype chain](#the-prototype-chain) section, we saw examples of objects created with the object literal syntax. Another way of creating objects in JavaScript involves using a constructor function. 
 
 > A constructor is a function designed for the initialization of newly created objects. Constructors are invoked using the `new` keyword (...). The critical feature of constructor invocations is that the `prototype` property of the constructor is used as the prototype of the new object. This means that all objects created with the same constructor inherit from the same object and are therefore members of the same class. 
 
@@ -88,6 +108,20 @@ const panda = new Panda('Wanda', 'female', 2015);
 console.log('Panda Wanda:', panda);
 console.log('Favourite food of panda Wanda (1):', panda.favouriteFood);
 ```
+---
+### Note: arrow functions
+Arrow functions cannot be used as constructor functions and, therefore, cannot be called with the `new` operator:
+```javascript
+const Panda = (name, sex, yearOfBirth) => {
+  this.name = name;
+  this.sex = sex;
+  this.yearOfBirth = yearOfBirth;
+}
+
+const panda = new Panda('Wanda', 'female', 2015); // Uncaught TypeError: Panda is not a constructor
+```
+---
+
 Note that if `panda` has its own `favouriteFood` property, then its value is returned instead of the value of `favouriteFood` from `Panda.prototype`. This is called *property shadowing*:
 
 ```javascript
@@ -295,6 +329,22 @@ const numbers = [, 2, 3, 4, 5 ];
 console.log(numbers instanceof Array); // true
 console.log(numbers instanceof Object); // true
 ```
+
+Example 3:
+```javascript
+const f = () => {};
+console.log(f.__proto__ === Function.prototype); // true
+console.log(f instanceof Function); // true
+console.log(f.map); // undefined
+f.__proto__ = Array.prototype;
+console.log(f.__proto__ === Array.prototype); // true
+console.log(f instanceof Array); // true
+console.log(f.map); // ƒ map() { [native code] }
+```
+---
+### Note
+As mentioned in the ['Accessing object's prototype'](#accessing-objects-prototype) section, changing the `[[Prototype]]` of an object is a bad practice that can affect code's performance. It is done in the example above only to demostrate the behaviour of the `instanceof` operator.
+
 ## Inheritance between child and parent constructor functions
 
 Prior to ECMAScript 6, there was no specific keyword to extend one, "parent" constructor in order to create a child constructor. Instead, this goal could be achieved by explicitly calling the parent constructor in the child one and setting child's prototype to a copy of parent's prototype.
