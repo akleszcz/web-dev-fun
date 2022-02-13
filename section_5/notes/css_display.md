@@ -16,7 +16,7 @@
     - `inline` elements accept `margin` and `padding`, but they push other elements away horizontally and not vertically
     - `height` and `width` properties have no effect on `inline`, non-replaced elements:
       > #### 10.3.1 Inline, non-replaced elements
-      > The 'width' property does not apply. 
+      > The 'width' property does not apply.
       >
       > (...)
       >
@@ -36,7 +36,7 @@
 
     [Source](https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements)
     - elements displayed by default as `block` by popular browsers include: `<article>`,  `<aside>`, `<div>`, `<footer>`, `<form>`, `<h1>` - `<h6>`, `<header>`, `<p>`, `<pre>`
-    - inline elements should not contain block elements. Try validating the following code:
+    - some inline elements, like `<span>`, should not contain block elements. Try validating the following code:
       ```html
       <!DOCTYPE html>
       <html lang="en">
@@ -51,9 +51,27 @@
         </span>
       </body>
       </html>
-      ``` 
+      ```
     with [Markup Validation Service](https://validator.w3.org/) from W3C and you should get the following error:
     > Error: Element div not allowed as child of element span in this context.
+
+    For other inline elements it's fine to be wrapped around a block element, e.g. this markup with a `<div>` inside of `<a>` is considered valid:
+      ```html
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+      </head>
+      <body>
+        <a href="https://example.com">
+          <div>Hello world!</div>
+        </a>
+      </body>
+      </html>
+      ```
+
   - `inline-block`:
     - similarly to `inline`, doesn’t break the flow of a text
     - respects `height` and `width` properties on an element
@@ -76,15 +94,15 @@
     See 'display:none vs visibility:hidden vs opacity:0' in the [Notes](#notes) section for more details.
 
   - `table`, `inline-table`
-  - other table-related values: `table-row-group`, `table-column`, `table-column-group`, `table-header-group`, `table-footer-group`, `table-row`, `table-cell`, `table-caption`
+  - other table-related values: `table-row`, `table-row-group`, `table-column`, `table-column-group`, `table-header-group`, `table-footer-group`, `table-cell`, `table-caption`
 
 
   [Source](https://www.w3.org/TR/CSS2/visuren.html)
 
 - some of the new values introduced in CSS3:
   - `flex`, `inline-flex` - described in more detail [here](flexbox.md)
-  - `grid`, `inline-grid`
-  
+  - `grid`, `inline-grid` - described in more detail [here](grid.md)
+
 [Source](https://www.w3.org/TR/css-display-3)
 
 ## Notes

@@ -156,7 +156,7 @@ f();
 console.log('scope outside of f:', scope); // scope outside of f: global scope
 ```
 ### Hoisting
-- JavaScript code behaves as if all variable declarations with `var` in a function are "hoisted" to the top of the function.
+- JavaScript code behaves as if all variable declarations with `var` in a function were "hoisted" to the top of the function.
 
 Example:
 ```javascript

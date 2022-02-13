@@ -5,7 +5,7 @@
 [Source](https://www.w3.org/TR/selectors-4/#complex)
 
 ## Simple selectors
-> A simple selector is a single condition on an element. A type selector, universal selector, attribute selector, class selector, ID selector, or pseudo-class is a simple selector. 
+> A simple selector is a single condition on an element. A type selector, universal selector, attribute selector, class selector, ID selector, or pseudo-class is a simple selector.
 
 [Source](https://www.w3.org/TR/selectors-4/#simple)
 
@@ -45,7 +45,7 @@
       background-color: green;
     }
     ```
-- attribute selector 
+- attribute selector
   - matches elements based on the presence or value of a given attribute ([source](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors))
   - > Attributes are placed inside the start tag, and consist of a name and a value, separated by an "=" character. The attribute value can remain unquoted if it doesn't contain spaces or any of " ' ` = < or >. Otherwise, it has to be quoted using either single or double quotes. The value, along with the "=" character, can be omitted altogether if the value is the empty string.
 
@@ -76,13 +76,13 @@
           background-color: pink;
         }
         ```
+    - substring matching selectors:
       - `[attr^=value]` - example: matches `p` elements with a `class` attribute whose value starts with "tr":
         ```css
         p[class^="cat-co"] {
           background-color: purple;
         }
         ```
-    - substring matching selectors:
       - `[attr$=value]` - example: matches `p` elements with a `class` attribute whose value ends with "ner":
         ```css
         p[class$="ner"] {
@@ -163,7 +163,7 @@
         - example:
           ```css
           a:focus {
-            color: yellow;   
+            color: yellow;
           }
           ```
       - `:hover`:
@@ -185,7 +185,7 @@
 
       Note:
       > This order is important because the link styles build on one another, for example the styles in the first rule will apply to all the subsequent ones, and when a link is being activated, it is also being hovered over. If you put these in the wrong order, things won't work properly. To remember the order, you could try using a mnemonic like LoVe Fears HAte.
-      
+
       Source: https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text/Styling_links
 
       Try moving the rule with `:visited` pseudoclass after the one with `:hover`, visit the link and check which color is applied.
@@ -302,7 +302,7 @@
         .diet-and-predation::selection {
           color: pink;
           background-color: red;
-        } 
+        }
         ```
 # Compound selectors
 - one element can be selected based on multiple characteristics
@@ -339,7 +339,7 @@ would mean: *select all elements with a class `container` that are decendents of
 - syntax:
   ```css
   element, element, element {
-    style properties 
+    style properties
   }
   ```
 - example:

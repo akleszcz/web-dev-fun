@@ -12,6 +12,7 @@
 
 ### Flex Layout Box Model
 ![flex layout box model](../assets/flex-direction-terms.svg)
+
 *Source: https://www.w3.org/TR/css-flexbox-1/images/flex-direction-terms.svg*
 
 - The **main axis** of a flex container is the primary axis along which flex items are laid out. It extends in the **main dimension**.
@@ -35,7 +36,7 @@
 
     [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 
-  - values: 
+  - values:
     - `flex`:
       > The element we've given a   display value of flex to is acting like a block-level element in terms of how it interacts with the rest of the page (...).
 
@@ -49,15 +50,15 @@
   - > The `flex-direction` property specifies how flex items are placed in the flex container, by setting the direction of the flex container’s main axis.
 
     [Source](https://www.w3.org/TR/css-flexbox-1/#flex-direction-property)
-  
+
   - values:
     - `row` (default) - left to right in `ltr`, right to left in `rtl`. See the [note](#css-direction-property) about the `direction` property for more details
-    - `row-reverse` 
+    - `row-reverse`
     - `column`
     - `column-reverse`
 - `flex-wrap`:
   - > The flex-wrap property controls whether the flex container is single-line or multi-line, and the direction of the cross-axis, which determines the direction new lines are stacked in.
-  
+
   - values:
     - `nowrap` (default) - the flex container is single-line
     - `wrap` - the flex container is multi-line
@@ -112,8 +113,8 @@
       > ![justify-contnent: space-evenly](../assets/space-evenly.svg)
 
       [Source](https://www.w3.org/TR/css-align-3/#distribution-values)
-    
-  - > There are also two additional keywords you can pair with these values: safe and unsafe. Using safe ensures that however you do this type of positioning, you can’t push an element such that it renders off-screen (e.g. off the top) in such a way the content can’t be scrolled too (called “data loss”).
+
+  - > There are also two additional keywords you can pair with these values: safe and unsafe. Using safe ensures that however you do this type of positioning, you can’t push an element such that it renders off-screen (e.g. off the top) in such a way the content can’t be scrolled too (called "data loss").
 
     [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 
@@ -129,21 +130,24 @@
 
     [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 
-  - > `align-items` sets the default alignment for all of the flex container’s items (...). `align-self` allows this default alignment to be overridden for individual flex items. 
-  
+  - > `align-items` sets the default alignment for all of the flex container’s items (...). `align-self` allows this default alignment to be overridden for individual flex items.
+
     [Source](https://www.w3.org/TR/css-flexbox-1/#align-items-property)
 
     ![flexbox safe and unsafe browser support](../assets/flex-align.svg)
-  
+
   *Source: https://www.w3.org/TR/css-flexbox-1/images/flex-align.svg*
   - values:
-    - `normal` (default, according to [W3C specification](https://www.w3.org/TR/css-align-3/#align-items-property))
+    - `normal` (default, according to [W3C specification](https://www.w3.org/TR/css-align-3/#align-items-property)) -
+    > The effect of this keyword is dependent of the layout mode we are in (...). For flex items, the keyword behaves as `stretch`.
+
+    [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items)
     - `stretch` ~~(default)~~
     - `flex-start`
     - `flex-end`
     - `center`
-    - `baseline` - 
-      > In many cases, when the font size is the same among items (like in the question), or the content is otherwise the same, then flex-start and baseline will be indistinguishable.
+    - `baseline` -
+      > In many cases, when the font size is the same among items (...), or the content is otherwise the same, then flex-start and baseline will be indistinguishable.
       >
       > But if content size varies among flex items, then baseline can make a noticeable difference.
 
@@ -159,7 +163,7 @@
    ![flex align-content](../assets/align-content.svg)
 *Source: https://css-tricks.com/wp-content/uploads/2018/10/align-content.svg*
 
-  - values: 
+  - values:
     - `normal` (default, according to [W3C specification](https://www.w3.org/TR/css-align-3/#align-justify-content))
     - `stretch`:
       - > Lines stretch to take up the remaining space. If the leftover free-space is negative, this value is identical to flex-start. Otherwise, the free-space is split equally between all of the lines, increasing their cross size.
@@ -178,7 +182,7 @@
     >
     > (...)
     >  It takes a single \<integer\> value, which specifies which ordinal group the flex item belongs to.
-    > 
+    >
     > A flex container lays out its content in order-modified document order, starting from the lowest numbered ordinal group and going up. Items with the same ordinal group are laid out in the order they appear in the source document.
 
     [Source](https://www.w3.org/TR/css-flexbox-1/#order-property)
@@ -194,7 +198,7 @@
     > You might have a design, perhaps a card that will display a news item. The heading of the news item is the key thing to highlight and would be the element that a user might jump to if they were tabbing between headings to find content they wanted to read. The card also has a date;
     > (...)
     > Visually the date appears above the heading, in the source. However, if the card was read out by a screen reader I would prefer that the title was announced first and then the publication date.
-    
+
     [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Ordering_Flex_Items)
 - `flex-grow`:
   - > The flex-grow property sets the flex grow factor to the provided \<number\>. Negative numbers are invalid.
@@ -353,7 +357,7 @@
 
   - > Note: in case both `flex-basis` (other than `auto`) and `width` (or `height` in case of `flex-direction: column`) are set for an element, `flex-basis` has priority.
 
-    [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis) 
+    [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis)
 
   - you can read more in [The difference between width and flex-basis in Flexbox](https://www.freecodecamp.org/news/flexboxs-flex-basis-explained-83d1a01413b7/)
 - `flex`:
@@ -361,7 +365,7 @@
 
     [Source](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
   - default value: `0 1 auto`
-  
+
   - >Authors are encouraged to control flexibility using the flex shorthand rather than with flex-grow directly, as the shorthand correctly resets any unspecified components to accommodate common uses.
 
     [Source](https://drafts.csswg.org/css-flexbox/#flex-grow-property)
@@ -380,7 +384,7 @@
 ---
 ## Notes
 ### CSS `direction` property
-> The direction CSS property sets the direction of text, table columns, and horizontal overflow. Use `rtl` for languages written from right to left (like Hebrew or Arabic), and `ltr` for those written from left to right (like English and most other languages).
+> The `direction` CSS property sets the direction of text, table columns, and horizontal overflow. Use `rtl` for languages written from right to left (like Hebrew or Arabic), and `ltr` for those written from left to right (like English and most other languages).
   >
   > (...)
   >
@@ -397,7 +401,7 @@
   [Source: Arabic edition of Goal.com](https://www.goal.com/ar)
 
 ### CSS `writing-mode` property
-> This property specifies the block flow direction, which is the direction in which block-level containers are stacked, and the direction in which inline-level content flows within a block container. 
+> This property specifies the block flow direction, which is the direction in which block-level containers are stacked, and the direction in which inline-level content flows within a block container.
 
   [Source](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode)
 
@@ -413,9 +417,9 @@
 > (...) the spec writers of the CSS Flexbox Level 1 spec invented new alignment and distribution properties, justify-content, align-content, align-items and align-self. The value of align-content that was judged most useful as a default for flexbox was stretch, so that was made the initial value.
 >
 > But following not far behind flexbox was the Grid layout Level 1 spec. It made no sense to invent yet another set of alignment properties for that, so the flexbox ones got reused. Additionally, there is a desire to fix the limitation of the 2.x alignment capabilities by applying these to older layout models like the block and columnar models. Which means that having the definition of the properties in the Flexbox spec was out-of-place.
-> 
+>
 > So they're being moved to the CSS Box Alignment spec.
-> 
+>
 > In the case of Grid layouts, align-content:stretch is still a good initial value choice. But if it was chosen as an initial value for block layouts, its defined behaviour would be incompatible will what web pages do today. To get around that, the initial value is redefined there to be normal, which can be interpreted as "whatever web pages do today in all contexts".
 >
 > So then, it defines the behaviour for align-content:normal for Flex layouts to be the same as align-content:stretch giving it perfect backward compatibility with the FlexBox spec. It defines align-content:normal the same for Grid layouts. For other layouts though, it defines the behaviour differently, such that it's compatible with how those layouts work today.

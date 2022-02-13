@@ -96,7 +96,7 @@ is parsed as `x; ++y;`, not as `x++; y`.
 Increment (`++`) and decrement (`--`) operators:
 - Increase/decrease variable's value by 1.
 - Can only be applied to variables, not numbers:
-```
+```javascript
 let a = 5;
 a++;
 console.log(a); // 6
