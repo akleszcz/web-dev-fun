@@ -425,3 +425,107 @@
 > So then, it defines the behaviour for align-content:normal for Flex layouts to be the same as align-content:stretch giving it perfect backward compatibility with the FlexBox spec. It defines align-content:normal the same for Grid layouts. For other layouts though, it defines the behaviour differently, such that it's compatible with how those layouts work today.
 
 [Source](https://stackoverflow.com/questions/64102949/initial-value-of-align-content)
+
+### Images as flex items
+When a flex container contains [replaced elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element), e.g. images, as its direct children, we may encounter some issues with styling. Consider the following example (the images come from https://cataas.com/#/):
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+    }
+
+    .container img {
+      flex: 1 1 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <img src="https://cataas.com/cat?a" alt="">
+    <img src="https://cataas.com/cat?b" alt="">
+    <img src="https://cataas.com/cat?c" alt="">
+    <img src="https://cataas.com/cat?d" alt="">
+    <img src="https://cataas.com/cat?e" alt="">
+  </div>
+</body>
+
+</html>
+```
+
+Since we set `flex: 1 1 0;` on the `<img>` elements, we could expect them to shrink in order to fit in the container, which by default occupies the entire horizontal space available, so the whole viewport width in this example. As a result, we could expect the images to be resized to take up 100% of viewport width - but not more - horizontally, like this:
+
+![flex images fitting](../assets/flex-images-fitting.png)
+
+But instead, they take up additional horizontal space, making a horizontal scrollbar appear:
+
+![flex images not fitting](../assets/flex-images-not-fitting.png)
+
+even though the container itself doesn't stretch:
+
+![flex images container width](../assets/flex-images-container-width.png)
+
+For a similar setup, but with `<div>` elements as flex items instead of images, we don't have this problem:
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+    }
+
+    .container div {
+      flex: 1 1 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div style="background-color: blue;">Child div 1</div>
+    <div style="background-color: green;">Child div 2</div>
+    <div style="background-color: yellow;">Child div 3</div>
+    <div style="background-color: orange;">Child div 4</div>
+  </div>
+</body>
+
+</html>
+```
+
+![flex images divs comparison](../assets/flex-images-divs-comparison.png)
+
+Why does it work differently for images then? As mentioned in the beginning, `<img>` elements are so called [replaced elements](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element) and their default size depends on their content, so, in this case, on the cat pictures dimensions. Since each cat picture is 600px wide, their combined width exceeds viewport width and they overflow their container. In order to fix this, we could explicitly allow them to have a width smaller than their content's width with `min-width: 0`:
+```css
+.container img {
+  flex: 1 1 0;
+  min-width: 0;
+}
+```
+and now the images should be resized to fit in their container:
+
+![flex images fitting width](../assets/flex-images-fitting-width.png)
+
+As we've already learned in the [Flex container properties](#flex-container-properties) section, the default value of the `align-items` property of the flex container is set to `normal`, which is functionally equivalent to `stretch`. If we want to preserve aspect ratio of our images, we can set `align-items` on the container e.g. to `center` or `flex-start`, depending on our needs.
