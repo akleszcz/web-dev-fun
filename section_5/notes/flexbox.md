@@ -310,8 +310,13 @@
           margin-bottom: 15px;
         }
 
+        .shrink {
+          max-width: 500px;
+        }
+
         .container :first-child {
           background-color: red;
+          flex-shrink: 0;
         }
 
         .container :nth-child(2) {
@@ -320,8 +325,8 @@
 
         .container :last-child {
           background-color: yellow;
+          flex-shrink: 3
         }
-
       </style>
     </head>
 
@@ -332,10 +337,10 @@
         <div class="child">Content</div>
       </div>
 
-      <div class="container" style="max-width: 500px;">
-        <div class="child" style="flex-shrink: 0;">Content</div>
+      <div class="container shrink">
         <div class="child">Content</div>
-        <div class="child" style="flex-shrink:3">Content</div>
+        <div class="child">Content</div>
+        <div class="child">Content</div>
       </div>
     </body>
 
