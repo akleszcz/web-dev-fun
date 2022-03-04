@@ -1,0 +1,16 @@
+{
+  "name": "same-origin-policy-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:origin1": "http-server origin1 -p 8080",
+    "start:origin2": "http-server origin2 -p 8081"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.0"
+  }
+}
