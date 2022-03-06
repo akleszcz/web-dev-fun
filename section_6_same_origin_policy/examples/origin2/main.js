@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const openGreeting = function (url) {
     const newWindow = window.open(url);
+    window.newWindow = newWindow;
     newWindow.addEventListener('load', function () {
       const greetingContainer = newWindow.document.getElementById('greeting-container');
       const greetingContent = document.createTextNode(`Greeting from ${window.location.origin}!`);
@@ -16,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   btn8080.addEventListener('click', function () {
-    console.log('clicked!');
     openGreeting('http://localhost:8080/greeting.html');
   });
 
