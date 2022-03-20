@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Wanda",
+    "favouriteFood": "bamboo",
+    "yearOfBirth": 2015
+  },
+  {
+    "name": "Amanda",
+    "favouriteFood": "pizza",
+    "yearOfBirth": 2020
+  },
+  {
+    "name": "Andy Pandy",
+    "favouriteFood": "pumpkin",
+    "yearOfBirth": 2010
+  }
+]
