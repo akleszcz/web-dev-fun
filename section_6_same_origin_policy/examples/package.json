@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start:window-open:origin1": "http-server window-open/origin1 -p 8080",
-    "start:window-open:origin2": "http-server window-open/origin2 -p 8081"
+    "start:window-open:origin2": "http-server window-open/origin2 -p 8081",
+    "start:fetch:origin1": "http-server fetch/origin1 -p 8080",
+    "start:fetch:origin2": "http-server fetch/origin2 -p 8081",
+    "start:fetch-with-cors:origin2": "http-server fetch/origin2 -p 8081 --cors"
   },
   "keywords": [],
   "author": "",
