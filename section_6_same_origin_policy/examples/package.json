@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:origin1": "http-server origin1 -p 8080",
-    "start:origin2": "http-server origin2 -p 8081"
+    "start:window-open:origin1": "http-server window-open/origin1 -p 8080",
+    "start:window-open:origin2": "http-server window-open/origin2 -p 8081"
   },
   "keywords": [],
   "author": "",
