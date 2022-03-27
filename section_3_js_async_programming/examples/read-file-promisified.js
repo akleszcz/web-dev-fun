@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
-function readFilePromisified(path, encoding) {
+function readFilePromisified(filename) {
   return new Promise((resolve, reject) => {
-    fs.readFile(path, encoding, function (err, result) {
+    fs.readFile(path.join(__dirname, filename), 'utf-8', function (err, result) {
       if (err) {
         reject(err);
       } else {
@@ -13,8 +13,8 @@ function readFilePromisified(path, encoding) {
   });
 }
 
-readFilePromisified(path.join(__dirname, 'filename.txt'), 'utf8')
-  .then(filename => readFilePromisified(path.join(__dirname, filename), 'utf8'))
+readFilePromisified('filename.txt')
+  .then(filename => readFilePromisified(filename))
   .then(name => console.log(`Hello, ${name}!`))
   .catch(console.error);
 

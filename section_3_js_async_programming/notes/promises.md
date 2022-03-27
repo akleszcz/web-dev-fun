@@ -43,7 +43,7 @@ As you can see in the example above, the `Promise` instance returned by the `sle
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
 ## Appending rejection and fulfillment handlers
-The following three `Promise` instance methods can be used to handle a `Promise`'s results:
+The following three `Promise` instance methods can be used to handle a promise's results:
 
 ### `then`
 Takes two parameters:
@@ -83,7 +83,7 @@ sleep(1, true)
   })
   .catch((error) => {
     console.error('error: ', error)
-  }); // VM178:6 error:  Error: Rejected after 1 second(s)
+  }); // error:  Error: Rejected after 1 second(s)
 ```
 
 ### `finally`
@@ -106,9 +106,9 @@ sleep(1, true)
     console.log('isPromiseSettled: ', isPromiseSettled); // isPromiseSettled:  true
   });
 ```
-This can be useful e.g. for hiding a loader on a page after data fetching is finished (either with success or error). 
+This can be useful e.g. for hiding a loader on a page after data fetching is finished (either with success or error).
 
-All three of the methods above return new `Promise` instances, which can be chained. Thanks to that, callback hell of nested function calls mentioned in [The Callback Pattern](./asynchronous_programming#callback-hell) can be replaced by a flattened, more readable `Promise` chain:
+All three of the methods above return new `Promise` instances, which can be chained. Thanks to that, callback hell of nested function calls mentioned in [The Callback Pattern](./asynchronous_programming#the-callback-pattern) can be replaced with a flattened, more readable `Promise` chain:
 ```javascript
 method1()
   .then(() => method2())
@@ -126,7 +126,7 @@ method1()
   .then(method5)
   .catch(err => throw err);
 ```
-See the `read-file.js` and `read-file-promisified.js` files in the `examples` directory of this section for a comparison of a callback and `Promise` approach of reading files.
+See the `read-file.js` and `read-file-promisified.js` files in the `examples` directory of this section for a comparison of a callback and `Promise` approach for reading files.
 
 ## Creating already settled promises
 You can create `Promise` objects that are resolved or rejected with `Promise.resolve` and `Promise.reject` methods, respectively.
@@ -166,7 +166,7 @@ Result:
 3
 2
 ```
-Notice how `console.log(3)` from promise fulfillment handler is called after synchronous `console.log(4)`, but before `console.log(2)` from `setTimeout`. This happens, because promises callbacks are added to a special *microtask* queue. 
+Notice how `console.log(3)` from promise fulfillment handler is called after synchronous `console.log(4)`, but before `console.log(2)` from `setTimeout`. This happens, because promises callbacks are added to a special *microtask* queue.
 You can read more about microtasks [here](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide).
 
 ---
@@ -198,7 +198,7 @@ fail()
   .then(console.log)
   .catch(console.error);
 ```
-In the first case, the rejection handler is defined before the fullfilment handlers. Thanks to that, the fullfilment handlers are executed and `succeed` function's result is logged to the console. 
+In the first case, the rejection handler is defined before the fullfilment handlers. Thanks to that, the fullfilment handlers are executed and `succeed` function's result is logged to the console.
 
 In the second case, the error is caught after the fullfilment handlers are added to the `Promise` chain. Because of that, the fullfilment handlers are not executed.
 
@@ -241,7 +241,7 @@ console.log('After promise');
 
 p.then(result => console.log('Result: ', result));
 ```
-This fact is useful e.g. if we want to implement a *cache and revalidate* pattern. Imagine the following scenario: we want to fetch a value from a remote server and save it to localStorage. The value may change from time to time, but it is not crucial for us to return the updated value every single time. What's more important is to return the value as fast as possible to avoid slowing down the page.
+This fact would be useful e.g. if we wanted to implement a *cache and revalidate* pattern. Imagine the following scenario: we want to fetch a value from a remote server and save it to localStorage. The value may change from time to time, but it is not crucial for us to return the updated value every single time. What's more important is to return the value as fast as possible to avoid slowing down the page.
 Therefore, we use the following strategy:
 - we implement a function that returns a promise resolving with the value,
 - *cache*: the function checks if the value is already stored in localStorage. If it is, then it resolves with it. If not, then it doesn't resolve yet. In both cases it goes to the next step,
@@ -254,7 +254,7 @@ const p = new Promise(function (resolve, reject) {
   if (cachedValue) {
     resolve(cachedValue);
   }
-  fetch('https://api.mocki.io/v1/0350b5d5')
+  fetch('https://some.api/endpoint')
     .then((response) => response.json())
     .then((updatedValue) => {
       console.log('Updating cached value...');
@@ -295,7 +295,7 @@ After promise
 Result:  5
 ```
 
-- `then` can be called on an already resolved promise. It will receive the value the promise resolved with as an argument.
+- `then` can be called on an already resolved promise. The handler passed to `then` will be called with the value the promise resolved with.
 
 ## Passing values in `Promise` chains
 
@@ -310,19 +310,19 @@ Example:
 ```javascript
 const p1 = Promise.resolve();
 const p2 = p1.then(() => 2);
-p2.then((value) => console.log('p2 resolved with: ', value));
+p2.then((value) => console.log('p2 resolved with: ', value)); // p2 resolved with:  2
 ```
 
-> - doesn't return anything, the promise returned by then gets resolved with an undefined value.
+> - doesn't return anything, the promise returned by `then` gets resolved with an `undefined` value.
 
 Example:
 ```javascript
 const p1 = Promise.resolve(1);
-const p2 = p1.then((value) => { console.log('p1 resolved with: ', value); }); 
-p2.then((value) => console.log('p2 resolved with: ', value));
+const p2 = p1.then((value) => { console.log('p1 resolved with: ', value); }); // p1 resolved with:  1
+p2.then((value) => console.log('p2 resolved with: ', value)); // p2 resolved with:  undefined
 ```
 
-> - throws an error, the promise returned by then gets rejected with the thrown error as its value.
+> - throws an error, the promise returned by `then` gets rejected with the thrown error as its value.
 
 Examples:
 ```javascript
@@ -330,37 +330,37 @@ const p1 = Promise.resolve();
 const p2 = p1.then(() => {
   throw new Error('I throw an error!');
 });
-p2.catch((error) => console.error('p2 error: ', error));
+p2.catch((error) => console.error('p2 error: ', error)); // p2 error:  Error: I throw an error!
 ```
 ```javascript
 const p1 = Promise.resolve();
 const p2 = p1.then(() => {
   JSON.parse('Invalid JSON string');
 });
-p2.catch((error) => console.error('p2 error: ', error));
+p2.catch((error) => console.error('p2 error: ', error)); // p2 error:  SyntaxError: Unexpected token I in JSON at position 0
 ```
 
-> - returns an already fulfilled promise, the promise returned by then gets fulfilled with that promise's value as its value.
+> - returns an already fulfilled promise, the promise returned by `then` gets fulfilled with that promise's value as its value.
 
 Example:
 ```javascript
 const p1 = Promise.resolve();
 const af = Promise.resolve(5); // already fulfilled promise
 const p2 = p1.then(() => af);
-p2.then((value) => console.log('p2 resolved with: ', value));
+p2.then((value) => console.log('p2 resolved with: ', value)); // p2 resolved with:  5
 ```
 
-> - returns an already rejected promise, the promise returned by then gets rejected with that promise's value as its value.
+> - returns an already rejected promise, the promise returned by `then` gets rejected with that promise's value as its value.
 
 Example:
 ```javascript
 const p1 = Promise.resolve();
 const ar = Promise.reject(new Error('I reject!')); // already rejected promise
 const p2 = p1.then(() => ar);
-p2.catch((value) => console.log('p2 rejected with: ', value));
+p2.catch((value) => console.log('p2 rejected with: ', value)); // p2 rejected with:  Error: I reject!
 ```
 
-> - returns another pending promise object, the resolution/rejection of the promise returned by then will be subsequent to the resolution/rejection of the promise returned by the handler. Also, the resolved value of the promise returned by then will be the same as the resolved value of the promise returned by the handler.
+> - returns another pending promise object, the resolution/rejection of the promise returned by `then` will be subsequent to the resolution/rejection of the promise returned by the handler. Also, the resolved value of the promise returned by `then` will be the same as the resolved value of the promise returned by the handler.
 
 Example:
 ```javascript
@@ -371,10 +371,10 @@ const p2 = p1.then((todos) => {
 });
 p2
   .then(response => response.json())
-  .then((value) => console.log('p2 resolved with: ', value));
+  .then((value) => console.log('p2 resolved with: ', value)); // p2 resolved with:  {userId: 1, id: 1, title: 'delectus aut autem', completed: false}
 ```
 
-[Source (of the bullet point descriptions)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then)
+[Source (of the bullet points descriptions)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then)
 
 ### `catch`
 > Internally calls `Promise.prototype.then` on the object upon which it was called, passing the parameters `undefined` and the received `onRejected` handler. Returns the value of that call, which is a `Promise`.
@@ -382,10 +382,10 @@ p2
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
 
 ## Handling multiple promises
-There are several static methods defined on the `Promise` constructor that let us handle an array (or more generally: an [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterable_protocol)) of promises. All of them return a single promise. 
+There are several static methods defined on the `Promise` constructor that let us handle an array (or more generally: an [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterable_protocol)) of promises. All of them return a single promise.
 
 These methods are:
-- `Promise.all` - 
+- `Promise.all` -
   > returns a single Promise that resolves to an array of the results of the input promises. This returned promise will resolve when all of the input's promises have resolved, or if the input iterable contains no promises. It rejects immediately upon any of the input promises rejecting or non-promises throwing an error, and will reject with this first rejection message / error.
 
   [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
@@ -498,7 +498,7 @@ These methods are:
   // Resolved after 2 second(s)
   ```
 `Resolved after 2 second(s)` is still logged in the console, even though the promise returned by `Promise.all` has already rejected.
-- `Promise.race`- 
+- `Promise.race`-
   > returns a promise that fulfills or rejects as soon as one of the promises in an iterable fulfills or rejects, with the value or reason from that promise.
 
   [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
@@ -509,9 +509,9 @@ These methods are:
   Example:
   ```javascript
   const p = Promise.race([]);
-  console.log('p: ', p);
+  console.log('p: ', p); // p:  Promise {<pending>}
   setTimeout(function(){
-    console.log('p:', p);
+    console.log('p:', p); // p:  Promise {<pending>}
   });
   p
     .then(() => console.log('resolved')) // will never be called
@@ -524,7 +524,7 @@ These methods are:
   Examples:
   ```javascript
   const p = Promise.race([Promise.resolve(1), Promise.resolve(2)]);
-    console.log('p: ', p);
+  console.log('p: ', p);
   setTimeout(function(){
     console.log('p:', p);
   });
@@ -534,7 +534,7 @@ These methods are:
 
   // p: Promise {<pending>}
   // result: 1
-  // p: {<fulfilled>: 1} 
+  // p: {<fulfilled>: 1}
   ```
 
   ```javascript
@@ -549,7 +549,7 @@ These methods are:
 
   // p: Promise {<pending>}
   // result: 1
-  // p: {<fulfilled>: 1} 
+  // p: {<fulfilled>: 1}
   ```
 
   ```javascript
@@ -591,7 +591,7 @@ These methods are:
   p
     .then((result) => console.log('result:', result))
     .catch((error) => console.error('error:', error));
-  
+
   // p: Promise {<pending>}
   // error: Error: Rejected after 1 second(s) at <anonymous>:5:16
   ```
@@ -616,15 +616,15 @@ These methods are:
     p
       .then((result) => console.log('result:', result))
       .catch((error) => console.error('error:', error));
-  
+
   // p: Promise {<pending>}
   // I am about to reject.
   // error: Error: Rejected after 1 second(s) at <anonymous>:6:16
   // I am about to resolve.
   ```
 
-  
-- `Promise.allSettled` 
+
+- `Promise.allSettled`
   > returns a promise that resolves after all of the given promises have either fulfilled or rejected, with an array of objects that each describes the outcome of each promise.
 
   [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
@@ -655,7 +655,11 @@ These methods are:
     .then((result) => console.log('result:', result))
     .catch((error) => console.error('error:', error));
 
-  /* Promise {<pending>}
+  /* p:  Promise {<pending>}
+     Promise {<pending>}
+     I am about to reject.
+     (2) I am about to resolve.
+     I am about to reject.
      result: [
       {
         "status": "fulfilled",
@@ -740,17 +744,10 @@ These methods are:
   Promise.any([sleep(2, true), sleep(1, true), sleep(5, true)])
     .then((result) => console.log('Result: ', result))
     .catch((error) => console.error('Error: ', error));
-  
+
   // Result: 1
   // Result:  Resolved after 1 second(s)
   // Result:  Resolved after 1 second(s)
   // Result:  Resolved after 2 second(s)
   // Error:  AggregateError: All promises were rejected
   ```
-
-@TODO
-- reject vs throw
-
-@TOREAD:
-https://www.imaginea.com/the-javascript-event-loop-micro-tasks-and-macro-tasks/
-https://michael-pautov.medium.com/micro-and-macro-tasks-in-javascript-4c556a3ea18c

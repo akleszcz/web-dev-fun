@@ -30,7 +30,7 @@ string.
 
 Source: *Understanding ECMAScript 6: The Definitive Guide for JavaScript Developers*, Nicholas C. Zakas
 
-If we want to chain multiple calls together. we can quickly find ourselves in a **callback hell**:
+If we want to chain multiple calls together, we can quickly find ourselves in a **callback hell**:
 > ```javascript
 > method1(function (err, result) {
 >   if (err) {
