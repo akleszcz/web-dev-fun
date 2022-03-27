@@ -13,8 +13,8 @@
  An object implements the iterator protocol, if:
  - it has a method called `next`, which:
    - takes zero or one argument (check [here](#note-passing-a-value-to-the-next-method) for more details),
-   - returns an object with at least the following two properties:
-     - `done` - a Boolean value, set to `false` if and only if the iterator has completed its sequence;
+   - returns an object with the following properties:
+     - `done` - has the value `false` if the iterator was able to produce the next value in the sequence - this is equivalent to not specifying the `done` property altogether ([source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterator_protocol))
      - `value` - the next appropriate value, if the iterator hasn't completed its sequence. Return value for the iterator otherwise (see the example below).
 
 ## Example iterator
@@ -137,7 +137,7 @@ function* g(items) {
   }
 }
 ```
-So how does the `yield` keyword work? As mentioned above, calling a generator function for the first time returns an iterator object. This object behaves as described below:
+So how does the `yield` keyword work? As mentioned above, calling a generator function returns an iterator object. This object behaves as described below:
 > The `yield`
 keyword (...) specifies values the resulting iterator
 should return when `next()` is called and the order in which they should be

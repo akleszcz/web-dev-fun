@@ -74,20 +74,20 @@ console.log(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__')); // 
 ```
 
 ## Constructor functions
-In [The prototype chain](#the-prototype-chain) section, we saw examples of objects created with the object literal syntax. Another way of creating objects in JavaScript involves using a constructor function. 
+In [The prototype chain](#the-prototype-chain) section, we saw examples of objects created with the object literal syntax. Another way of creating objects in JavaScript involves using a constructor function.
 
-> A constructor is a function designed for the initialization of newly created objects. Constructors are invoked using the `new` keyword (...). The critical feature of constructor invocations is that the `prototype` property of the constructor is used as the prototype of the new object. This means that all objects created with the same constructor inherit from the same object and are therefore members of the same class. 
+> A constructor is a function designed for the initialization of newly created objects. Constructors are invoked using the `new` keyword (...). The critical feature of constructor invocations is that the `prototype` property of the constructor is used as the prototype of the new object. This means that all objects created with the same constructor inherit from the same object and are therefore members of the same class.
 
 Source: [David Flanagan's 'JavaScript: The Definitive Guide'](https://www.amazon.com/JavaScript-Definitive-Most-Used-Programming-Language/dp/1491952024/ref=sr_1_1?crid=27DYQEI5YUD4T&dchild=1&keywords=javascript+the+definitive+guide&qid=1592932638&sprefix=javascript+the+defini%2Caps%2C107&sr=8-1), p. 201
 
-> The new keyword does the following things:
+> The `new` keyword does the following things:
 >
 > 1. Creates a blank, plain JavaScript object.
 > 2. Adds a property to the new object (`__proto__`) that links to the constructor function's prototype object
-> 
+>
 > ---
 > Note: Properties/objects added to the construction function prototype are therefore accessible to all instances created from the constructor function (using `new`).
-> 
+>
 > 3. Binds the newly created object instance as the `this` context (i.e. all references to `this` in the constructor function now refer to the object created in the first step).
 > 4. Returns `this` if the function doesn't return an object.
 
@@ -105,8 +105,8 @@ Panda.prototype.favouriteFood = 'bamboo';
 
 const panda = new Panda('Wanda', 'female', 2015);
 
-console.log('Panda Wanda:', panda);
-console.log('Favourite food of panda Wanda (1):', panda.favouriteFood);
+console.log('Panda Wanda:', panda); // Panda Wanda: Panda {name: 'Wanda', sex: 'female', yearOfBirth: 2015}
+console.log('Favourite food of panda Wanda (1):', panda.favouriteFood); // Favourite food of panda Wanda (1): bamboo
 ```
 ---
 ### Note: arrow functions
@@ -126,20 +126,20 @@ Note that if `panda` has its own `favouriteFood` property, then its value is ret
 
 ```javascript
 panda.favouriteFood = 'pizza';
-console.log('Favourite food of panda Wanda (2):', panda.favouriteFood);
+console.log('Favourite food of panda Wanda (2):', panda.favouriteFood); // Favourite food of panda Wanda (2): pizza
 
 delete panda.favouriteFood;
-console.log('Favourite food of panda Wanda (3):', panda.favouriteFood);
+console.log('Favourite food of panda Wanda (3):', panda.favouriteFood); // Favourite food of panda Wanda (3): bamboo
 ```
-Another interesting fact is that if we add a property to `Panda.prototype` after `panda` has been created, this property will be available on `panda` (and any other existing or future instances of `Panda` as well): 
+Another interesting fact is that if we add a property to `Panda.prototype` after `panda` has been created, this property will be available on `panda` (and any other existing or future instances of `Panda` as well):
 ```javascript
-console.log('Favourite movie of panda Wanda (1):', panda.favouriteMovie);
+console.log('Favourite movie of panda Wanda (1):', panda.favouriteMovie); // Favourite movie of panda Wanda (1): undefined
 
 Panda.prototype.favouriteMovie = 'Kung Fu Panda';
-console.log('Favourite movie of panda Wanda (2):', panda.favouriteMovie);
+console.log('Favourite movie of panda Wanda (2):', panda.favouriteMovie); // Favourite movie of panda Wanda (2): Kung Fu Panda
 ```
 
-The `prototype` object can also contain methods, that will be available on the constructor's instances. The `this` keyword inside these methods bodies will refer to objects they are called on, e.g.:
+The `prototype` object can also contain methods that will be available on the constructor's instances. The `this` keyword inside of these methods bodies will refer to objects they are called on, e.g.:
 ```javascript
 function Panda(name, sex, yearOfBirth) {
   this.name = name;
@@ -201,7 +201,7 @@ function Panda(name, sex, yearOfBirth) {
 }
 
 Panda.prototype.favouriteFood = 'bamboo';
-Panda.prototype.constructor; 
+Panda.prototype.constructor;
 // ƒ Panda(name, sex, yearOfBirth) {
 //   this.name = name;
 //   this.sex = sex;
@@ -240,8 +240,9 @@ function Panda(name, sex, yearOfBirth) {
 
 Panda.prototype.favouriteFood = 'bamboo';
 
-const panda = new Panda('Wanda', 'female', 2015); 
+const panda = new Panda('Wanda', 'female', 2015);
 console.log(panda); // 5, as a primitive value, is ignored and a Panda instance is returned instead
+console.log(panda.favouriteFood); // bamboo
 ```
 
 ```javascript
@@ -256,7 +257,7 @@ Panda.prototype.favouriteFood = 'bamboo';
 
 const panda = new Panda('Wanda', 'female', 2015);
 console.log(panda); // { x: 1, y: 2 } is an object, so it is returned instead of `this`. The returned object's `__proto__` property is not set to the constructor function's prototype object, so `panda.favouriteFood` is `undefined`:
-console.log(panda.favouriteFood);
+console.log(panda.favouriteFood); // undefined
 ```
 ---
 ### Note: calling a constructor function as a regular function
@@ -271,12 +272,12 @@ function Panda(name, sex, yearOfBirth) {
   this.name = name;
   this.sex = sex;
   this.yearOfBirth = yearOfBirth;
-  console.log('this:', this);
+  console.log('this:', this); // this: Window {0: Window, window: Window, self: Window, document: document, name: 'Wanda', location: Location, …}, when run in the browser
 }
 
 Panda.prototype.favouriteFood = 'bamboo';
 
-const panda = Panda('Wanda', 'female', 2015);
+const panda = Panda('Wanda', 'female', 2015); // undefined
 console.log(window.name); // "Wanda", when run in the browser
 ```
 ---
@@ -325,7 +326,7 @@ console.log(panda instanceof Object); // true
 
 Example 2:
 ```javascript
-const numbers = [, 2, 3, 4, 5 ];
+const numbers = [1, 2, 3, 4, 5 ];
 console.log(numbers instanceof Array); // true
 console.log(numbers instanceof Object); // true
 ```

@@ -1,6 +1,6 @@
 # `async` and `await`
 
-Introduced in ECMAScript 2017, `async` and `await` are a syntactic sugar that allow us to write asynchronous code that looks and feels like a synchronous one.
+Introduced in ECMAScript 2017, `async` and `await` are syntactic sugars that allow us to write asynchronous code that looks and feels like synchronous one.
 
 ## `async`
 
@@ -18,13 +18,13 @@ The `async` keyword is used to declare an asynchronous function.
 
   [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 
-   - Example:
-      ```javascript
-      async function getTodo() {
-        const todo = await fetch('https://api.mocki.io/v1/0350b5d5');
-        return todo;
-      }
-      ```
+  Example:
+    ```javascript
+    async function getTodo() {
+      const todo = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+      return todo;
+    }
+    ```
 
 - Function expression
   ```javascript
@@ -33,22 +33,23 @@ The `async` keyword is used to declare an asynchronous function.
   }
   ```
   [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/async_function)
-  
-  Or using arrow function syntax:
-    ```javascript
-  async ([param1[, param2[, ..., paramN]]]) => {
-    statements
-  }
-  ```
 
-  - Example 1:
+  Example:
     ```javascript
     const getTodo = async function () {
       const todos = await fetch('https://jsonplaceholder.typicode.com/todos/1');
       return todos;
     };
     ```
-  - Example 2:
+
+- Arrow function:
+    ```javascript
+  async ([param1[, param2[, ..., paramN]]]) => {
+    statements
+  }
+  ```
+
+  Example:
     ```javascript
     const getTodo = async () => {
       const todos = await fetch('https://jsonplaceholder.typicode.com/todos/1');
@@ -81,12 +82,12 @@ An asynchronous function:
     return todos;
   }; // Uncaught SyntaxError: await is only valid in async function
   ```
-  > await only works inside async functions within regular JavaScript code, however it can be used on it's own with [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+  > `await` only works inside async functions within regular JavaScript code, however it can be used on it's own with [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
 
   [Source](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)
 
 ## `await`
-> Await expressions make promise-returning functions behave as though they're synchronous by suspending execution until the returned promise is fulfilled or rejected. The resolved value of the promise is treated as the return value of the await expression.
+> Await expressions make promise-returning functions behave as though they're synchronous by suspending execution until the returned promise is fulfilled or rejected. The resolved value of the promise is treated as the return value of the `await` expression.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 
@@ -107,7 +108,7 @@ The `await` keyword can therefore be used instead of the `then` method of a `Pro
 @TODO
 
 ## Asynchronous functions in loops
-In the examples, we will use the following function to mock an external API returning time (in minutes) spent on a given task:
+In the examples below, we will use the following function to mock an external API returning time (in minutes) spent on a given task:
 ```javascript
 function getTimeSpent(taskId) {
   return new Promise(function (resolve, reject) {
@@ -155,7 +156,7 @@ const myTasks = [
         const time = await getTimeSpent(task.id);
         console.log(`Time spent on ${task.description}: `, time);
       }
-      
+
       console.log('After async loop');
     }
 
@@ -181,7 +182,7 @@ const myTasks = [
           const time = await getTimeSpent(task.id);
           console.log(`Time spent on ${task.description}: `, time);
         });
-        
+
         console.log('After async loop');
       }
 
@@ -216,7 +217,7 @@ const myTasks = [
           const time = await getTimeSpent(task.id);
           console.log(`Time spent on ${task.description}: `, time);
         });
-        
+
         console.log('After async loop');
       }
 
@@ -242,7 +243,7 @@ const myTasks = [
           console.log(`Time spent on ${task.description}: `, time);
           return time;
         });
-        
+
         console.log('After async loop');
         return result;
       }
@@ -329,13 +330,3 @@ Sources:
 - [async function expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/async_function)
 - [JavaScript async and await in loops](https://zellwk.com/blog/async-await-in-loops/)
 - [How to use async functions with Array.forEach in Javascript](https://advancedweb.hu/how-to-use-async-functions-with-array-foreach-in-javascript/)
-
-@TODO
-async function getNumber() {
-  throw new Error('5');
-}
-const result = getNumber();
-console.log(result instanceof Promise); // true
-result
-    .then(console.log)
-    .catch((err) => console.error('it rejected!', err));

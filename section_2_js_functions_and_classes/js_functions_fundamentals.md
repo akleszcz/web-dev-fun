@@ -35,11 +35,11 @@ Functions defined with function expressions are often:
   ```javascript
   const add = function (x, y) { return x + y; };
   ```
-  This allows for a more concise syntax when arrow functions are used (see [Arrow functions](#arrow-functions) for more details):
+  This allows for a more concise syntax when arrow functions are used:
   ```javascript
   const add = (x, y) =>  x + y;
   ```
-- passed as arguments to other functions (see [Use cases](####use-cases) for more details and examples) 
+- passed as arguments to other functions (see [Use cases](#use-cases) for more details and examples)
 
 ### Anonymous and named expressions
 Function name is optional in a function expression. Depending on whether it is provided or not, the function expression is:
@@ -68,7 +68,7 @@ The benefits of named function expressions are that:
   const arrDoubled = arr.map(function (n) { return 2*n; });
   console.log(arrDoubled);
   ```
-- a more concise syntax can be achieved with arrow functions: 
+- a more concise syntax can be achieved with arrow functions:
   ```javascript
   const arr = [1, 2, 3, 4, 5];
   const arrDoubled = arr.map(n => 2*n);
@@ -90,8 +90,8 @@ The benefits of named function expressions are that:
 
 ### Example
 ```javascript
-console.log('+: ', add(5, 7));
-console.log('-: ', subtract(5, 7));
+console.log('+: ', add(5, 7)); // +:  12
+console.log('-: ', subtract(5, 7)); // Uncaught ReferenceError: subtract is not defined
 
 function add(x, y) {
   return x + y;
@@ -100,40 +100,16 @@ function add(x, y) {
 const subtract = function(x, y) {
   return x - y;
 };
-
-// console.log('-: ', subtract(5, 7));
 ```
 
----
-## IIFE (Immediately Invoked Function Expression)
-@TODO
-
----
-## The `Function` constructor
-@TODO
-
----
-@TODO:
-- function expression vs declaration
-- Immediately Invoked Functions, arrow functions
-- arguments object
-- primitive vs object arguments
-- arrow functions, this
-- pure functions
-- anonymous functions
-- higher order functions
-- toString
-- currying
-- constructors (more on that in the section about classes)
-- eS6: default params, rest parameters
-
-> A function without a return statement will return a default value. In the case of a constructor called with the new keyword, the default value is the value of its this parameter. For all other functions, the default return value is undefined.
+> A function without a `return` statement will return a default value. In the case of a constructor called with the `new` keyword, the default value is the value of its `this` parameter. For all other functions, the default return value is `undefined`.
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions#the_function_constructor
 
 > Primitive parameters (such as a number) are passed to functions by value; the value is passed to the function, but if the function changes the value of the parameter, this change is not reflected globally or in the calling function.
+>
+> If you pass an object (i.e. a non-primitive value, such as Array or a user-defined object) as a parameter and the function changes the object's properties, that change is visible outside the function (...).
 
-> If you pass an object (i.e. a non-primitive value, such as Array or a user-defined object) as a parameter and the function changes the object's properties, that change is visible outside the function,
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
 
 

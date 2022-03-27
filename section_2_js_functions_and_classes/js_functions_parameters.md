@@ -15,7 +15,7 @@ function add(x, y) {
 add(5, 7, 9, 11); // no error; result: 12
 ```
 
-> When a function is invoked with fewer arguments than declared parameters, the additional parameters are set to the `undefined` value. 
+> When a function is invoked with fewer arguments than declared parameters, the additional parameters are set to the `undefined` value.
 
 **Source**: *JavaScript: The Definitive Guide*, 6th Edition, David Flanagan
 
@@ -26,14 +26,14 @@ function add(x, y) {
   console.log('y: ', y);
   return x + y;
 }
-add(5); // x:  5; y:  undefined; NaN 
+add(5); // x:  5; y:  undefined; NaN
 ```
 ## The `arguments` object
 - > `arguments` is an `Array`-like object accessible inside functions that contains the values of the arguments passed to that function.
 
 - > **Note**: If you're writing ES6 compatible code, then rest parameters should be preferred.
 
-- > **Note**: “`Array`-like” means that arguments has a `length` property and properties indexed from zero, but it doesn't have `Array`'s built-in methods like `forEach` or `map`.
+- > **Note**: "`Array`-like" means that `arguments` has a `length` property and properties indexed from zero, but it doesn't have `Array`'s built-in methods like `forEach` or `map`.
 
   See [Rest parameters](#rest-parameters) for more details.
 
@@ -41,7 +41,7 @@ add(5); // x:  5; y:  undefined; NaN
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments)
 
-- `arguments` object is not available in [arrow functions](#arrow-functions)
+- `arguments` object is not available in arrow functions
 
 #### Example
 ```javascript
@@ -72,7 +72,7 @@ function f(a, b, ...theArgs) {
 ### Important notes
 - A function definition can have only one rest parameter.
 - The rest parameter must be the last parameter in the function definition.
-- Unlike the `arguments` object, rest parameters are `Array` instances, meaning methods like `sort`, `map`, `forEach` or `pop` can be applied on it directly.
+- Unlike the `arguments` object, rest parameters are `Array` instances, meaning methods like `sort`, `map`, `forEach` or `pop` can be applied on them directly.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
 
@@ -131,7 +131,7 @@ operator in this idiomatic way:
 > }
 > ```
 > (...) a flaw exists with this approach in
-that a valid value for timeout might actually be 0, but this would replace it with 2000 because 0 is falsy.
+that a valid value for `timeout` might actually be 0, but this would replace it with 2000 because 0 is falsy.
 
 **Source**: *Understanding ECMAScript 6: The Definitive Guide for JavaScript Developers*, Nicholas C. Zakas, p. 36
 
@@ -147,13 +147,13 @@ function getPropertyNames(o, /* optional */ a = []) {
 ```
 ### Notes
 - By default, all function parameters default to `undefined`.
-  
+
   Example:
   ```javascript
   function sayHello(name) {
     console.log(`Hello, ${name}!`);
   }
-  sayHello();
+  sayHello(); // Hello, undefined!
   ```
 
 - Setting parameter's value explicitly to `undefined` triggers its default value just like not passing it at all does. No other value, truthy or falsy, does that.
@@ -166,7 +166,7 @@ function getPropertyNames(o, /* optional */ a = []) {
   sayHello(); // Hello, world!
   sayHello(undefined); // Hello, world!
   sayHello(null); // Hello, null!
-  sayHello(0); // VM58:2 Hello, 0!
+  sayHello(0); // Hello, 0!
   sayHello({}); // Hello, [object Object]!
   sayHello([]); // Hello, !
   ```
@@ -181,6 +181,7 @@ function getPropertyNames(o, /* optional */ a = []) {
   sayHello(); // Hello, world undefined!
   sayHello('John'); // Hello, John undefined!
   sayHello('John', 'Smith'); // Hello, John Smith!
+  sayHello(undefined, 'Smith'); // Hello, world Smith!
   ```
 
 - > Parameters defined earlier (to the left) are available to later default parameters
@@ -207,7 +208,7 @@ function getPropertyNames(o, /* optional */ a = []) {
   > console.log(add(1, 1)); // 2
   > console.log(add(1)); // 6
   > ```
-  > (...)   Keep in mind that `getValue()` is called only when `add()` is called without a second parameter, not when the function declaration is fist parsed. That means if `getValue()` were written differently, it could potentially return a different value. For instance:
+  > (...)   Keep in mind that `getValue()` is called only when `add()` is called without a second parameter, not when the function declaration is first parsed. That means if `getValue()` were written differently, it could potentially return a different value. For instance:
   > ```javascript
   > let value = 5;
   > function getValue() {
@@ -297,16 +298,19 @@ console.log('ourTeam === ourNewTeam:', ourTeam === ourNewTeam); // ourTeam === o
 [Source](https://www.oreilly.com/library/view/javascript-patterns/9781449399115/ch04.html)
 
 ### Example
+This example is based on [Chapter 4. Functions - Configuration Objects](https://www.oreilly.com/library/view/javascript-patterns/9781449399115/ch04.html) from *JavaScript Patterns* by Stoyan Stefanov.
+
 Let's say we want to define a function with the following personal details as parameters:
-- `first` - required, 
-- `last` - required, 
-- `dob` - required, 
-- `gender` - optional, 
+- `first` - required,
+- `last` - required,
+- `dob` - required,
+- `gender` - optional,
 - `address` - optional.
 
 Let's say that later we need to add another required parameter called `username`.
 
-#### Without the pattern used
+**Without the pattern used**
+
 The function is first defined like this:
 
 ```javascript
@@ -332,8 +336,9 @@ addPerson("Bruce", "Wayne", new Date(), undefined, undefined, "batman");
 
 As you can see, we now have to pass even the optional parameters and be careful not to mix the parameters' order.
 
-#### With the pattern used
-Instead of having multiple parameters, we can have only one, named `config`, that is expected to be an object. This object's properties will contain values for all the personal details that our function needs: 
+**With the pattern used**
+
+Instead of having multiple parameters, we can have only one, named `config`, that is expected to be an object. This object's properties will contain values for all the personal details that our function needs:
 ```javascript
 function addPerson(config) {...}
 ```
@@ -359,7 +364,7 @@ addPerson(config);
 Source: *JavaScript Patterns: Build Better Applications with Coding and Design Patterns*, 1st Edition, Stoyan Stefanov, p. 8-84
 
 ### Note
-If we develop a library and decide to add a required parameter to one of its functions, like in the example above, it means we introduce a breaking change. This means that we cannot ensure backward compatibility for existing implemenentations and should inform the users about it, e.g. by increasing the major version of our library if [semver](https://semver.org/) is used. 
+If we develop a library and decide to add a required parameter to one of its functions, like in the example above, it means we introduce a breaking change. This means that we cannot ensure backward compatibility for existing implemenentations and should inform the users about it, e.g. by increasing the major version of our library if [semver](https://semver.org/) is used.
 
 With this breaking change, we could theoretically change the order of our function's params, since its existing calls need to be updated to provide a value the new required param anyway.
 
@@ -428,12 +433,3 @@ addPerson({
 ```
 
 Any params with values unspecified in the configuration object will be set to `undefined`. Any additional properties in the configuration object will be ignored (by "additional" we mean the ones whose names are not in the list of function's destructured params).
-
-@TODO: Examples
-
-
-
-
-@TODO
-- Default values with object params
-- Rest params vs array params

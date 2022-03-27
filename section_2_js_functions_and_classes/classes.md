@@ -16,7 +16,7 @@ class Panda {
 }
 ```
 
-Compare it to the constructor function we analysed in the [Prototype-based inheritance section](./prototype_based_inheritance.md):
+Compare it to the constructor function we analysed in the [Prototype-based inheritance](./prototype_based_inheritance.md) section:
 
 ```javascript
 function Panda(name, sex, yearOfBirth) {
@@ -160,10 +160,10 @@ class Panda2 {
 }
 ```
 
-In fact, class declarations are hoisted, but remain uninitialised until the class statement is evaluated. efore that evaluation, they are in the [temporal dead zone](..\section_1\notes\js_variable_declaration.md#temporal-dead-zone-tdz):
+In fact, class declarations are hoisted, but remain uninitialised until the class statement is evaluated. Before that evaluation, they are in the [temporal dead zone](..\section_1_js_fundamentals\notes\js_variable_declaration.md#temporal-dead-zone-tdz):
 ```javascript
 class Panda { static description = 'Outer Panda class' }
-console.log('Panda from outer scope:', Panda);
+console.log('Panda from outer scope:', Panda); // Panda from outer scope: class Panda { static description = 'Outer Panda class' }
 
 {
   console.log('Panda from inner scope:', Panda); // Uncaught ReferenceError: Cannot access 'Panda' before initialization
@@ -179,8 +179,8 @@ The code inside of a class's body is executed in strict mode. One of the differe
 
   ```javascript
   // 'use strict';
-  x = 5;
-  console.log(x); // 'Uncaught ReferenceError: x is not defined' in strict mode.
+  x = 5; // 'Uncaught ReferenceError: x is not defined' in strict mode.
+  console.log(x); // 5 in non-strict mode
   ```
 
 - use octal integers:
@@ -284,7 +284,7 @@ constructor() {}
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor#description)
 
-For a _derived_ class, i.e. a class that extends another class, the default constructor looks slightly different. More on this in the [Inheritance section](#inheritance).
+For a _derived_ class, i.e. a class that extends another class, the default constructor looks slightly different. More on this in the [Inheritance](#inheritance) section.
 
 ## Defining insances own properties
 
