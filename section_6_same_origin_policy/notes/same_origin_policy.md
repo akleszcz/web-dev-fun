@@ -1,4 +1,4 @@
-# Same Origin Policy
+# Same-origin policy
 
 > The same-origin policy is a critical security mechanism that restricts how a document or script loaded by one origin can interact with a resource from another origin.
 
@@ -14,16 +14,16 @@
 
 Source: *JavaScript: The Definitive Guide*, 6th Edition, David Flanagan, Chapter 13: JavaScript in Web Browsers, p. 334
 
-## Example - accessing a cross-origin frame
-In `section_6_same_origin_policy\examples` you can find two directories: `origin1` and `origin2` and a `package.json` file containig two scripts:
-- `start:origin1` - which starts a simple HTTP server that serves files from the `origin1` directory on port 8080,
-- `start:origin2` - which starts a simple HTTP server that serves files from the `origin2` directory on port 8081.
+## Example 1 - accessing a cross-origin frame with `window.open`
+In `section_6_same_origin_policy\examples\window-open` you can find two directories: `origin1` and `origin2`. In `section_6_same_origin_policy\examples`, there is a `package.json` file containig two scripts:
+- `start:window-open:origin1` - which starts a simple HTTP server that serves files from the `origin1` directory on port 8080,
+- `start:window-open:origin2` - which starts a simple HTTP server that serves files from the `origin2` directory on port 8081.
 
-Run `npm install` (still in the `section_6_same_origin_policy\examples` directory) to install `http-server`. Then run `npm run start:origin1` to start the first server, open a new terminal window and run `npm run start:origin2` there to start the second server.
+In your terminal, navigate to the `section_6_same_origin_policy\examples` directory and run `npm install` to install `http-server`. Then run `npm run start:window-open:origin1` to start the first server, open a new terminal window, navigate to `section_6_same_origin_policy\examples` there as well and run `npm run start:window-open:origin2` to start the second server.
 
 Next, navigate to http://localhost:8080/index.html. You will see a heading saying *Hello from http://localhost:8080!* and two buttons: `Open http://localhost:8080/greeting.html` and `Open http://localhost:8081/greeting.html`. When you click the first one, a new window will open with a message: *Greeting from http://localhost:8080!*. When you click the second one, another window will be opened, but with no greeting message this time.
 
-Now let's analyze the code. In `section_6_same_origin_policy\examples\origin1\index.html`, we have an `h1` heading and the two buttons mentioned earlier:
+Now let's analyze the code. In `section_6_same_origin_policy\examples\window-open\origin1\index.html`, we have an `h1` heading and the two buttons mentioned earlier:
 ```html
   <h1 id="hello-container"></h1>
   <div id="buttons-container">
@@ -37,7 +37,7 @@ There's also a script tag pointing to a JS file served from `origin2`:
   <script src="http://localhost:8081/main.js"></script>
 ```
 
-This script file is responsible for filling the heading with *Hello from http://localhost:8080!* and for handling the buttons' click events. If you take a look at the source code in `section_6_same_origin_policy\examples\origin2\main.js`, you will see that when one of the buttons is clicked, the following happens:
+This script file is responsible for filling the heading with *Hello from http://localhost:8080!* and for handling the buttons' click events. If you take a look at the source code in `section_6_same_origin_policy\examples\window-open\origin2\main.js`, you will see that when one of the buttons is clicked, the following happens:
 - the respective URL (http://localhost:8080/greeting.html or http://localhost:8081/greeting.html) is opened is a new tab,
 - the script attempts to access the DOM of the page is has just opened in order to display the greeting.
 
@@ -47,7 +47,7 @@ Additionally, after one of the buttons is clicked, the new window object returne
 http://localhost:8080/index.html. To be more precise, the object returned is a `WindowProxy` object:
 > ### Return value
 >
-> A `WindowProxy` object, which is basically a thin wrapper for the `Windo`w object representing the newly created window, and has all its features available. If the window couldn't be opened, the returned value is instead `null`. The returned reference can be used to access properties and methods of the new window as long as it complies with Same-origin policy security requirements.
+> A `WindowProxy` object, which is basically a thin wrapper for the `Window` object representing the newly created window, and has all its features available. If the window couldn't be opened, the returned value is instead `null`. The returned reference can be used to access properties and methods of the new window as long as it complies with Same-origin policy security requirements.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/API/Window/open#return_value)
 
@@ -63,10 +63,61 @@ to display something in the console at http://localhost:8080/greeting.html:
 
 Now try to do the same thing after clicking the second button and you should see the following error:
 
-```javascript
+```
 Uncaught DOMException: Blocked a frame with origin "http://localhost:8080" from accessing a cross-origin frame.
 ```
 
 ![hello from greeting.html - SOP error](assets/hello-sop-error.png)
 
 This example proves that it's not the origin of the script itself (http://localhost:8081/main.js) that matters, but the origin of the page in which it is embedded (http://localhost:8080/index.html).
+
+## Example 2 - accessing cross-origin data with `fetch`
+
+In your terminal, navigate to the `section_6_same_origin_policy\examples` directory and run `npm install`, if you haven't already. There are three more scripts in `package.json` that we haven't run yet:
+- `start:fetch:origin1` - which starts a simple HTTP server that serves files from the `fetch\origin1` directory on port 8080,
+- `start:fetch:origin2` - which starts a simple HTTP server that serves files from the `fetch\origin2` directory on port 8081,
+- `start:fetch-with-cors:origin2` - which also starts a server that serves files from `fetch\origin2` on port 8081, but with a `cors` option.
+
+First make sure that the servers from the previous example are no longer running and then execute `npm run start:fetch:origin2` in one terminal window and `npm run start:fetch:origin1` in another.
+
+Now navigate to http://localhost:8080/index.html in your browser. You should see a simple page with two two buttons: `Fetch pandas from http://localhost:8080` and `Fetch pandas from http://localhost:8081`. Open dev tools and go to JavaScript console. Click the first button. You should see an array of three objects describing pandas. When you click the second button, you should see the following error in the console:
+
+```
+Access to fetch at 'http://localhost:8081/pandas.json' from origin 'http://localhost:8080' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+```
+
+Let's take a look at the code. In `section_6_same_origin_policy\examples\fetch\origin1\index.html`, there is a `script` element loading a script from `origin2`:
+```html
+<script src="http://localhost:8081/main.js"></script>
+```
+We can find the source code of this script in `section_6_same_origin_policy\examples\fetch\origin2\main.js`. What it does is it attaches click handlers to both buttons. The handlers are supposed to fetch a `pandas.json` file from a proper origin (http://localhost:8080 for the first button and http://localhost:8081 for the second one).
+
+Indeed, there are two identical `panda.json` files served by both servers. You can visit http://localhost:8080/pandas.json and http://localhost:8081/pandas.json to see their content.
+
+The `fetch` call in `http://localhost:8081/main.js` successfully returns the data from http://localhost:8080/pandas.json, but the attempt to fetch it from http://localhost:8081/pandas.json results in the error we saw above. Similarly to the first example, this shows that it's the origin of the document where the script is embedded (http://localhost:8080/index.html in this case), and not the script itself, that determines what origins we are allowed to fetch data from.
+
+To fix the problem, stop the server you started with `npm run start:fetch:origin2` and then start it again, but this time using the `npm run start:fetch-with-cors:origin2` command. When it's up and running, go to http://localhost:8080/index.html and click the second button once again. With the `cors` option enabled, our pandas data should be successfully logged to the console.
+
+But how did adding `--cors` fix the problem?
+
+### CORS
+
+CORS stands for *Cross-Origin Resource Sharing* and is
+>  an HTTP-header based mechanism that allows a server to indicate any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources.
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+
+Open the *Network* tab in the dev tools and find the request to http://localhost:8081/pandas.json. Among the response headers, you should see one named `Access-Control-Allow-Origin` with a value set to `*`. This header
+> indicates whether the response can be shared with requesting code from the given origin.
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+
+And the `*` value
+> tells browsers to allow requesting code from any origin to access the resource
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+
+You can check that the header is not present when the server from `origin2` is started without the `cors` option and, as a result, the `fetch` call fails.
+
+## The purpose of the same-origin policy
+@TODO
