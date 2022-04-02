@@ -1,4 +1,4 @@
-# Same-origin policy
+# Same-origin policy (SOP)
 
 > The same-origin policy is a critical security mechanism that restricts how a document or script loaded by one origin can interact with a resource from another origin.
 
@@ -13,6 +13,8 @@
 - The same-origin policy also applies to scripted HTTP requests made with `XMLHttpRequest` or `fetch`
 
 Source: *JavaScript: The Definitive Guide*, 6th Edition, David Flanagan, Chapter 13: JavaScript in Web Browsers, p. 334
+
+All of the examples below were tested in Chrome, but any browser with developer tools that let users inspect network traffic should work.
 
 ## Example 1 - accessing a cross-origin frame with `window.open`
 In `section_6_same_origin_policy\examples\window-open` you can find two directories: `origin1` and `origin2`. In `section_6_same_origin_policy\examples`, there is a `package.json` file containig two scripts:
@@ -82,9 +84,7 @@ First make sure that the servers from the previous example are no longer running
 
 Now navigate to http://localhost:8080/index.html in your browser. You should see a simple page with two two buttons: `Fetch pandas from http://localhost:8080` and `Fetch pandas from http://localhost:8081`. Open dev tools and go to JavaScript console. Click the first button. You should see an array of three objects describing pandas. When you click the second button, you should see the following error in the console:
 
-```
-Access to fetch at 'http://localhost:8081/pandas.json' from origin 'http://localhost:8080' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
-```
+> Access to fetch at 'http://localhost:8081/pandas.json' from origin 'http://localhost:8080' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 
 Let's take a look at the code. In `section_6_same_origin_policy\examples\fetch\origin1\index.html`, there is a `script` element loading a script from `origin2`:
 ```html
@@ -107,7 +107,7 @@ CORS stands for *Cross-Origin Resource Sharing* and is
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
 
-Open the *Network* tab in the dev tools and find the request to http://localhost:8081/pandas.json. Among the response headers, you should see one named `Access-Control-Allow-Origin` with a value set to `*`. This header
+Open the *Network* tab in dev tools and find the request to http://localhost:8081/pandas.json. Among the response headers, you should see one named `Access-Control-Allow-Origin` with a value set to `*`. This header
 > indicates whether the response can be shared with requesting code from the given origin.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
@@ -120,4 +120,44 @@ And the `*` value
 You can check that the header is not present when the server from `origin2` is started without the `cors` option and, as a result, the `fetch` call fails.
 
 ## The purpose of the same-origin policy
-@TODO
+You may wonder how the same-origin policy protects users from attacks in the second example. Clicking the second button at http://localhost:8080/ causes an error:
+> Access to fetch at 'http://localhost:8081/pandas.json' from origin 'http://localhost:8080' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+and the data from http://localhost:8081/pandas.json is not logged to the console. However, if we navigate to http://localhost:8081/pandas.json directly in a new browser tab, the browser will send a GET request that will be responded with a status code of `200 OK` (you can check it in the *Network* tab in dev tools) and our JSON file with pandas data will be displayed. The data would also be successfully returned if we sent a request with a tool like `curl` or Postman, instead of a browser.
+
+Moreover, if we go back to http://localhost:8080/ and once again observe the *Network* tab while clicking the second button, we can see that the request is actually sent to the server, which responds with a status code 200. The response is just prevented from being read on client side. Why is that?
+
+The same-origin policy is a mechanism specific to browsers, and that's because browsers do something that tools like `curl` or Postman don't: they send cookies tied to a specific domain with all requests to that domain, regardless of where these requests come from.
+
+Let's see this in action.
+
+## Example 3 - sending a cross-origin request with cookies
+
+Before you go through the example below, make sure that you're logged in to GitHub in the same browser that you use to check the example.
+
+Open `section_6_same_origin_policy\examples\fetch\origin1\github.html`. This simple HTML document contains a button that tries to fetch data from `https://github.com/`. Below the button, there's a link to https://github.com/ as well:
+```html
+<body>
+  <button id="fetch-from-gh">Fetch data from GitHub</button>
+  <a href="https://github.com/">Visit GitHub</a>
+</body>
+```
+Now visit http://localhost:8080/github.html/, open the dev tool's *Network* tab and click the link to GitHub. It will redirect you to GitHub's main page. If you find the request to https://github.com/ in the *Network* tab, you should see a tab called *Cookies*, which lets use see the cookies that were sent along with the request:
+
+![Request to GitHub](./assets/github-cookies.png)
+
+Thanks to them, we are automatically logged in to GitHub after being redirected.
+
+Now click the *Fetch data from GitHub* button. You can see in the *Network* tab that the request is sent along with some cookies and the server responds with status code 200:
+
+![Request to GitHub - status code 200](./assets/github-200.png)
+
+However, the response could not be read due to a "CORS error":
+
+![Request to GitHub - CORS error](./assets/github-cors-error.png)
+
+So how does this mechanism protect users? Imagine that we have a service, available at some URL endpoint, that returns some secret data in a response to GET requests that contains proper authentication cookie. Imagine that there's also a malicious website that performs a [Cross Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) attack - it tricks a user to send a request to our URL. If the user is already logged to our service and has the authentication cookie saved, the cookie will be sent with the request and, as a result, our URL will return the secret data.
+
+Since all of this happens on the user's machine, for the attack to be successful, the data would need to be sent to the attacker. But it can't, bacause the same-origin policy would block it from being read!
+
+You can read more about SOP and its importance in [this](https://sekurak.pl/czym-jest-cors-cross-origin-resource-sharing-i-jak-wplywa-na-bezpieczenstwo/) article (in Polish).
