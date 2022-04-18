@@ -1,4 +1,4 @@
-# The `script` element
+# The `async` and `defer` attributes of the `script` element
 
 ## Overview
 
@@ -45,7 +45,7 @@ As you can see, there is a `div` element followed by two parser-blocking scripts
 The other two HTML files have a very similar structure. The only difference is that their `script` elements have an `async` or `defer` attribute set, respectively.
 
 In order to start the server that serves the script files, go to the `server` directory that you can find inside of `section_11_async_defer/examples` and run `npm start`. It executes the script in the `section_11_async_defer/examples/server/app.js` file, which creates a simple HTTP server on port 8081. The logic of `app.js` is as follows:
-- after receiving a request, read the `url` value of the request object. The value is equal to `/index.js` for a request sent to http://localhost:8081/index1.js and `/some/invalid/path/index.js` for a request to http://localhost:8081/some/invalid/path/index.js,
+- after receiving a request, read the `url` value of the request object. The value is equal to `/index1.js` for a request sent to http://localhost:8081/index1.js and `/some/invalid/path/index.js` for a request to http://localhost:8081/some/invalid/path/index.js,
 - if the `url` is equal to `/index1.js`, wait for 5 seconds and then read the `section_11_async_defer/examples/server/index1.js` file and return it in the response,
 - similarly, if the `url` is equal to `/index2.js`, return the content of the `section_11_async_defer/examples/server/index2.js` file, but with a 3 second delay,
 - in any other case, try to read the file immediately and return an error, since the file doesn't exist.
