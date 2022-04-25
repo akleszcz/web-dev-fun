@@ -23,7 +23,7 @@ In `section_6_same_origin_policy\examples\window-open` you can find two director
 
 In your terminal, navigate to the `section_6_same_origin_policy\examples` directory and run `npm install` to install `http-server`. Then run `npm run start:window-open:origin1` to start the first server, open a new terminal window, navigate to `section_6_same_origin_policy\examples` there as well and run `npm run start:window-open:origin2` to start the second server.
 
-Next, navigate to http://localhost:8080/index.html. You will see a heading saying *Hello from http://localhost:8080!* and two buttons: `Open http://localhost:8080/greeting.html` and `Open http://localhost:8081/greeting.html`. When you click the first one, a new window will open with a message: *Greeting from http://localhost:8080!*. When you click the second one, another window will be opened, but with no greeting message this time.
+Next, navigate to http://localhost:8080/index.html. You will see a heading saying *Hello from http://localhost:8080!* and two buttons: `Open http://localhost:8080/greeting.html` and `Open http://localhost:8081/greeting.html`. When you click the first one, a new window will open with a message: *Greeting from http://localhost:8080/greeting.html!*. When you click the second one, another window will be opened, but with no greeting message this time.
 
 Now let's analyze the code. In `section_6_same_origin_policy\examples\window-open\origin1\index.html`, we have an `h1` heading and the two buttons mentioned earlier:
 ```html
