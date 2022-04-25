@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.newWindow = newWindow;
     newWindow.addEventListener('load', function () {
       const greetingContainer = newWindow.document.getElementById('greeting-container');
-      const greetingContent = document.createTextNode(`Greeting from ${window.location.origin}!`);
+      const greetingContent = document.createTextNode(`Greeting from ${newWindow.location.href}!`);
       greetingContainer.appendChild(greetingContent);
     });
   }
