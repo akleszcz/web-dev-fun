@@ -82,7 +82,7 @@ In your terminal, navigate to the `section_6_same_origin_policy\examples` direct
 
 First make sure that the servers from the previous example are no longer running and then execute `npm run start:fetch:origin2` in one terminal window and `npm run start:fetch:origin1` in another.
 
-Now navigate to http://localhost:8080/index.html in your browser. You should see a simple page with two two buttons: `Fetch pandas from http://localhost:8080` and `Fetch pandas from http://localhost:8081`. Open dev tools and go to JavaScript console. Click the first button. You should see an array of three objects describing pandas. When you click the second button, you should see the following error in the console:
+Now navigate to http://localhost:8080/index.html in your browser. You should see a simple page with two buttons: `Fetch pandas from http://localhost:8080` and `Fetch pandas from http://localhost:8081`. Open dev tools and go to JavaScript console. Click the first button. You should see an array of three objects describing pandas. When you click the second button, you should see the following error in the console:
 
 > Access to fetch at 'http://localhost:8081/pandas.json' from origin 'http://localhost:8080' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 
@@ -125,7 +125,7 @@ You may wonder how the same-origin policy protects users from attacks in the sec
 
 and the data from http://localhost:8081/pandas.json is not logged to the console. However, if we navigate to http://localhost:8081/pandas.json directly in a new browser tab, the browser will send a GET request that will be responded with a status code of `200 OK` (you can check it in the *Network* tab in dev tools) and our JSON file with pandas data will be displayed. The data would also be successfully returned if we sent a request with a tool like `curl` or Postman, instead of a browser.
 
-Moreover, if we go back to http://localhost:8080/ and once again observe the *Network* tab while clicking the second button, we can see that the request is actually sent to the server, which responds with a status code 200. The response is just prevented from being read on client side. Why is that?
+Moreover, if we once again run the server from `origin2` without the `cors` option, go back to http://localhost:8080/ and observe the *Network* tab while clicking the second button, we can see that the request is actually sent to the server, which responds with a status code 200. The response is just prevented from being read on client side. Why is that?
 
 The same-origin policy is a mechanism specific to browsers, and that's because browsers do something that tools like `curl` or Postman don't: they send cookies tied to a specific domain with all requests to that domain, regardless of where these requests come from.
 
@@ -138,25 +138,55 @@ Before you go through the example below, make sure that you're logged in to GitH
 Open `section_6_same_origin_policy\examples\fetch\origin1\github.html`. This simple HTML document contains a button that tries to fetch data from `https://github.com/`. Below the button, there's a link to https://github.com/ as well:
 ```html
 <body>
-  <button id="fetch-from-gh">Fetch data from GitHub</button>
+  <button id="fetch-from-gh">Fetch data from GitHub</button><br>
   <a href="https://github.com/">Visit GitHub</a>
 </body>
 ```
-Now visit http://localhost:8080/github.html/, open the dev tool's *Network* tab and click the link to GitHub. It will redirect you to GitHub's main page. If you find the request to https://github.com/ in the *Network* tab, you should see a tab called *Cookies*, which lets use see the cookies that were sent along with the request:
+Now visit http://localhost:8080/github.html/, open the dev tool's *Network* tab and click the link to GitHub. It will redirect you to GitHub's main page. If you find the request to https://github.com/ in the *Network* tab, you should see a tab called *Cookies*, which lets us see the cookies that were sent along with the request:
 
 ![Request to GitHub](./assets/github-cookies.png)
 
 Thanks to them, we are automatically logged in to GitHub after being redirected.
 
-Now click the *Fetch data from GitHub* button. You can see in the *Network* tab that the request is sent along with some cookies and the server responds with status code 200:
+Now click the *Fetch data from GitHub* button. This time there are no cookies sent with the request:
 
-![Request to GitHub - status code 200](./assets/github-200.png)
+![Request to GitHub - status code 200](./assets/github-no-cookies.png)
 
-However, the response could not be read due to a "CORS error":
+but this can be changed quite easily. All we have to do is to find the script responsible for fetching the data in `github.html` and change
+```js
+      const fetchFromGH = function (url) {
+        fetch('https://github.com/')
+          .then(data => console.log(data));
+      }
+```
+to
+```js
+      const fetchFromGH = function (url) {
+        fetch('https://github.com/', {
+          credentials: 'include',
+        })
+          .then(data => console.log(data));
+      }
+```
+The `credentails` option:
+> Controls what browsers do with credentials (cookies, HTTP authentication entries, and TLS client certificates). Must be one of the following strings:
+>
+> (...)
+> `include`
+>
+> Tells browsers to include credentials in both same- and cross-origin requests, and always use any credentials sent back in responses.
+
+[Source](https://developer.mozilla.org/en-US/docs/Web/API/fetch#credentials)
+
+With this change in place, the request is now sent with our cookies, including session cookie:
+
+![Request to GitHub - CORS error](./assets/github-request-cookies.png)
+
+However, the response can't be read due to a "CORS error":
 
 ![Request to GitHub - CORS error](./assets/github-cors-error.png)
 
-So how does this mechanism protect users? Imagine that we have a service, available at some URL endpoint, that returns some secret data in a response to GET requests that contains proper authentication cookie. Imagine that there's also a malicious website that performs a [Cross Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) attack - it tricks a user to send a request to our URL. If the user is already logged to our service and has the authentication cookie saved, the cookie will be sent with the request and, as a result, our URL will return the secret data.
+So how does this mechanism protect users? Imagine that we have a service, available at some URL endpoint, that returns some secret data in a response to GET requests that contain proper authentication cookies. Imagine that there's also a malicious website that performs a [Cross Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) attack - it tricks a user to send a request to our URL. If the user is already logged to our service and has the authentication cookie saved, the cookie will be sent with the request and, as a result, our URL will return the secret data.
 
 Since all of this happens on the user's machine, for the attack to be successful, the data would need to be sent to the attacker. But it can't, bacause the same-origin policy would block it from being read!
 
