@@ -1,4 +1,4 @@
-# Same-origin policy
+# Same-origin policy (SOP)
 
 > The same-origin policy is a critical security mechanism that restricts how a document or script loaded by one origin can interact with a resource from another origin.
 
@@ -14,6 +14,8 @@
 
 Source: *JavaScript: The Definitive Guide*, 6th Edition, David Flanagan, Chapter 13: JavaScript in Web Browsers, p. 334
 
+All of the examples below were tested in Chrome, but any browser with developer tools that let users inspect network traffic should work.
+
 ## Example 1 - accessing a cross-origin frame with `window.open`
 In `section_6_same_origin_policy\examples\window-open` you can find two directories: `origin1` and `origin2`. In `section_6_same_origin_policy\examples`, there is a `package.json` file containig two scripts:
 - `start:window-open:origin1` - which starts a simple HTTP server that serves files from the `origin1` directory on port 8080,
@@ -21,7 +23,7 @@ In `section_6_same_origin_policy\examples\window-open` you can find two director
 
 In your terminal, navigate to the `section_6_same_origin_policy\examples` directory and run `npm install` to install `http-server`. Then run `npm run start:window-open:origin1` to start the first server, open a new terminal window, navigate to `section_6_same_origin_policy\examples` there as well and run `npm run start:window-open:origin2` to start the second server.
 
-Next, navigate to http://localhost:8080/index.html. You will see a heading saying *Hello from http://localhost:8080!* and two buttons: `Open http://localhost:8080/greeting.html` and `Open http://localhost:8081/greeting.html`. When you click the first one, a new window will open with a message: *Greeting from http://localhost:8080!*. When you click the second one, another window will be opened, but with no greeting message this time.
+Next, navigate to http://localhost:8080/index.html. You will see a heading saying *Hello from http://localhost:8080!* and two buttons: `Open http://localhost:8080/greeting.html` and `Open http://localhost:8081/greeting.html`. When you click the first one, a new window will open with a message: *Greeting from http://localhost:8080/greeting.html!*. When you click the second one, another window will be opened, but with no greeting message this time.
 
 Now let's analyze the code. In `section_6_same_origin_policy\examples\window-open\origin1\index.html`, we have an `h1` heading and the two buttons mentioned earlier:
 ```html
@@ -80,11 +82,9 @@ In your terminal, navigate to the `section_6_same_origin_policy\examples` direct
 
 First make sure that the servers from the previous example are no longer running and then execute `npm run start:fetch:origin2` in one terminal window and `npm run start:fetch:origin1` in another.
 
-Now navigate to http://localhost:8080/index.html in your browser. You should see a simple page with two two buttons: `Fetch pandas from http://localhost:8080` and `Fetch pandas from http://localhost:8081`. Open dev tools and go to JavaScript console. Click the first button. You should see an array of three objects describing pandas. When you click the second button, you should see the following error in the console:
+Now navigate to http://localhost:8080/index.html in your browser. You should see a simple page with two buttons: `Fetch pandas from http://localhost:8080` and `Fetch pandas from http://localhost:8081`. Open dev tools and go to JavaScript console. Click the first button. You should see an array of three objects describing pandas. When you click the second button, you should see the following error in the console:
 
-```
-Access to fetch at 'http://localhost:8081/pandas.json' from origin 'http://localhost:8080' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
-```
+> Access to fetch at 'http://localhost:8081/pandas.json' from origin 'http://localhost:8080' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
 
 Let's take a look at the code. In `section_6_same_origin_policy\examples\fetch\origin1\index.html`, there is a `script` element loading a script from `origin2`:
 ```html
@@ -107,7 +107,7 @@ CORS stands for *Cross-Origin Resource Sharing* and is
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
 
-Open the *Network* tab in the dev tools and find the request to http://localhost:8081/pandas.json. Among the response headers, you should see one named `Access-Control-Allow-Origin` with a value set to `*`. This header
+Open the *Network* tab in dev tools and find the request to http://localhost:8081/pandas.json. Among the response headers, you should see one named `Access-Control-Allow-Origin` with a value set to `*`. This header
 > indicates whether the response can be shared with requesting code from the given origin.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
@@ -120,4 +120,17 @@ And the `*` value
 You can check that the header is not present when the server from `origin2` is started without the `cors` option and, as a result, the `fetch` call fails.
 
 ## The purpose of the same-origin policy
-@TODO
+You may wonder how the same-origin policy protects users from attacks in the second example. Clicking the second button at http://localhost:8080/ causes an error:
+> Access to fetch at 'http://localhost:8081/pandas.json' from origin 'http://localhost:8080' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+and the data from http://localhost:8081/pandas.json is not logged to the console. However, if we navigate to http://localhost:8081/pandas.json directly in a new browser tab, the browser will send a GET request that will be responded with a status code of `200 OK` (you can check it in the *Network* tab in dev tools) and our JSON file with pandas data will be displayed. The data would also be successfully returned if we sent a request with a tool like `curl` or Postman, instead of a browser.
+
+Moreover, if we once again run the server from `origin2` without the `cors` option, go back to http://localhost:8080/ and observe the *Network* tab while clicking the second button, we can see that the request is actually sent to the server, which responds with a status code 200. The response is just prevented from being read on client side. Why is that?
+
+The same-origin policy is a mechanism specific to browsers, and that's because browsers do something that tools like `curl` or Postman don't: they send cookies tied to a specific domain with all requests to that domain, regardless of where these requests come from.
+
+Imagine that we have a service, available at some URL endpoint, that returns some secret data in a response to GET requests that contain proper authentication cookies. Imagine that there's also a malicious website that performs a [Cross Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) attack - it tricks a user to send a request to our URL. If the user is already logged to our service and has the authentication cookie saved, the cookie will be sent with the request and, as a result, our URL will return the secret data.
+
+Since all of this happens on the user's machine, for the attack to be successful, the data would need to be sent to the attacker. But it can't, bacause the same-origin policy would block it from being read!
+
+You can read more about SOP and its importance in [this](https://sekurak.pl/czym-jest-cors-cross-origin-resource-sharing-i-jak-wplywa-na-bezpieczenstwo/) article (in Polish).
