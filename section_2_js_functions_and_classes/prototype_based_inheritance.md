@@ -2,7 +2,7 @@
 
 ## The prototype chain
 
-> Each object has a private property which holds a link to another object called its prototype. That prototype object has a prototype of its own, and so on until an object is reached with `null` as its prototype. By definition, `null` has no prototype, and acts as the final link in this prototype chain.
+> Each object has an internal link to another object called its prototype. That prototype object has a prototype of its own, and so on until an object is reached with `null` as its prototype. By definition, `null` has no prototype and acts as the final link in this **prototype chain**.
 
 [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
 
@@ -344,7 +344,7 @@ console.log(f.map); // ƒ map() { [native code] }
 ```
 ---
 ### Note
-As mentioned in the ['Accessing object's prototype'](#accessing-objects-prototype) section, changing the `[[Prototype]]` of an object is a bad practice that can affect code's performance. It is done in the example above only to demostrate the behaviour of the `instanceof` operator.
+As mentioned in the ['Accessing object's prototype'](#accessing-objects-prototype) section, changing the `[[Prototype]]` of an object is a bad practice that can affect the code's performance. It is done in the example above only to demonstrate the behaviour of the `instanceof` operator.
 
 ## Inheritance between child and parent constructor functions
 

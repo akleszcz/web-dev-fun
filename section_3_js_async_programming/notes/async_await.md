@@ -82,7 +82,7 @@ An asynchronous function:
     return todos;
   }; // Uncaught SyntaxError: await is only valid in async function
   ```
-  > `await` only works inside async functions within regular JavaScript code, however it can be used on it's own with [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+  > `await` only works inside async functions within regular JavaScript code, however it can be used on its own with [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
 
   [Source](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await)
 
@@ -196,7 +196,7 @@ const myTasks = [
       Time spent on playing with red pandas:  120
       Time spent on dancing with armadillos:  150
       ```
-      As you can see, *After async loop* text is logged before task times. This happens, because:
+      As you can see, *After async loop* is logged before the tasks durations. This happens, because:
       > **forEach expects a synchronous function** `forEach` does not wait for promises.
 
       [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)

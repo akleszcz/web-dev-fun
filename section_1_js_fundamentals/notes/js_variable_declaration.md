@@ -90,7 +90,7 @@ console.log(delete window.y); // true
 
 ---
 ### Variable scope
-- *Function scope* instead of *block scope*. See also [Function vs block scope & hoisting](#function-vs-block-scope-&-hoisting) for a more detailed example.
+- *Function scope* instead of *block scope*. See also [Function vs block scope & hoisting](#function-vs-block-scope--hoisting) for a more detailed example.
 
 Example 1:
 ```javascript
@@ -342,7 +342,7 @@ prints each time.
 
 Solutions:
 - IIFE - the `i` variable is passed to
-the IIFE, which creates its own copy and stores it as value: 
+the IIFE, which creates its own copy and stores it as value:
 ```javascript
 var funcs = [];
 for (var i = 0; i < 10; i++) {
@@ -420,7 +420,7 @@ const array = ['a', 'b', 'c'];
 // first loop: c
 for (const element of array) {
   console.log('first loop:', element);
-} 
+}
 
 // Produces:
 // second loop: a

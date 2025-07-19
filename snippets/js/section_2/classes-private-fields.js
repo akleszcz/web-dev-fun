@@ -18,5 +18,5 @@ const panda = new Panda('Wanda');
 console.log(panda.getName()); // Wanda
 panda.setName('Miranda');
 console.log(panda.getName()); // Miranda
-//console.log(panda.#name); // Uncaught SyntaxError: Private field '#name' must be declared in an enclosing class
+// console.log(panda.#name); // Uncaught SyntaxError: Private field '#name' must be declared in an enclosing class
 

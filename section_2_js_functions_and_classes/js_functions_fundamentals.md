@@ -43,7 +43,7 @@ Functions defined with function expressions are often:
 
 ### Anonymous and named expressions
 Function name is optional in a function expression. Depending on whether it is provided or not, the function expression is:
-- `anonymous` - of the name is not provided,
+- `anonymous` - if the name is not provided,
 - `named` - **this name is then local only to the function body (scope)**
 
   [Source](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function).

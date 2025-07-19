@@ -27,7 +27,7 @@ The `Request conditions` drawer allows you to:
 - enable and disable individual patterns, or all patterns at once
 - reorder patterns with arrow buttons - "If a request matches multiple patterns, DevTools applies the first rule found" ([source](https://developer.chrome.com/docs/devtools/request-conditions#reorder_url_matching_patterns))
 
-![Request conditions drawer](../assets/network/request-conditions-drawer.png)
+![Request conditions drawer - arrow buttons](../assets/network/request-conditions-drawer-arrow-buttons.png)
 
 The drawer opens automatically after a request is blocked or throttled from the Network tab:
 
