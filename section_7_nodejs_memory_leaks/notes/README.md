@@ -58,7 +58,7 @@ As you can see, the `requestLogs` array gets bigger and bigger with every reques
 npm run start:inspect
 ```
 
-This command runs our app with the `--inspect` flag, which makes the Node.js process listen for a debugging client. You can find more information about it [here](https://nodejs.org/en/docs/guides/debugging-getting-started/).
+This command runs our app with the `--inspect` flag, which makes the Node.js process listen for a debugging client. You can find more information about it [here](https://nodejs.org/learn/getting-started/debugging/).
 
 You should see a result similar to the one below:
 
