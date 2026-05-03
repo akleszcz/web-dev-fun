@@ -44,7 +44,7 @@ class Panda {
 }
 ```
 
-which is the equivalent of
+which is equivalent to the
 
 ```javascript
 Panda.prototype.sayHello = function () {
@@ -160,7 +160,7 @@ class Panda2 {
 }
 ```
 
-In fact, class declarations are hoisted, but remain uninitialised until the class statement is evaluated. Before that evaluation, they are in the [temporal dead zone](..\section_1_js_fundamentals\notes\js_variable_declaration.md#temporal-dead-zone-tdz):
+In fact, class declarations are hoisted, but remain uninitialised until the class statement is evaluated. Before that evaluation, they are in the [temporal dead zone](../section_1_js_fundamentals/notes/js_variable_declaration.md#temporal-dead-zone-tdz):
 ```javascript
 class Panda { static description = 'Outer Panda class' }
 console.log('Panda from outer scope:', Panda); // Panda from outer scope: class Panda { static description = 'Outer Panda class' }
@@ -288,7 +288,7 @@ For a _derived_ class, i.e. a class that extends another class, the default cons
 
 ## Defining insances own properties
 
-When the class syntax was first introduced in ES6, own properties, i.e. properties that exist on class instance rather than its prototype, could only be created inside a class constructor or method:
+When the class syntax was first introduced in ES6, own properties, i.e. properties that exist on a class's instance rather than its prototype, could only be created inside of the class's constructor or method:
 
 ```javascript
 class Panda {
@@ -443,9 +443,13 @@ const panda = new Panda('Wanda');
 console.log(panda.getName()); // Wanda
 panda.setName('Miranda');
 console.log(panda.getName()); // Miranda
-//console.log(panda.#name); // Uncaught SyntaxError: Private field '#name' must be declared in an enclosing class
+// console.log(panda.#name); // Uncaught SyntaxError: Private field '#name' must be declared in an enclosing class
 ```
 Based on [The Complete Guide to JavaScript Classes](https://dmitripavlutin.com/javascript-classes-complete-guide/#32-private-instance-fields).
+
+> **Note**: Code run in the Chrome console can access private elements outside the class. This is a DevTools-only relaxation of the JavaScript syntax restriction.
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_elements
 
 >Note that ESnext provides private fields only as declared up-front in a field declaration; private fields cannot be created later, ad-hoc, through assigning to them, the way that normal properties can.
 

@@ -57,5 +57,3 @@ You can configure third-party scripts (e.g. from Google Tag Manager) to be ignor
 - You can also go to the Bottom-up tab to sort activities by their self and total time:
 
 ![Bottom-up tab showing self time and total time](../assets/performance/bottom-up-self-total-time.png)
-
-@TODO: ignore list?

@@ -11,7 +11,7 @@
 
 An example controller without dependency injection pattern implemented: https://github.com/productioncoder/node-dependency-injection/blob/starter/controller/dev.js
 
-The same controller with dependency injection: 
+The same controller with dependency injection:
 https://github.com/productioncoder/node-dependency-injection/blob/master/controller/dev.js
 
 Watch [Dependency Injection in Node with awilix #1](https://youtu.be/TxxdqfhMUnI?t=383) for more details.
@@ -31,11 +31,11 @@ const mockRegionServiceProvider = {
   },
 };
 ```
-(though it is still possible go mock dependencies in tests, even if they're created directly in a class, e.g. with [`jest.mock`](https://jestjs.io/docs/manual-mocks#mocking-user-modules)).
+(though it is still possible to mock dependencies in tests, even if they're created directly in a class, e.g. with [`jest.mock`](https://jestjs.io/docs/manual-mocks#mocking-user-modules)).
 
 ## Dependency injection in NestJS
 
-> Dependency injection is an inversion of control (IoC) technique wherein you delegate instantiation of dependencies to the IoC container (in our case, the NestJS runtime system), instead of doing it in your own code imperatively. 
+> Dependency injection is an inversion of control (IoC) technique wherein you delegate instantiation of dependencies to the IoC container (in our case, the NestJS runtime system), instead of doing it in your own code imperatively.
 
 [Source](https://docs.nestjs.com/fundamentals/custom-providers)
 

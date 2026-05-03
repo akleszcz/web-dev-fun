@@ -1,5 +1,5 @@
 # Objects:
-- unordered collections of properties 
+- unordered collections of properties
 - each property has a name and a set of [attributes](#property-attributes)
 - a name can be of type:
   - String
@@ -11,7 +11,7 @@ o.a = 1;
 o['b'] = 2;
 o[2] = 3;
 o[{}] = 4;
-console.log(JSON.stringify(o)); // {"2":3,"a":1,"b":2,"[object Object]":4} 
+console.log(JSON.stringify(o)); // {"2":3,"a":1,"b":2,"[object Object]":4}
 ```
 - there are two kinds of properties:
   - [**data** properties](#data-properties)
@@ -88,8 +88,7 @@ const user = {
   },
 };
 
-// set fullName is executed with the given value.
-user.fullName = "Alice Cooper"; // Error (only in strict mode): 
+user.fullName = "Alice Cooper"; // Error (only in strict mode):
 // Uncaught TypeError: Cannot set property fullName of #<Object> which has only a getter
 
 console.log(user.name); // John
@@ -133,7 +132,7 @@ Object.defineProperty(user, 'surname', {
 });
 
 console.log('user.surname before change:', user.surname); // user.surname before change: Jones
-user.surname = 'Smith'; 
+user.surname = 'Smith';
 console.log('user.surname after change:', user.surname);  // user.surname after change: Jones
 ```
 ```javascript
@@ -216,7 +215,7 @@ try {
     enumerable: true
   });
 } catch (error) {
-  console.error('error 2:', error); // error 2:  TypeError: Cannot redefine property: age at Function.defineProperty 
+  console.error('error 2:', error); // error 2:  TypeError: Cannot redefine property: age at Function.defineProperty
 }
 try {
   Object.defineProperty(user, 'age', {
@@ -240,9 +239,9 @@ try {
   console.error('error 5:', error); // error 5: TypeError: Cannot redefine property: age at Function.defineProperty
 }
 
-console.log('user.age 1:', user.age);
+console.log('user.age 1:', user.age); // user.age 1: 50
 delete user.age;
-console.log('user.age 2:', user.age);
+console.log('user.age 2:', user.age); // user.age 2: 50
 ```
 ```javascript
 const user = {};
@@ -276,7 +275,7 @@ Object.defineProperty(o, 'c', {
   value: 12
 });
 console.log('o:', o); // o: {a: 5, b: 7, c: 12}
-console.log('o.a:', Object.getOwnPropertyDescriptor(o, 'a')); // {value: 5, writable: true, enumerable: true, configurable: true} 
+console.log('o.a:', Object.getOwnPropertyDescriptor(o, 'a')); // {value: 5, writable: true, enumerable: true, configurable: true}
 console.log('o.b:', Object.getOwnPropertyDescriptor(o, 'b')); // {value: 7, writable: true, enumerable: true, configurable: true}
 console.log('o.c:', Object.getOwnPropertyDescriptor(o, 'c')); // {value: 12, writable: false, enumerable: false, configurable: false}
 ```
@@ -304,8 +303,8 @@ Methods that let us "lock down" objects into a known state:
       const o = {};
       Object.preventExtensions(o);
       console.log(Object.isExtensible(o)); // false
-      o.x = 5;
-      console.log(o.x); // Uncaught TypeError: Cannot add property x, object is not extensible
+      o.x = 5; // Uncaught TypeError: Cannot add property x, object is not extensible
+      console.log(o.x);
       ```
   - Only affects the extensibility of the object itself. The object will still inherit any new properties added to its prototype (more on the prototypal inheritance soon).
   - There is no way to make an object extensible once it has been made nonextensible.
@@ -332,7 +331,7 @@ Methods that let us "lock down" objects into a known state:
     console.log(o.x); // 100
     ```
     ```javascript
-    'use strict';  
+    'use strict';
     const o = {
       x: 5
     };
@@ -364,7 +363,7 @@ Methods that let us "lock down" objects into a known state:
     console.log(o.x); // 5
   ```
   ```javascript
-    'use strict';  
+    'use strict';
     const o = {
       x: 5
     };
@@ -525,35 +524,22 @@ that was passed to them.
   const result = Object.assign({}, source);
 
   source.a = 2;
-  console.log('1: source: ', JSON.stringify(source)); 
-  console.log('1: result: ', JSON.stringify(result));
+  console.log('1: source: ', JSON.stringify(source)); // 1: source:  {"a":2,"b":{"x":10,"y":20}}
+  console.log('1: result: ', JSON.stringify(result)); // 1: result:  {"a":1,"b":{"x":10,"y":20}}
 
   result.a = 3;
-  console.log('2: source: ', JSON.stringify(source)); 
-  console.log('3: result: ', JSON.stringify(result));
+  console.log('2: source: ', JSON.stringify(source)); // 2: source:  {"a":2,"b":{"x":10,"y":20}}
+  console.log('2: result: ', JSON.stringify(result)); // 3: result:  {"a":3,"b":{"x":10,"y":20}}
 
-  console.log('source.b === result.b:', source.b === result.b);
+  console.log('source.b === result.b:', source.b === result.b); // source.b === result.b: true
 
   source.b.x = 11;
-  console.log('3: source: ', JSON.stringify(source)); 
-  console.log('3: result: ', JSON.stringify(result));
+  console.log('3: source: ', JSON.stringify(source)); // 3: source:  {"a":2,"b":{"x":11,"y":20}}
+  console.log('3: result: ', JSON.stringify(result)); // 3: result:  {"a":3,"b":{"x":11,"y":20}}
 
   result.b.x = 12;
-  console.log('4: source: ', JSON.stringify(source)); 
-  console.log('4: result: ', JSON.stringify(result)); 
-
-  /*
-  Result:
-  1: source:  {"a":2,"b":{"x":10,"y":20}}
-  1: result:  {"a":1,"b":{"x":10,"y":20}}
-  2: source:  {"a":2,"b":{"x":10,"y":20}}
-  3: result:  {"a":3,"b":{"x":10,"y":20}}
-  source.b === result.b: true
-  3: source:  {"a":2,"b":{"x":11,"y":20}}
-  3: result:  {"a":3,"b":{"x":11,"y":20}}
-  4: source:  {"a":2,"b":{"x":12,"y":20}}
-  4: result:  {"a":3,"b":{"x":12,"y":20}}
-  */
+  console.log('4: source: ', JSON.stringify(source)); // 4: source:  {"a":2,"b":{"x":12,"y":20}}
+  console.log('4: result: ', JSON.stringify(result)); // 4: result:  {"a":3,"b":{"x":12,"y":20}}
   ```
 
 ## Objects creation
@@ -565,7 +551,7 @@ There are multiple ways of creating an object in JavaScript, including:
     surname: 'Smith',
   };
   ```
-- using a [constructor function](../../section_2/prototype_based_inheritance.md#constructor-functions),
+- using a [constructor function](../../section_2_js_functions_and_classes/prototype_based_inheritance.md#constructor-functions),
 - using a method called `Object.create`:
   > The `Object.create()` method creates a new object, using an existing object as the prototype of the newly created object.
 
@@ -573,7 +559,7 @@ There are multiple ways of creating an object in JavaScript, including:
 
   Example:
   ```javascript
-  const Animal = { 
+  const Animal = {
     favouriteFood: 'pizza',
     eat: function () {
       return 'Om nom nom nom...';
@@ -581,9 +567,9 @@ There are multiple ways of creating an object in JavaScript, including:
   }
 
   const panda = Object.create(Animal);
-  console.log('panda: ', panda);
+  console.log('panda.favouriteFood: ', panda.favouriteFood); // panda.favouriteFood:  pizza
   panda.favouriteFood = 'bamboo';
-  console.log('panda: ', panda);
+  console.log('panda.favouriteFood: ', panda.favouriteFood); // panda.favouriteFood:  bamboo
   ```
 
 You can read more about objects creation [here](
@@ -593,7 +579,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objec
 @TO READ: http://es5.github.io/#x4.3.7:
 Native objects, host objects
 
-Sources: 
+Sources:
 - https://medium.com/intrinsic/javascript-symbols-but-why-6b02768f4a5c
 - JavaScript: The Definitive Guide. Chapter 6: Objects
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
