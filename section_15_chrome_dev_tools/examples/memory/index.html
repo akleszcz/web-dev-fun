@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory DevTools Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7f9;
+        --panel: #ffffff;
+        --text: #17202a;
+        --muted: #586575;
+        --line: #d8dee8;
+        --accent: #0969da;
+        --accent-strong: #0757b8;
+        --danger: #b42318;
+        --shadow: 0 16px 40px rgba(23, 32, 42, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      main {
+        width: min(760px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 36px;
+      }
+
+      .stat span {
+        color: var(--muted);
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+
+      .panel > * + * {
+        margin-top: 18px;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      button {
+        min-height: 44px;
+        border: 1px solid var(--accent);
+        border-radius: 7px;
+        background: var(--accent);
+        color: #ffffff;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 650;
+        padding: 0 16px;
+      }
+
+      button:hover {
+        border-color: var(--accent-strong);
+        background: var(--accent-strong);
+      }
+
+      button.secondary {
+        border-color: #c7d2e2;
+        background: #ffffff;
+        color: var(--text);
+      }
+
+      button.secondary:hover {
+        border-color: var(--danger);
+        color: var(--danger);
+        background: #fff7f7;
+      }
+
+      .stat {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcfe;
+        padding: 14px;
+      }
+
+      .stat strong,
+      .stat span {
+        display: block;
+      }
+
+      .stat strong {
+        margin-top: 4px;
+        font-size: 1.5rem;
+        line-height: 1.1;
+      }
+
+      @media (max-width: 640px) {
+        main {
+          width: min(100% - 20px, 680px);
+          padding-top: 18px;
+        }
+
+        .actions {
+          grid-template-columns: 1fr;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="panel" aria-label="Memory leak controls">
+        <div class="actions">
+          <button id="searchButton" type="button">Create search data</button>
+          <button id="filterButton" type="button">Create filter data</button>
+          <button id="formButton" type="button">Create form data</button>
+          <button class="secondary" id="clearButton" type="button">
+            Clear globals
+          </button>
+        </div>
+
+        <div class="stat">
+          <span>Accidental globals</span>
+          <strong id="globalCount">0</strong>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const NUMBERS_PER_VALUE = 5_000_000;
+      const GLOBAL_NAMES = ['searchData', 'filterData', 'formData'];
+
+      const searchButton = document.querySelector('#searchButton');
+      const filterButton = document.querySelector('#filterButton');
+      const formButton = document.querySelector('#formButton');
+      const clearButton = document.querySelector('#clearButton');
+      const globalCount = document.querySelector('#globalCount');
+
+      searchButton.addEventListener('click', createSearchData);
+      filterButton.addEventListener('click', createFilterData);
+      formButton.addEventListener('click', createFormData);
+      clearButton.addEventListener('click', clearGlobals);
+
+      function createSearchData() {
+        // Intentional demo bug: no var/let/const creates window.searchData.
+        searchData = createLargeNumberArray(1);
+        console.log(searchData.length);
+        updateStats();
+      }
+
+      function createFilterData() {
+        // Intentional demo bug: no var/let/const creates window.filterData.
+        filterData = createLargeNumberArray(2);
+        console.log(filterData.length);
+        updateStats();
+      }
+
+      function createFormData() {
+        // Intentional demo bug: no var/let/const creates window.formData.
+        formData = createLargeNumberArray(3);
+        console.log(formData.length);
+        updateStats();
+      }
+
+      function createLargeNumberArray(seed) {
+        return Array.from(
+          { length: NUMBERS_PER_VALUE },
+          (_, index) => index + seed,
+        );
+      }
+
+      function clearGlobals() {
+        GLOBAL_NAMES.forEach((name) => {
+          delete window[name];
+        });
+
+        updateStats();
+      }
+
+      function updateStats() {
+        const globals = GLOBAL_NAMES.filter((name) => name in window).length;
+        globalCount.textContent = globals.toString();
+      }
+    </script>
+  </body>
+</html>

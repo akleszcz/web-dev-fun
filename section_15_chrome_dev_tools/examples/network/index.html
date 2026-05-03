@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Network DevTools Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7f9;
+        --panel: #ffffff;
+        --panel-soft: #fbfcfe;
+        --text: #17202a;
+        --muted: #586575;
+        --line: #d8dee8;
+        --accent: #0969da;
+        --accent-strong: #0757b8;
+        --success: #1f7a4d;
+        --danger: #b42318;
+        --shadow: 0 16px 40px rgba(23, 32, 42, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      main {
+        width: min(760px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 36px;
+      }
+
+      header {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 22px;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 3.8rem);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      header p,
+      .hint,
+      .status,
+      .meta,
+      .empty {
+        color: var(--muted);
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+
+      .panel > * + * {
+        margin-top: 18px;
+      }
+
+      .panel h2 {
+        font-size: 1rem;
+      }
+
+      .panel h2 + .hint {
+        margin-top: 10px;
+      }
+
+      .hint,
+      .status {
+        font-size: 0.9rem;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      button {
+        min-height: 44px;
+        border: 1px solid var(--accent);
+        border-radius: 7px;
+        background: var(--accent);
+        color: #ffffff;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 650;
+        padding: 0 16px;
+        transition:
+          background-color 120ms ease,
+          border-color 120ms ease,
+          transform 120ms ease;
+      }
+
+      button:hover {
+        border-color: var(--accent-strong);
+        background: var(--accent-strong);
+      }
+
+      button:active {
+        transform: translateY(1px);
+      }
+
+      .status.ok {
+        color: var(--success);
+      }
+
+      .status.error {
+        color: var(--danger);
+      }
+
+      code {
+        font-family:
+          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .section-header h2 {
+        font-size: 1rem;
+      }
+
+      .meta {
+        font-size: 0.82rem;
+        overflow-wrap: anywhere;
+      }
+
+      .item-list {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .item {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel-soft);
+        padding: 12px;
+      }
+
+      .item h3 {
+        margin: 0;
+        font-size: 0.95rem;
+        line-height: 1.35;
+        letter-spacing: 0;
+      }
+
+      .item p {
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+
+      .empty {
+        padding: 16px 0 2px;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 700px) {
+        main {
+          width: min(100% - 20px, 680px);
+          padding-top: 18px;
+        }
+
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Network DevTools Demo</h1>
+        <p>
+          Use this page with the Network tab open. Fetch content, edit the
+          responses with local overrides, then fetch again to see the UI change.
+        </p>
+      </header>
+
+      <section class="panel" aria-label="Demo controls">
+        <h2>Content feed</h2>
+        <p class="hint">
+          Fetches <code>/posts?_limit=5</code> and
+          <code>/comments?_limit=5</code>. A service worker can intercept both
+          with a regex like <code>/\/(posts|comments)(\?.*)?$/</code>.
+        </p>
+
+        <div class="actions">
+          <button data-action="fetchContent">Fetch content</button>
+          <p class="status" id="status" aria-live="polite">
+            No requests sent yet.
+          </p>
+        </div>
+      </section>
+
+      <div class="content-grid">
+        <section class="panel" aria-labelledby="postsHeading">
+          <div class="section-header">
+            <h2 id="postsHeading">Posts</h2>
+            <span class="meta">/posts?_limit=5</span>
+          </div>
+          <ul class="item-list" id="postsList">
+            <li class="empty">Fetch content to load post titles.</li>
+          </ul>
+        </section>
+
+        <section class="panel" aria-labelledby="commentsHeading">
+          <div class="section-header">
+            <h2 id="commentsHeading">Comments</h2>
+            <span class="meta">/comments?_limit=5</span>
+          </div>
+          <ul class="item-list" id="commentsList">
+            <li class="empty">Fetch content to load comment names.</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const ENDPOINTS = {
+        posts: 'https://jsonplaceholder.typicode.com/posts?_limit=5',
+        comments: 'https://jsonplaceholder.typicode.com/comments?_limit=5',
+      };
+
+      const status = document.querySelector('#status');
+      const postsList = document.querySelector('#postsList');
+      const commentsList = document.querySelector('#commentsList');
+      const actions = {
+        fetchContent,
+      };
+
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-action]');
+        if (!button) return;
+
+        actions[button.dataset.action]?.();
+      });
+
+      async function fetchContent() {
+        setStatus('Fetching posts and comments...');
+
+        try {
+          const [posts, comments] = await Promise.all([
+            getJson(ENDPOINTS.posts),
+            getJson(ENDPOINTS.comments),
+          ]);
+
+          renderPosts(posts);
+          renderComments(comments);
+          setStatus('Content loaded.', 'ok');
+        } catch (error) {
+          setStatus(`${error.name}: ${error.message}`, 'error');
+        }
+      }
+
+      async function getJson(url) {
+        const response = await fetch(url, { cache: 'no-store' });
+
+        if (!response.ok) {
+          throw new Error(`${response.status} ${response.statusText}`.trim());
+        }
+
+        return response.json();
+      }
+
+      function renderPosts(posts) {
+        postsList.replaceChildren(
+          ...posts.map((post) => {
+            const item = document.createElement('li');
+            item.className = 'item';
+
+            const title = document.createElement('h3');
+            title.textContent = post.title;
+
+            const body = document.createElement('p');
+            body.textContent = post.body;
+
+            item.append(title, body);
+            return item;
+          }),
+        );
+      }
+
+      function renderComments(comments) {
+        commentsList.replaceChildren(
+          ...comments.map((comment) => {
+            const item = document.createElement('li');
+            item.className = 'item';
+
+            const name = document.createElement('h3');
+            name.textContent = comment.name;
+
+            const email = document.createElement('p');
+            email.textContent = comment.email;
+
+            item.append(name, email);
+            return item;
+          }),
+        );
+      }
+
+      function setStatus(message, state = '') {
+        status.className = `status ${state}`;
+        status.textContent = message;
+      }
+    </script>
+  </body>
+</html>

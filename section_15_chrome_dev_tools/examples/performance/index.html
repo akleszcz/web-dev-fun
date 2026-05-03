@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Performance DevTools Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7f9;
+        --panel: #ffffff;
+        --panel-soft: #fbfcfe;
+        --text: #17202a;
+        --muted: #586575;
+        --line: #d8dee8;
+        --accent: #0969da;
+        --accent-strong: #0757b8;
+        --success: #1f7a4d;
+        --shadow: 0 16px 40px rgba(23, 32, 42, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      main {
+        width: min(760px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 36px;
+      }
+
+      h2,
+      p {
+        margin: 0;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+
+      .panel > * + * {
+        margin-top: 18px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      input {
+        min-height: 44px;
+        border: 1px solid #b6c6dc;
+        border-radius: 7px;
+        color: var(--text);
+        font: inherit;
+        padding: 0 12px;
+      }
+
+      input:focus {
+        border-color: var(--accent);
+        outline: 3px solid rgba(9, 105, 218, 0.18);
+      }
+
+      button {
+        align-self: end;
+        min-height: 44px;
+        border: 1px solid var(--accent);
+        border-radius: 7px;
+        background: var(--accent);
+        color: #ffffff;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 650;
+        padding: 0 16px;
+      }
+
+      button:hover {
+        border-color: var(--accent-strong);
+        background: var(--accent-strong);
+      }
+
+      .status {
+        min-height: 28px;
+        color: var(--muted);
+      }
+
+      .status.done {
+        color: var(--success);
+      }
+
+      .result {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel-soft);
+        padding: 14px;
+      }
+
+      .result h2 {
+        font-size: 1rem;
+      }
+
+      .result p {
+        margin-top: 6px;
+        color: var(--muted);
+      }
+
+      @media (max-width: 640px) {
+        main {
+          width: min(100% - 20px, 680px);
+          padding-top: 18px;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="panel" aria-label="Performance demo">
+        <div class="form-row">
+          <label>
+            Guest note
+            <input
+              id="guestNote"
+              type="text"
+              placeholder="Try editing this while the calculation is running"
+            />
+          </label>
+
+          <button id="calculateButton" type="button">
+            Calculate availability
+          </button>
+        </div>
+
+        <p class="status" id="status" aria-live="polite">
+          Ready to calculate.
+        </p>
+
+        <div class="result">
+          <h2>Calculation result</h2>
+          <p id="result">No calculation has run yet.</p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const calculateButton = document.querySelector('#calculateButton');
+      const status = document.querySelector('#status');
+      const result = document.querySelector('#result');
+
+      calculateButton.addEventListener('click', handleAvailabilityClick);
+
+      function handleAvailabilityClick() {
+        status.className = 'status';
+        status.textContent = 'Calculating availability for a long date range...';
+
+        const score = calculateAvailability();
+
+        result.textContent = `Availability score: ${score.toLocaleString()}`;
+        status.className = 'status done';
+        status.textContent = 'Calculation complete.';
+      }
+
+      function calculateAvailability() {
+        const endTime = performance.now() + 3000;
+        let total = 0;
+
+        while (performance.now() < endTime) {
+          for (let index = 1; index < 100001; index += 1) {
+            total += index;
+          }
+        }
+
+        return total;
+      }
+    </script>
+  </body>
+</html>
