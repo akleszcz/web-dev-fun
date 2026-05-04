@@ -66,7 +66,7 @@ DevTools snapshots the profile values at the moment the profile is selected/enab
 **Blocking a request** (via DevTools or network failure) means the request never gets a response. The browser throws a network error:
 - `fetch` - the promise rejects with a `TypeError`
 - `axios` - the promise rejects, and `error.response` is undefined
-- real-world equivalent: DNS failure, unreachable server, CORS block, user being offline
+- real-world equivalent: DNS failure, unreachable server, user being offline
 
 Returning an error status code means the request got a valid HTTP response, just with an error status:
 - `fetch` - the promise resolves (you must check `response.ok` or `response.status`)
