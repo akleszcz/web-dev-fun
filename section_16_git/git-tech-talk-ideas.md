@@ -11,6 +11,9 @@
 - `git add -p` / `commit -p`: atomic commits through hunk staging.
 - `git worktree`: work on several branches at once without stashing.
 - `git blame` tricks: `-L` for line ranges, `-w` to ignore whitespace, `--ignore-rev` to skip mass-reformat commits.
+- Git hooks and Husky: compare Git's built-in hooks with Husky's project-level setup; consider a frontend example such as running lint-staged before a commit.
+- `.gitignore` vs `.git/info/exclude`: both keep untracked paths out of status, but `.gitignore` can be committed and shared while `info/exclude` is local to a clone.
+- Git submodules (optional): explain that a parent repo records a submodule as a pointer to a commit in another repository, not as ordinary files.
 - Aliases and `git config` tweaks.
 
 ### Tricky scenarios (the memorable part)
@@ -27,7 +30,9 @@
 
 ## Demo preparation
 
-- **Use a throwaway local repo** (about 15-20 commits).
+- **Use a throwaway local repo** (about 15-20 commits), generated under `section_16_git/demo-repo/` and ignored by the parent repo's `.gitignore`.
+- Mention that `.gitignore` is committed and shared, while `.git/info/exclude` is a clone-local alternative for personal generated files.
+- Keep the demo repo as a plain nested repository; submodules can be explained separately without adding setup overhead to the demos.
 - **Script the setup** so the repo can be recreated quickly if a demo goes wrong. `git commit --allow-empty -m "..."` works for filler commits.
 - **Per-demo setup:**
   - `bisect`: one commit introduces a "bug", and a small script fails on bad commits so `git bisect run` can run automatically.
