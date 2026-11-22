@@ -30,12 +30,13 @@
 
 ## Demo preparation
 
-- **Use a throwaway local repo** (about 15-20 commits), generated under `section_16_git/demo-repo/` and ignored by the parent repo's `.gitignore`.
+- **Use throwaway local repos** (about 15-20 commits) in a gitignored `section_16_git/demos/` directory; keep their templates and setup scripts in a tracked `section_16_git/templates/` directory.
+- Have setup scripts copy a template into the ignored demos directory, initialize a fresh Git repository there, and create the history needed by the demo. Keep template files free of `.git` so each run starts with fresh history.
 - Mention that `.gitignore` is committed and shared, while `.git/info/exclude` is a clone-local alternative for personal generated files.
-- Keep the demo repo as a plain nested repository; submodules can be explained separately without adding setup overhead to the demos.
+- Keep the live demo repos out of the parent repo's index; submodules can be explained separately without adding setup overhead to the demos.
 - **Script the setup** so the repo can be recreated quickly if a demo goes wrong. `git commit --allow-empty -m "..."` works for filler commits.
 - **Per-demo setup:**
-  - `bisect`: one commit introduces a "bug", and a small script fails on bad commits so `git bisect run` can run automatically.
+  - `bisect`: one commit introduces a behavioral bug in a tiny npm package. Keep the bisect checker outside the live demo repo so it remains available while commits are checked out; it installs dependencies from the lockfile and directly checks the exported method's behavior.
   - `rebase -i`: a messy sequence with fixup-worthy commits, squash candidates and a typo in a message.
   - `reflog`: `reset --hard`, then recover.
   - `worktree`: second branch in a sibling folder, shown in split terminals.
