@@ -13,7 +13,7 @@
 - `git blame` tricks: `-L` for line ranges, `-w` to ignore whitespace, `--ignore-rev` to skip mass-reformat commits.
 - Git hooks and Husky: compare Git's built-in hooks with Husky's project-level setup; consider a frontend example such as running lint-staged before a commit.
 - `.gitignore` vs `.git/info/exclude`: both keep untracked paths out of status, but `.gitignore` can be committed and shared while `info/exclude` is local to a clone.
-- Git submodules (optional): explain that a parent repo records a submodule as a pointer to a commit in another repository, not as ordinary files.
+- Git submodules (optional segue from the demo setup): show what happens when a nested demo repo is not ignored and is staged in the parent (a gitlink to a commit, without the nested repo's contents or a fetch URL); then compare a proper submodule, which adds `.gitmodules` with the repository URL and path so clones can fetch the pinned commit.
 - Aliases and `git config` tweaks.
 
 ### Tricky scenarios (the memorable part)
