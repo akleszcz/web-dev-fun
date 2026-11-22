@@ -55,14 +55,15 @@ The shell checker returns `125` if `npm ci` fails or if the package cannot be lo
 
 In a real project, choose the contract check carefully. It should fail only when the behavior under investigation is wrong; unrelated setup failures should be treated as untestable (125) or fixed before the search. The demo runs `npm ci` at each step, so dependency installation time and registry access affect the total run time. npm's cache can make later installs faster.
 
-## Recreate the demo
+## Reuse or recreate the demo
 
-After finishing, move out of the generated repository and remove its ignored directory before running setup again:
+To reuse the existing demo repository after a bisect, run `git bisect reset`. This leaves the generated repo on its original branch; run the bisect commands again without running setup.
+
+To recreate its history from the template, move to the root of `web-dev-fun` and run the setup script again:
 
 ```sh
 cd ../../..
-rm -rf section_16_git/demos/bisect-npm
 section_16_git/scripts/setup-bisect-npm-demo.sh
 ```
 
-Only use that removal command for this disposable generated demo. Alternatively, leave it in place and run `git bisect reset` to restore its branch before another presentation.
+The script recognizes demos it created and prompts before deleting and replacing one. It refuses to replace an unrecognized directory.
