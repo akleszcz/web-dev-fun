@@ -47,15 +47,16 @@ for step in 1 2 3 4 5 6 7 8 9 10 11 12; do
     mv index.js.tmp index.js
     git add index.js
     git commit -m "Calculate subtotal without quantity"
-    git tag known-bad
   else
     git add HISTORY.md
     git commit -m "Record history step $step"
   fi
 done
 
+git tag known-bad
+
 echo
 echo "Demo ready at: $DEMO_DIR"
 echo "Known good: $(git rev-parse known-good) (tag: known-good)"
 echo "Known bad:  $(git rev-parse known-bad) (tag: known-bad)"
-echo "The current branch is at the known-bad commit."
+echo "The current branch and known-bad tag are at the latest commit."
