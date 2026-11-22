@@ -12,7 +12,7 @@ From the root of `web-dev-fun`, with Node.js, npm, and Git available:
 section_16_git/scripts/setup-bisect-npm-demo.sh
 ```
 
-This copies the tracked template from `section_16_git/templates/bisect-npm/` into the ignored `section_16_git/demos/bisect-npm/` directory, initializes a new local repository, and creates a known-good baseline followed by twelve history commits. Step 6 introduces the regression. The generated live repo has its own `.git` directory and is excluded from the parent repository by the root `.gitignore`.
+This copies the tracked template from `section_16_git/templates/bisect-npm/` into the ignored `section_16_git/demos/bisect-npm/` directory, initializes a new local repository, and creates a known-good baseline followed by twelve history commits. Step 6 introduces the regression.
 
 The setup script prints the `known-good` and `known-bad` commit IDs. It also creates tags with those names. The checker scripts remain in the tracked parent repository, outside the generated repository, so Git can check out any demo commit without hiding the checker.
 
