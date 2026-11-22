@@ -16,6 +16,8 @@ This copies the tracked template from `section_16_git/templates/bisect-npm/` int
 
 The setup script prints the `known-good` and `known-bad` commit IDs. It tags the baseline as `known-good` and the latest commit as `known-bad`, modeling a bug report against the current version. The checker scripts remain in the tracked parent repository, outside the generated repository, so Git can check out any demo commit without hiding the checker.
 
+The behavior checker uses the `.cjs` extension to make its CommonJS format explicit. It would also work as `.js` in the current directory structure, but `.cjs` keeps it CommonJS if a parent `package.json` later sets `"type": "module"`.
+
 ## Run the automatic search
 
 In a terminal, start at the root of `web-dev-fun` and run:
