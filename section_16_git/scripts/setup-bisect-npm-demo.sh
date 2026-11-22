@@ -39,7 +39,7 @@ git add .gitignore package.json package-lock.json index.js
 git commit -m "Create cart subtotal package"
 git tag known-good
 
-for step in 1 2 3 4 5 6 7 8 9 10 11 12; do
+for step in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
   printf 'History step %s\n' "$step" >> HISTORY.md
 
   if [ "$step" -eq 6 ]; then
