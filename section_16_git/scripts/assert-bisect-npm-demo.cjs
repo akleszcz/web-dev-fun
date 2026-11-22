@@ -24,7 +24,9 @@ try {
 
 if (actual !== expected) {
   console.error(`Expected subtotal ${expected}, received ${actual}.`);
+  console.error('');
   process.exit(1);
 }
 
 console.log(`Subtotal is ${actual}, as expected.`);
+console.log('');
