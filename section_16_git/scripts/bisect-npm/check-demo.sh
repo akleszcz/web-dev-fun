@@ -9,5 +9,5 @@ if ! npm ci --ignore-scripts --no-audit --no-fund; then
   exit 125
 fi
 
-node "$SCRIPT_DIR/assert-bisect-npm-demo.cjs" "$DEMO_DIR"
+node "$SCRIPT_DIR/assert-demo.cjs" "$DEMO_DIR"
 exit $?

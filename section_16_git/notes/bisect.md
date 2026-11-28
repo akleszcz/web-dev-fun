@@ -9,7 +9,7 @@ This example models a bug that passed review because the project did not yet hav
 From the root of `web-dev-fun`, with Node.js, npm, and Git available:
 
 ```sh
-section_16_git/scripts/setup-bisect-npm-demo.sh
+section_16_git/scripts/bisect-npm/setup-demo.sh
 ```
 
 This copies the tracked template from `section_16_git/templates/bisect-npm/` into the ignored `section_16_git/demos/bisect-npm/` directory, initializes a new local repository, and creates a known-good baseline followed by fourteen history commits. Step 6 introduces the regression; later commits represent continued work while the bug remains. Step 7 requests a demo-only lodash version that does not match the lockfile, so `npm ci` cannot install that commit. With this history, step 7 is the first commit selected by bisect, giving the checker a commit to skip before it narrows down to the regression.
@@ -24,7 +24,7 @@ Start from the generated repo and save the path to the checker before bisect sta
 
 ```sh
 cd section_16_git/demos/bisect-npm
-CHECKER="$(cd ../../.. && pwd)/section_16_git/scripts/assert-bisect-npm-demo.cjs"
+CHECKER="$(cd ../../.. && pwd)/section_16_git/scripts/bisect-npm/assert-demo.cjs"
 git bisect start
 git bisect bad known-bad
 git bisect good known-good
@@ -61,7 +61,7 @@ cd section_16_git/demos/bisect-npm
 git bisect start
 git bisect bad known-bad
 git bisect good known-good
-git bisect run "$(git rev-parse --show-toplevel)/../../scripts/check-bisect-npm-demo.sh"
+git bisect run "$(git rev-parse --show-toplevel)/../../scripts/bisect-npm/check-demo.sh"
 ```
 
 The last command runs the checker once for each commit selected by Git. The checker executes `npm ci` using that commit's lockfile, then loads `index.js` and checks the exported function against a small example cart. The expected subtotal is 11: two coffees at 4 each and one bagel at 3.
@@ -103,7 +103,7 @@ To recreate its history from the template, return from the generated demo repo t
 
 ```sh
 cd ../../..
-section_16_git/scripts/setup-bisect-npm-demo.sh
+section_16_git/scripts/bisect-npm/setup-demo.sh
 ```
 
 The script recognizes demos it created and prompts before deleting and replacing one. It refuses to replace an unrecognized directory.
