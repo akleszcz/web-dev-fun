@@ -4,6 +4,5 @@
   "private": true,
   "description": "A tiny package for demonstrating git bisect run",
   "main": "index.js",
-  "scripts": { "build": "node --check index.js" },
   "dependencies": { "lodash": "^4.17.21" }
 }
