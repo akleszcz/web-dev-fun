@@ -1,4 +1,4 @@
-# Finding a regression with `git bisect run`
+# Finding a regression with `git bisect`
 
 `git bisect` searches commit history to find the change that introduced a regression. The manual workflow marks one commit as known good and another as known bad; Git checks intermediate commits until it narrows down the first bad commit.
 
@@ -30,10 +30,15 @@ git bisect bad known-bad
 git bisect good known-good
 ```
 
-At each commit Git checks out, install its dependencies and run the behavior check:
+At each commit Git checks out, install its dependencies:
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
+```
+
+If installation succeeds, run the behavior check:
+
+```sh
 node "$CHECKER" "$PWD"
 ```
 
@@ -94,7 +99,7 @@ In a real project, choose the contract check carefully. It should fail only when
 
 To reuse the existing demo repository after a bisect, run `git bisect reset`. This leaves the generated repo on its original branch; run the bisect commands again without running setup.
 
-To recreate its history from the template, move to the root of `web-dev-fun` and run the setup script again:
+To recreate its history from the template, return from the generated demo repo to the root of `web-dev-fun` and run the setup script again:
 
 ```sh
 cd ../../..
