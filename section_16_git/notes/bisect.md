@@ -12,7 +12,7 @@ From the root of `web-dev-fun`, with Node.js, npm, and Git available:
 section_16_git/scripts/setup-bisect-npm-demo.sh
 ```
 
-This copies the tracked template from `section_16_git/templates/bisect-npm/` into the ignored `section_16_git/demos/bisect-npm/` directory, initializes a new local repository, and creates a known-good baseline followed by fourteen history commits. Step 6 introduces the regression; later commits represent continued work while the bug remains. This places the first commit selected by bisect after the regression, so the demo shows how the search narrows from a later bad commit to its cause.
+This copies the tracked template from `section_16_git/templates/bisect-npm/` into the ignored `section_16_git/demos/bisect-npm/` directory, initializes a new local repository, and creates a known-good baseline followed by fourteen history commits. Step 6 introduces the regression; later commits represent continued work while the bug remains. Step 7 requests a demo-only lodash version that does not match the lockfile, so `npm ci` cannot install that commit. With this history, step 7 is the first commit selected by bisect, giving the checker a commit to skip before it narrows down to the regression.
 
 The setup script prints the `known-good` and `known-bad` commit IDs. It tags the baseline as `known-good` and the latest commit as `known-bad`, modeling a bug report against the current version. The checker scripts remain in the tracked parent repository, outside the generated repository, so Git can check out any demo commit without hiding the checker.
 
@@ -54,6 +54,8 @@ git bisect reset
 - Any other exit code stops the run.
 
 The shell checker returns `125` if `npm ci` fails or if the package cannot be loaded, because those failures do not prove the behavior is broken. It returns `1` when the package loads but the function throws or returns the wrong subtotal. This distinction matters: a missing dependency, a broken build, and a genuine behavioral regression are different outcomes.
+
+In the generated history, the unavailable lodash version is intentional: `package.json` asks for `99.99.99-demo-missing`, while `package-lock.json` still records the working version. `npm ci` rejects the mismatch, so the checker exits `125` and Git skips step 7. The following commit restores the manifest, allowing the rest of the automatic search to continue.
 
 In a real project, choose the contract check carefully. It should fail only when the behavior under investigation is wrong; unrelated setup failures should be treated as untestable (125) or fixed before the search. The demo runs `npm ci` at each step, so dependency installation time and registry access affect the total run time. npm's cache can make later installs faster.
 

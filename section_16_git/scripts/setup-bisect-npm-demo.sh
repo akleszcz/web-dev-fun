@@ -47,6 +47,16 @@ for step in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
     mv index.js.tmp index.js
     git add index.js
     git commit -m "Calculate subtotal without quantity"
+  elif [ "$step" -eq 7 ]; then
+    sed 's/"lodash": "\^4\.17\.21"/"lodash": "99.99.99-demo-missing"/' package.json > package.json.tmp
+    mv package.json.tmp package.json
+    git add package.json
+    git commit -m "Request an unavailable lodash version"
+  elif [ "$step" -eq 8 ]; then
+    sed 's/"lodash": "99\.99\.99-demo-missing"/"lodash": "^4.17.21"/' package.json > package.json.tmp
+    mv package.json.tmp package.json
+    git add package.json
+    git commit -m "Restore the lodash version"
   else
     git add HISTORY.md
     git commit -m "Record history step $step"
