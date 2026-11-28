@@ -37,6 +37,8 @@ npm ci --ignore-scripts --no-audit --no-fund
 node "$CHECKER" "$PWD"
 ```
 
+> **Note:** `CHECKER` stores the checker's absolute path. The `cd ../../.. && pwd` command gets the repository root from the demo directory; command substitution runs it without changing the current directory. `$PWD` passes the demo repo's path to the checker, so it can load the `index.js` from the commit currently checked out.
+
 Then mark the checked-out commit based on the result:
 
 - If `npm ci` fails on the intentional manifest/lockfile mismatch, run `git bisect skip`.
