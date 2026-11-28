@@ -18,6 +18,33 @@ The setup script prints the `known-good` and `known-bad` commit IDs. It tags the
 
 The behavior checker uses the `.cjs` extension to make its CommonJS format explicit. It would also work as `.js` in the current directory structure, but `.cjs` keeps it CommonJS if a parent `package.json` later sets `"type": "module"`.
 
+## Manual bisect
+
+Start from the generated repo and save the path to the checker before bisect starts changing the checked-out commit:
+
+```sh
+cd section_16_git/demos/bisect-npm
+CHECKER="$(cd ../../.. && pwd)/section_16_git/scripts/assert-bisect-npm-demo.cjs"
+git bisect start
+git bisect bad known-bad
+git bisect good known-good
+```
+
+At each commit Git checks out, install its dependencies and run the behavior check:
+
+```sh
+npm ci --ignore-scripts --no-audit --no-fund
+node "$CHECKER" "$PWD"
+```
+
+Then mark the checked-out commit based on the result:
+
+- If `npm ci` fails on the intentional manifest/lockfile mismatch, run `git bisect skip`.
+- If the checker says the subtotal is correct, run `git bisect good`.
+- If the checker reports the wrong subtotal, run `git bisect bad`.
+
+Git checks out the next candidate after each mark. When it identifies the first bad commit, leave bisect mode with `git bisect reset`. In a real investigation, diagnose dependency or network failures before skipping a commit; they may be environment problems rather than properties of that revision.
+
 ## Run the automatic search
 
 In a terminal, start at the root of `web-dev-fun` and run:
