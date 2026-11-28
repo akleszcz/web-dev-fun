@@ -82,6 +82,8 @@ git bisect reset
 - `125`: the commit cannot be tested; Git skips it.
 - Any other exit code stops the run.
 
+> **Note:** If the change is in or near a skipped commit, Git may not be able to identify one exact culprit.
+
 The shell checker returns `125` if `npm ci` fails or if the package cannot be loaded, because those failures do not prove the behavior is broken. It returns `1` when the package loads but the function throws or returns the wrong subtotal. This distinction matters: a missing dependency, a broken build, and a genuine behavioral regression are different outcomes.
 
 In the generated history, the unavailable lodash version is intentional: `package.json` asks for `99.99.99-demo-missing`, while `package-lock.json` still records the working version. `npm ci` rejects the mismatch, so the checker exits `125` and Git skips step 7. The following commit restores the manifest, allowing the rest of the automatic search to continue.
