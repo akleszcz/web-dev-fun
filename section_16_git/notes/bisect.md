@@ -43,7 +43,7 @@ Then mark the checked-out commit based on the result:
 - If the checker says the subtotal is correct, run `git bisect good`.
 - If the checker reports the wrong subtotal, run `git bisect bad`.
 
-Git checks out the next candidate after each mark. When it identifies the first bad commit, leave bisect mode with `git bisect reset`. In a real investigation, diagnose dependency or network failures before skipping a commit; they may be environment problems rather than properties of that revision.
+Git checks out the next candidate after each mark. When it identifies the first bad commit, leave bisect mode with `git bisect reset`.
 
 ## Run the automatic search
 
